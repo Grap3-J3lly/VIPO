@@ -1,0 +1,121 @@
+[gd_scene load_steps=15 format=3 uid="uid://bnpalqwvitydn"]
+
+[ext_resource type="Script" path="res://Scenes/AudioManager.cs" id="1_purvt"]
+[ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
+[ext_resource type="PackedScene" uid="uid://dk12kh4yartby" path="res://Entities/Characters/character.tscn" id="2_7mwck"]
+[ext_resource type="Script" path="res://Scenes/RenderScreen.cs" id="4_oek47"]
+[ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_x6vxh"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qy4e4"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_htw3l"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_px750"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ly3nc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b375f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hvnqh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3q760"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_lfbep"]
+
+[node name="VIPO" type="Node3D"]
+
+[node name="GameManager" type="Node" parent="."]
+
+[node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("mic_input")]
+script = ExtResource("1_purvt")
+mic_input = NodePath("Mic_StreamPlayer")
+mic_VolumeCutoff = -115.0
+
+[node name="Mic_StreamPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+stream = SubResource("AudioStreamMicrophone_x6vxh")
+volume_db = -80.0
+autoplay = true
+bus = &"Mic"
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_7mwck")]
+speed = 0.5
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Environment/Floor"]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+material_override = ExtResource("1_yyr2h")
+mesh = SubResource("PlaneMesh_qy4e4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_htw3l")
+
+[node name="Wall1" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -100)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Wall1"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+material_override = ExtResource("1_yyr2h")
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall1"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_ly3nc")
+
+[node name="Wall2" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 100)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Wall2"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+material_override = ExtResource("1_yyr2h")
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall2"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_b375f")
+
+[node name="Wall3" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Wall3"]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+material_override = ExtResource("1_yyr2h")
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall3"]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+shape = SubResource("BoxShape3D_hvnqh")
+
+[node name="Wall4" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Wall4"]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall4"]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+shape = SubResource("BoxShape3D_3q760")
+
+[node name="SceneEffectors" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="SceneEffectors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.20657, 6.60421)
+
+[node name="THE SUN" type="DirectionalLight3D" parent="SceneEffectors"]
+transform = Transform3D(0.999989, 0.000437466, -0.00464901, 0.00269217, 0.759465, 0.650542, 0.00381535, -0.650548, 0.759456, 0, 0, 0)
+
+[node name="RenderScreen" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.087, 5.02391, -2.46946)
+script = ExtResource("4_oek47")
+renderMat = ExtResource("4_pkdba")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RenderScreen"]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 1, 0, 0, 0)
+material_overlay = ExtResource("4_pkdba")
+mesh = SubResource("QuadMesh_lfbep")

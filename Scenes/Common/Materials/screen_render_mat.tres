@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://cbb58vp1qan7t"]
+
+[sub_resource type="Gradient" id="Gradient_xtq21"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_o2ufn"]
+gradient = SubResource("Gradient_xtq21")
+
+[resource]
+albedo_texture = SubResource("GradientTexture1D_o2ufn")

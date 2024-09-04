@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dk12kh4yartby"]
+
+[ext_resource type="Script" path="res://Entities/Characters/CharacterController.cs" id="1_p5q5d"]
+[ext_resource type="Material" uid="uid://7kpwloqr68nu" path="res://Entities/Characters/character_mat.tres" id="1_vcnwg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0o366"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my4pq"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_p5q5d")
+Speed = 10.0
+JumpVelocity = 6.0
+defaultColor = Color(0.58577, 0.377253, 0.873967, 1)
+speakingColor = Color(0.366264, 0.178706, 0.59323, 1)
+characterMaterial = ExtResource("1_vcnwg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("1_vcnwg")
+mesh = SubResource("CapsuleMesh_0o366")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_my4pq")
