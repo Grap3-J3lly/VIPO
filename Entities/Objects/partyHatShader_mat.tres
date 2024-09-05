@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bhegscsoa4t4a"]
+
+[ext_resource type="Shader" path="res://Entities/Objects/partyHatShader.gdshader" id="1_erk0k"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_erk0k")

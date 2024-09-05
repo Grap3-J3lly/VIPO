@@ -6,12 +6,15 @@ public partial class CharacterController : CharacterBody3D
     private AudioManager audioManager;
 
     // Movement Data
+    [Export]
+    private Vector3 resetLocation = new Vector3(0, 0, 0);
 	[Export]
 	public float Speed = 5.0f;
 	[Export]
 	public float JumpVelocity = 4.5f;
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+    private bool allowInput = true;
 
     // Character Data
     [Export]
@@ -23,13 +26,13 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private double speed = 2;
     private bool resetting = false;
-    private Tween colorTween;
 
 
     public override void _Ready()
     {
         base._Ready();
         audioManager = AudioManager.Instance;
+        ResetPosition();
     }
 
     public override void _Process(double delta)
@@ -40,15 +43,35 @@ public partial class CharacterController : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
 	{
-        
-        if (Input.IsActionJustPressed("ui_cancel"))
+        if(allowInput)
         {
-            GetTree().Quit();
+            if (Input.IsActionJustPressed("ui_cancel"))
+            {
+                GetTree().Quit();
+            }
+            if (Input.IsActionJustPressed("ui_reset"))
+            {
+                ResetPosition();
+            }
+            HandleMovementInput(delta);
         }
-        HandleMovementInput(delta);
 	}
 
-	private void HandleMovementInput(double delta)
+    public override void _Notification(int what)
+    {
+        base._Notification(what);
+        
+        if(what == MainLoop.NotificationApplicationFocusIn)
+        {
+            allowInput = true;
+        }
+        if(what == MainLoop.NotificationApplicationFocusOut)
+        {
+            allowInput = false; 
+        }
+    }
+
+    private void HandleMovementInput(double delta)
 	{
         Vector3 velocity = Velocity;
 
@@ -79,6 +102,11 @@ public partial class CharacterController : CharacterBody3D
         MoveAndSlide();
     }
 
+    private void ResetPosition()
+    {
+        Position = resetLocation;
+    }
+
     private void HandleAudioInput(double delta)
     {
         if (audioManager.IsCapturingAudio())
@@ -86,28 +114,29 @@ public partial class CharacterController : CharacterBody3D
             characterMaterial.AlbedoColor = speakingColor;
             return;
         }
-        characterMaterial.AlbedoColor = defaultColor;
-        //ShiftToDefaultColor();
+        ShiftToDefaultColor(delta);
     }
 
-    private async void ShiftToDefaultColor()
+    private async void ShiftToDefaultColor(double delta)
     {
-        if(colorTween != null)
+        if (resetting)
         {
             return;
         }
+        resetting = true;
 
-        colorTween = GetTree().CreateTween();
-        colorTween.TweenProperty(characterMaterial, "albedo_color", defaultColor, speed);
-        //colorTween.Finished += ClearTween;
-        //colorTween.Connect("finished", ClearTween());
-        await ToSignal(colorTween, Tween.SignalName.Finished);
-        ClearTween();
+        double count = 0;
+
+        while(count < 1)
+        {
+            characterMaterial.AlbedoColor = speakingColor.Lerp(defaultColor, (float)count);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            count += delta * speed;
+        }
+
+        characterMaterial.AlbedoColor = defaultColor;
+        resetting = false;
     }
 
-    private void ClearTween()
-    {
-        colorTween.Kill();
-        // return new Godot.Callable();
-    }
+   
 }

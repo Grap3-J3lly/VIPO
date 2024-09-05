@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk12kh4yartby"]
+[gd_scene load_steps=7 format=3 uid="uid://dk12kh4yartby"]
 
 [ext_resource type="Script" path="res://Entities/Characters/CharacterController.cs" id="1_p5q5d"]
 [ext_resource type="Material" uid="uid://7kpwloqr68nu" path="res://Entities/Characters/character_mat.tres" id="1_vcnwg"]
+[ext_resource type="ArrayMesh" uid="uid://gswl5sfowyp6" path="res://Entities/Objects/cone.obj" id="3_gcers"]
+[ext_resource type="Material" uid="uid://bhegscsoa4t4a" path="res://Entities/Objects/partyHatShader_mat.tres" id="3_qfawf"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0o366"]
 
@@ -9,11 +11,13 @@
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 script = ExtResource("1_p5q5d")
+resetLocation = Vector3(-7.75167, 0, -0.522885)
 Speed = 10.0
 JumpVelocity = 6.0
 defaultColor = Color(0.58577, 0.377253, 0.873967, 1)
 speakingColor = Color(0.366264, 0.178706, 0.59323, 1)
 characterMaterial = ExtResource("1_vcnwg")
+speed = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -23,3 +27,9 @@ mesh = SubResource("CapsuleMesh_0o366")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_my4pq")
+
+[node name="PartyHat" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.000878811, 2.17418, -0.00224292)
+visible = false
+material_overlay = ExtResource("3_qfawf")
+mesh = ExtResource("3_gcers")

@@ -40,6 +40,7 @@ autoplay = true
 bus = &"Mic"
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_7mwck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.75167, 0, -0.522885)
 speed = 0.5
 
 [node name="Environment" type="Node" parent="."]
