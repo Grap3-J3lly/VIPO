@@ -3,6 +3,10 @@ using System;
 
 public partial class CharacterController : CharacterBody3D
 {
+    // --------------------------------
+    //			VARIABLES	
+    // --------------------------------
+
     private AudioManager audioManager;
 
     // Movement Data
@@ -12,7 +16,6 @@ public partial class CharacterController : CharacterBody3D
 	public float Speed = 5.0f;
 	[Export]
 	public float JumpVelocity = 4.5f;
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
     private bool allowInput = true;
 
@@ -26,12 +29,24 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private double speed = 2;
     private bool resetting = false;
-
+    [Export]
+    private MeshInstance3D hatCosmetic;
+    [Export]
+    private MeshInstance3D kbCosmetic;
+    [Export]
+    private MeshInstance3D controllerCosmetic;
+    [Export]
+    private double timerToInputReset = 5;
+    private double timer;
+    // --------------------------------
+    //		STANDARD FUNCTIONS	
+    // --------------------------------
 
     public override void _Ready()
     {
         base._Ready();
         audioManager = AudioManager.Instance;
+        timer = timerToInputReset;
         ResetPosition();
     }
 
@@ -43,8 +58,10 @@ public partial class CharacterController : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
 	{
-        if(allowInput)
+        base._PhysicsProcess(delta);
+        if (allowInput)
         {
+            ToggleInputCosmeticVisibility(0);
             if (Input.IsActionJustPressed("ui_cancel"))
             {
                 GetTree().Quit();
@@ -53,9 +70,30 @@ public partial class CharacterController : CharacterBody3D
             {
                 ResetPosition();
             }
+            if (Input.IsActionJustPressed("toggle_hatCosmetic"))
+            {
+                ToggleHatCosmetic();
+            }
             HandleMovementInput(delta);
         }
-	}
+        else
+        {
+            if(Input.IsAnythingPressed())
+            {
+                ToggleInputCosmeticVisibility(2);
+                timer = timerToInputReset;
+            }
+            else if (controllerCosmetic.Visible == false || timer <= 0)
+            {
+                ToggleInputCosmeticVisibility(1);
+            }
+
+            if(timer > 0)
+            {
+                timer -= delta;
+            }
+        }
+    }
 
     public override void _Notification(int what)
     {
@@ -70,6 +108,10 @@ public partial class CharacterController : CharacterBody3D
             allowInput = false; 
         }
     }
+
+    // --------------------------------
+    //		MOVEMENT LOGIC	
+    // --------------------------------
 
     private void HandleMovementInput(double delta)
 	{
@@ -107,14 +149,47 @@ public partial class CharacterController : CharacterBody3D
         Position = resetLocation;
     }
 
+    private void ToggleHatCosmetic()
+    {
+        hatCosmetic.Visible = !hatCosmetic.Visible;
+    }
+
+    /// <summary>
+    /// When movement is not allowed, display input source cosmetic in front of the character
+    /// 0 for nothing, 1 for KB&M, 2 for Controller
+    /// </summary>
+    private void ToggleInputCosmeticVisibility(int inputNumber = 0)
+    {
+        switch (inputNumber)
+        {
+            case 0:
+            default: // Turn all off
+                kbCosmetic.Visible = false;
+                controllerCosmetic.Visible = false;
+                break;
+            case 1: // KB&M Only
+                kbCosmetic.Visible = true;
+                controllerCosmetic.Visible = false;
+                break;
+            case 2: // Controller Only
+                kbCosmetic.Visible = false;
+                controllerCosmetic.Visible = true;
+                break;
+        }
+    }
+
+    // --------------------------------
+    //			AUDIO LOGIC 	
+    // --------------------------------
+
     private void HandleAudioInput(double delta)
     {
         if (audioManager.IsCapturingAudio())
         {
             characterMaterial.AlbedoColor = speakingColor;
+            ShiftToDefaultColor(delta);
             return;
         }
-        ShiftToDefaultColor(delta);
     }
 
     private async void ShiftToDefaultColor(double delta)

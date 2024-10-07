@@ -1,15 +1,51 @@
-[gd_scene load_steps=7 format=3 uid="uid://dk12kh4yartby"]
+[gd_scene load_steps=16 format=3 uid="uid://dk12kh4yartby"]
 
 [ext_resource type="Script" path="res://Entities/Characters/CharacterController.cs" id="1_p5q5d"]
 [ext_resource type="Material" uid="uid://7kpwloqr68nu" path="res://Entities/Characters/character_mat.tres" id="1_vcnwg"]
-[ext_resource type="ArrayMesh" uid="uid://gswl5sfowyp6" path="res://Entities/Objects/cone.obj" id="3_gcers"]
-[ext_resource type="Material" uid="uid://bhegscsoa4t4a" path="res://Entities/Objects/partyHatShader_mat.tres" id="3_qfawf"]
+[ext_resource type="Material" uid="uid://bhegscsoa4t4a" path="res://Entities/Objects/PartyHat/partyHatShader_mat.tres" id="3_aj2hp"]
+[ext_resource type="ArrayMesh" uid="uid://gswl5sfowyp6" path="res://Entities/Objects/PartyHat/cone.obj" id="4_10ajy"]
+[ext_resource type="ArrayMesh" uid="uid://4m1b3vxbdxwm" path="res://Entities/Objects/KB_Final.obj" id="5_s1c2p"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0o366"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cn3ss"]
+radius = 0.125
+height = 0.4
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my4pq"]
 
-[node name="CharacterBody3D" type="CharacterBody3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sl3n1"]
+albedo_color = Color(0.0199256, 0.0199256, 0.0199256, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0swjg"]
+material = SubResource("StandardMaterial3D_sl3n1")
+radius = 0.1
+height = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rapsp"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qdbr4"]
+material = SubResource("StandardMaterial3D_rapsp")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_y18bt"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0m8c"]
+albedo_color = Color(0.151996, 0.151996, 0.151996, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_t70ch"]
+material = SubResource("StandardMaterial3D_f0m8c")
+top_radius = 0.02
+bottom_radius = 0.01
+height = 0.02
+
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("hatCosmetic", "kbCosmetic", "controllerCosmetic")]
 script = ExtResource("1_p5q5d")
 resetLocation = Vector3(-7.75167, 0, -0.522885)
 Speed = 10.0
@@ -18,18 +54,76 @@ defaultColor = Color(0.58577, 0.377253, 0.873967, 1)
 speakingColor = Color(0.366264, 0.178706, 0.59323, 1)
 characterMaterial = ExtResource("1_vcnwg")
 speed = 1.0
+hatCosmetic = NodePath("PartyHat")
+kbCosmetic = NodePath("KB")
+controllerCosmetic = NodePath("Controller")
+timerToInputReset = 120.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="CapsuleMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = ExtResource("1_vcnwg")
 mesh = SubResource("CapsuleMesh_0o366")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="Cheek1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.114286, 0.593477, -0.457144)
+material_override = ExtResource("1_vcnwg")
+mesh = SubResource("CapsuleMesh_cn3ss")
+
+[node name="Cheek2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.102688, 0.593477, -0.457144)
+material_override = ExtResource("1_vcnwg")
+mesh = SubResource("CapsuleMesh_cn3ss")
+
+[node name="CapsuleCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_my4pq")
 
 [node name="PartyHat" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.000878811, 2.17418, -0.00224292)
 visible = false
-material_overlay = ExtResource("3_qfawf")
-mesh = ExtResource("3_gcers")
+material_overlay = ExtResource("3_aj2hp")
+mesh = ExtResource("4_10ajy")
+
+[node name="KB" type="MeshInstance3D" parent="."]
+transform = Transform3D(-3.27835e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.27835e-08, 0.108443, 0.838362, 0.825738)
+visible = false
+mesh = ExtResource("5_s1c2p")
+
+[node name="Mouse" type="MeshInstance3D" parent="KB"]
+transform = Transform3D(-5.82818e-08, -1.33333, 5.82819e-08, 0, -5.82819e-08, -1.33333, 1.33333, -5.82818e-08, 2.54758e-15, -0.0250965, 0.0291088, -1.45979)
+mesh = SubResource("CapsuleMesh_0swjg")
+skeleton = NodePath("../..")
+
+[node name="Controller" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.95367, 0, 0, 0, 1.94723, 0, 0, 0, 2.24843, -0.0394941, 1.02062, 1.06681)
+mesh = SubResource("CylinderMesh_qdbr4")
+
+[node name="WingR" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.428063, 0, 0.267521, 0, 1, 0, -0.332523, 0, 1.67163, -0.0463968, 0, -0.0781493)
+mesh = SubResource("CylinderMesh_qdbr4")
+skeleton = NodePath("../..")
+
+[node name="WingL" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.444435, 0, -0.163366, 0, 1, 0, 0.203061, 0, 1.73556, 0.0401776, 0, -0.0781493)
+mesh = SubResource("CylinderMesh_qdbr4")
+skeleton = NodePath("../..")
+
+[node name="ButtonU" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0215229, 0.0302957, 0.0141487)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="ButtonD" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0215229, 0.0302957, -0.0147129)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="ButtonR" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0326733, 0.0302957, -0.000335813)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="ButtonL" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0123193, 0.0302957, -0.000335813)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="Analog" type="MeshInstance3D" parent="Controller"]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, 0.0242403, 0.0349942, -0.000390172)
+mesh = SubResource("CylinderMesh_t70ch")

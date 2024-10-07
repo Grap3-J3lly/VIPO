@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://deebtlnq6viv5"]
+
+[ext_resource type="Material" uid="uid://kvdksfitkwh7" path="res://Entities/Objects/HotTub/hotTubWall_mat.tres" id="1_jkrih"]
+[ext_resource type="Material" uid="uid://c7aj73h3ppb7o" path="res://Entities/Objects/HotTub/hotTubWater_mat.tres" id="2_pgmpc"]
+[ext_resource type="Material" uid="uid://bmk0cj1sxosjn" path="res://Entities/Objects/HotTub/steam_mat.tres" id="3_p4kum"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_38hey"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_cgp14"]
+inner_radius = 0.75
+outer_radius = 0.9
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rli5m"]
+height = 3.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dtnln"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 2.0
+gravity = Vector3(0, 9.8, 0)
+turbulence_enabled = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_dy5rv"]
+material = ExtResource("3_p4kum")
+radius = 0.125
+height = 0.25
+
+[node name="HotTub" type="RigidBody3D"]
+
+[node name="HotTubBottom" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, 0, 0)
+material_overlay = ExtResource("1_jkrih")
+mesh = SubResource("CylinderMesh_38hey")
+
+[node name="WaterLevel" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, 0.987215, 0)
+material_overlay = ExtResource("2_pgmpc")
+mesh = SubResource("CylinderMesh_38hey")
+
+[node name="HotTubWalls" type="MeshInstance3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 10, 0, 0, 0, 3, 0, 0.636833, 0)
+material_overlay = ExtResource("1_jkrih")
+mesh = SubResource("TorusMesh_cgp14")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, 0.0436854, 0)
+shape = SubResource("CylinderShape3D_rli5m")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.977849, 0)
+amount = 64
+lifetime = 0.5
+speed_scale = 0.6
+visibility_aabb = AABB(-2, -1, -2, 4, 2, 4)
+trail_lifetime = 0.15
+process_material = SubResource("ParticleProcessMaterial_dtnln")
+draw_pass_1 = SubResource("SphereMesh_dy5rv")
