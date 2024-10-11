@@ -47,7 +47,7 @@ height = 0.02
 
 [node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("hatCosmetic", "kbCosmetic", "controllerCosmetic")]
 script = ExtResource("1_p5q5d")
-resetLocation = Vector3(-7.75167, 0, -0.522885)
+resetLocation = Vector3(-6.98023, 0, -0.566719)
 Speed = 10.0
 JumpVelocity = 6.0
 defaultColor = Color(0.58577, 0.377253, 0.873967, 1)

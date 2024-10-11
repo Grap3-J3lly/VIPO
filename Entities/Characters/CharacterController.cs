@@ -7,6 +7,7 @@ public partial class CharacterController : CharacterBody3D
     //			VARIABLES	
     // --------------------------------
 
+    private GameManager gameManager;
     private AudioManager audioManager;
 
     // Movement Data
@@ -19,7 +20,6 @@ public partial class CharacterController : CharacterBody3D
 	[Export]
 	public float JumpVelocity = 4.5f;
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-    private bool allowInput = true;
 
     // Character Data
     [Export]
@@ -40,6 +40,7 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private double timerToInputReset = 5;
     private double timer;
+
     // --------------------------------
     //		STANDARD FUNCTIONS	
     // --------------------------------
@@ -47,6 +48,7 @@ public partial class CharacterController : CharacterBody3D
     public override void _Ready()
     {
         base._Ready();
+        gameManager = GameManager.Instance;
         audioManager = AudioManager.Instance;
         timer = timerToInputReset;
         ResetPosition();
@@ -61,7 +63,7 @@ public partial class CharacterController : CharacterBody3D
     public override void _PhysicsProcess(double delta)
 	{
         base._PhysicsProcess(delta);
-        if (allowInput)
+        if (gameManager.AllowInput)
         {
             ToggleInputCosmeticVisibility(0);
             if (Input.IsActionJustPressed("ui_cancel"))
@@ -103,11 +105,11 @@ public partial class CharacterController : CharacterBody3D
         
         if(what == MainLoop.NotificationApplicationFocusIn)
         {
-            allowInput = true;
+            gameManager.AllowInput = true;
         }
         if(what == MainLoop.NotificationApplicationFocusOut)
         {
-            allowInput = false; 
+            gameManager.AllowInput = false; 
         }
     }
 

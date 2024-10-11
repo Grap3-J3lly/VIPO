@@ -122,16 +122,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.401, 4.243, 5.319)
 [node name="THE SUN" type="DirectionalLight3D" parent="SceneEffectors"]
 transform = Transform3D(0.999989, 0.000437466, -0.00464901, 0.00269217, 0.759465, 0.650542, 0.00381535, -0.650548, 0.759456, 0, 0, 0)
 
-[node name="RenderScreen" type="Area3D" parent="."]
+[node name="RenderScreen" type="Area3D" parent="." node_paths=PackedStringArray("videoPlayer", "liveMesh", "videoMesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.942, 5, -1.964)
 script = ExtResource("4_oek47")
 renderMat = ExtResource("4_pkdba")
+videoPlayer = NodePath("SubViewport/VideoStreamPlayer")
+liveMesh = NodePath("LiveMesh")
+videoMesh = NodePath("VideoMesh")
 
-[node name="LiveDisplay" type="MeshInstance3D" parent="RenderScreen"]
+[node name="LiveMesh" type="MeshInstance3D" parent="RenderScreen"]
 material_overlay = ExtResource("4_pkdba")
 mesh = SubResource("QuadMesh_lfbep")
 
-[node name="VideoDisplay" type="MeshInstance3D" parent="RenderScreen"]
+[node name="VideoMesh" type="MeshInstance3D" parent="RenderScreen"]
 visible = false
 material_override = SubResource("StandardMaterial3D_urje4")
 mesh = SubResource("QuadMesh_lfbep")

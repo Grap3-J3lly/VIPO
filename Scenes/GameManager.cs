@@ -16,6 +16,10 @@ public partial class GameManager : Node
 	private Vector3 camPos_FullScreen;
 	private Vector3 camPos_Default;
 
+	private bool allowInput = true;
+
+	public bool AllowInput { get => allowInput; set => allowInput = value; }
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -31,10 +35,6 @@ public partial class GameManager : Node
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-		if (Input.IsActionJustPressed("toggle_screenBRB"))
-		{
-			ToggleBRB();
-		}
     }
 
 	private void Setup()
@@ -48,7 +48,7 @@ public partial class GameManager : Node
 
     public void ToggleBRB()
 	{
-		if(mainCamera == null || characterController == null) return;
+		if(mainCamera == null || characterController == null || !allowInput) return;
 
 		characterController.Visible = !characterController.Visible;
 
