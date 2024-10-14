@@ -48,7 +48,7 @@ public partial class GameManager : Node
 
     public void ToggleBRB()
 	{
-		if(mainCamera == null || characterController == null || !allowInput) return;
+		if(mainCamera == null || characterController == null) return;
 
 		characterController.Visible = !characterController.Visible;
 

@@ -73,6 +73,8 @@ public partial class RenderScreen : Area3D
 
 	private void HandleInput()
 	{
+		if(!gameManager.AllowInput) { return; }
+
         if (IsReturningToDefault())
         {
 			// GD.Print("Trying to return to default");

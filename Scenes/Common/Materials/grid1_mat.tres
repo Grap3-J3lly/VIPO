@@ -1,10 +1,7 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c6nwl1bilw4q5"]
-
-[ext_resource type="Texture2D" uid="uid://bd7qkqyr2oxw7" path="res://Scenes/Common/External/kenney_pattern-pack/PNG/Default/pattern_15.png" id="1_7kinx"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c6nwl1bilw4q5"]
 
 [resource]
-albedo_color = Color(0.0962047, 0.0962048, 0.0962047, 1)
-albedo_texture = ExtResource("1_7kinx")
+albedo_color = Color(0.177631, 0.197851, 0.0409491, 1)
 uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true
 uv1_world_triplanar = true

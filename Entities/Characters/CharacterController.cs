@@ -30,7 +30,6 @@ public partial class CharacterController : CharacterBody3D
     private StandardMaterial3D characterMaterial;
     [Export]
     private double speed = 2;
-    private bool resetting = false;
     [Export]
     private MeshInstance3D hatCosmetic;
     [Export]
@@ -39,7 +38,27 @@ public partial class CharacterController : CharacterBody3D
     private MeshInstance3D controllerCosmetic;
     [Export]
     private double timerToInputReset = 5;
+    [Export]
+    private MeshInstance3D lHand;
+    [Export]
+    private MeshInstance3D rHand;
+
+    private bool resetting = false;
     private double timer;
+
+    // Interaction Data
+
+    [Export]
+    private float interactionTimer = 5;
+    [Export]
+    private float timerDecrementer = 1;
+
+    [Export]
+    private float enlarge_DefaultScale = 1;
+    [Export]
+    private float enlarge_ScaleAmount = 5;
+    private float currentTimer_Enlarge = 0;
+    private bool runIA_Enlarge = false;
 
     // --------------------------------
     //		STANDARD FUNCTIONS	
@@ -51,6 +70,8 @@ public partial class CharacterController : CharacterBody3D
         gameManager = GameManager.Instance;
         audioManager = AudioManager.Instance;
         timer = timerToInputReset;
+        lHand.Visible = false;
+        rHand.Visible = true;
         ResetPosition();
     }
 
@@ -58,6 +79,7 @@ public partial class CharacterController : CharacterBody3D
     {
         base._Process(delta);
         HandleAudioInput(delta);
+        HandleInteractionTimers(delta);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -77,6 +99,10 @@ public partial class CharacterController : CharacterBody3D
             if (Input.IsActionJustPressed("toggle_hatCosmetic"))
             {
                 ToggleHatCosmetic();
+            }
+            if (Input.IsActionJustPressed("debug_InteractionTrigger"))
+            {
+                TriggerInteraction_Enlarge(enlarge_ScaleAmount);
             }
             HandleMovementInput(delta);
         }
@@ -166,12 +192,16 @@ public partial class CharacterController : CharacterBody3D
     /// </summary>
     private void ToggleInputCosmeticVisibility(int inputNumber = 0)
     {
+        lHand.Visible = true;
+        rHand.Visible = true;
         switch (inputNumber)
         {
             case 0:
             default: // Turn all off
                 kbCosmetic.Visible = false;
                 controllerCosmetic.Visible = false;
+                lHand.Visible = false;
+                rHand.Visible = false;
                 break;
             case 1: // KB&M Only
                 kbCosmetic.Visible = true;
@@ -219,5 +249,38 @@ public partial class CharacterController : CharacterBody3D
         resetting = false;
     }
 
-   
+    // --------------------------------
+    //		INTERACTION LOGIC	
+    // --------------------------------
+
+    private void HandleInteractionTimers(double delta)
+    {
+        if(runIA_Enlarge)
+        {
+            HandleTimer_Enlarge(delta);
+        }
+    }
+
+    private void HandleTimer_Enlarge(double delta)
+    {
+        GD.Print("timer running: " + currentTimer_Enlarge);
+        if (currentTimer_Enlarge > 0)
+        {
+            currentTimer_Enlarge -= ((float)delta * timerDecrementer);
+        }
+        if (currentTimer_Enlarge <= 0)
+        {
+            GD.Print("Changing size to: " + enlarge_DefaultScale);
+            TriggerInteraction_Enlarge(enlarge_DefaultScale);
+            runIA_Enlarge = false;
+        }
+    }
+
+    public void TriggerInteraction_Enlarge(float scaleAmount)
+    {
+        if(Scale == Vector3.One * enlarge_ScaleAmount && scaleAmount == enlarge_ScaleAmount) { return; }
+        runIA_Enlarge = true;
+        currentTimer_Enlarge = interactionTimer;
+        Scale = Vector3.One * scaleAmount;
+    }
 }
