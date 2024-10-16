@@ -61,6 +61,11 @@ public partial class CharacterController : CharacterBody3D
     private bool runIA_Enlarge = false;
 
     // --------------------------------
+    //		    PROPERTIES	
+    // --------------------------------
+    public float Enlarge_ScaleAmount { get => enlarge_ScaleAmount; }
+
+    // --------------------------------
     //		STANDARD FUNCTIONS	
     // --------------------------------
 
@@ -102,7 +107,6 @@ public partial class CharacterController : CharacterBody3D
             }
             if (Input.IsActionJustPressed("debug_InteractionTrigger"))
             {
-                TriggerInteraction_Enlarge(enlarge_ScaleAmount);
             }
             HandleMovementInput(delta);
         }
@@ -263,14 +267,12 @@ public partial class CharacterController : CharacterBody3D
 
     private void HandleTimer_Enlarge(double delta)
     {
-        GD.Print("timer running: " + currentTimer_Enlarge);
         if (currentTimer_Enlarge > 0)
         {
             currentTimer_Enlarge -= ((float)delta * timerDecrementer);
         }
         if (currentTimer_Enlarge <= 0)
         {
-            GD.Print("Changing size to: " + enlarge_DefaultScale);
             TriggerInteraction_Enlarge(enlarge_DefaultScale);
             runIA_Enlarge = false;
         }

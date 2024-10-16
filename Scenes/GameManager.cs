@@ -17,8 +17,10 @@ public partial class GameManager : Node
 	private Vector3 camPos_Default;
 
 	private bool allowInput = true;
+	[Export]
+	string[] commands;
 
-	public bool AllowInput { get => allowInput; set => allowInput = value; }
+    public bool AllowInput { get => allowInput; set => allowInput = value; }
 
 	public override void _Ready()
 	{
@@ -55,4 +57,32 @@ public partial class GameManager : Node
 		if (mainCamera.Position == camPos_FullScreen) { mainCamera.Position = camPos_Default; }
         else { mainCamera.Position = camPos_FullScreen; }
     }
+
+	public void OnStreamBot_MessageReceived(Variant message)
+	{
+		CheckForCommands(message.ToString());	
+    }
+
+	private void CheckForCommands(string message)
+	{
+		for (int i = 0; i < commands.Length; i++)
+		{
+			if (message.Contains(commands[i]))
+			{
+				RunCommand(i);
+			}
+		}
+	}
+
+	private void RunCommand(int commandId)
+	{
+		switch (commandId)
+		{
+			case 0:
+                GD.Print("Running Enlarge Command");
+				CharacterController charControl = (CharacterController)characterController;
+                charControl.TriggerInteraction_Enlarge(charControl.Enlarge_ScaleAmount);
+                break;
+		}
+	}
 }

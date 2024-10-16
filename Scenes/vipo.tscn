@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=23 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" path="res://Scenes/AudioManager.cs" id="1_purvt"]
 [ext_resource type="Script" path="res://Scenes/GameManager.cs" id="1_v5ak3"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
 [ext_resource type="PackedScene" uid="uid://dk12kh4yartby" path="res://Entities/Characters/character.tscn" id="2_7mwck"]
+[ext_resource type="Script" path="res://External/WSClient.gd" id="3_uwo22"]
 [ext_resource type="Script" path="res://Scenes/RenderScreen.cs" id="4_oek47"]
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
 [ext_resource type="VideoStream" path="res://Assets/BRB.ogv" id="7_6872q"]
@@ -55,6 +56,10 @@ mainCamera = NodePath("../SceneEffectors/MainCamera")
 charControllerScene = ExtResource("2_7mwck")
 environment = NodePath("../Environment")
 camPos_FullScreen = Vector3(0.955, 4.915, 4.15)
+commands = PackedStringArray("!big")
+
+[node name="StreamBotConnector" type="Node" parent="."]
+script = ExtResource("3_uwo22")
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("mic_input")]
 script = ExtResource("1_purvt")
@@ -164,3 +169,5 @@ offset_bottom = 40.0
 stream = ExtResource("7_6872q")
 autoplay = true
 loop = true
+
+[connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]
