@@ -7,6 +7,8 @@ public partial class GameManager : Node
 	[Export]
 	private Camera3D mainCamera;
 	[Export]
+	private MeshInstance3D scryArea;
+	[Export]
 	private PackedScene charControllerScene;
 	private CharacterBody3D characterController;
 	[Export]
@@ -43,7 +45,7 @@ public partial class GameManager : Node
 	{
         characterController = (CharacterBody3D)charControllerScene.Instantiate();
 		environment.AddChild(characterController);
-
+		scryArea.Visible = false;
         if (mainCamera != null) { camPos_Default = mainCamera.Position; }
         else { camPos_Default = new Vector3(); }
     }
@@ -76,13 +78,27 @@ public partial class GameManager : Node
 
 	private void RunCommand(int commandId)
 	{
+		CharacterController charControl = (CharacterController)characterController;
 		switch (commandId)
 		{
 			case 0:
                 GD.Print("Running Enlarge Command");
-				CharacterController charControl = (CharacterController)characterController;
-                charControl.TriggerInteraction_Enlarge(charControl.Enlarge_ScaleAmount);
+                charControl.TriggerInteraction_ChangeScale(charControl.Enlarge_ScaleAmount);
                 break;
+			case 1:
+				GD.Print("Running Reduce Command");
+				charControl.TriggerInteraction_ChangeScale(charControl.Reduce_ScaleAmount);
+				break;
+			case 2:
+				//GD.Print("Running Scry Command");
+				//charControl.TriggerInteraction_Scry(true);
+				//LinkScryCam();
+				break;
 		}
+	}
+
+	private void LinkScryCam()
+	{
+		//scryArea.MaterialOverride.Set("albedo_texture", )
 	}
 }

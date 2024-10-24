@@ -31,7 +31,7 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private double speed = 2;
     [Export]
-    private MeshInstance3D hatCosmetic;
+    private Node3D hatCosmetic;
     [Export]
     private MeshInstance3D kbCosmetic;
     [Export]
@@ -42,28 +42,41 @@ public partial class CharacterController : CharacterBody3D
     private MeshInstance3D lHand;
     [Export]
     private MeshInstance3D rHand;
+    [Export]
+    private Camera3D footCam;
+    [Export]
+    private Node3D footArea;
 
     private bool resetting = false;
     private double timer;
 
     // Interaction Data
-
     [Export]
     private float interactionTimer = 5;
     [Export]
     private float timerDecrementer = 1;
 
     [Export]
-    private float enlarge_DefaultScale = 1;
+    private float defaultScale = 1;
     [Export]
     private float enlarge_ScaleAmount = 5;
-    private float currentTimer_Enlarge = 0;
-    private bool runIA_Enlarge = false;
+    [Export]
+    private float reduce_ScaleAmount = .2f;
+
+    private bool runIA_ScaleChange = false;
+    private bool runIA_Scry = false;
+
+    // Timers
+    private float currentTimer_ScaleChange = 0;
+    private float currentTimer_Scry = 0;
 
     // --------------------------------
     //		    PROPERTIES	
     // --------------------------------
+    public Camera3D FootCam { get => footCam; }
+
     public float Enlarge_ScaleAmount { get => enlarge_ScaleAmount; }
+    public float Reduce_ScaleAmount { get => reduce_ScaleAmount; }
 
     // --------------------------------
     //		STANDARD FUNCTIONS	
@@ -259,30 +272,55 @@ public partial class CharacterController : CharacterBody3D
 
     private void HandleInteractionTimers(double delta)
     {
-        if(runIA_Enlarge)
+        if(runIA_ScaleChange)
         {
-            HandleTimer_Enlarge(delta);
+            HandleTimer_ChangeScale(delta);
+        }
+        if(runIA_Scry)
+        {
+            HandleTimer_Scry(delta);
         }
     }
 
-    private void HandleTimer_Enlarge(double delta)
+    private void HandleTimer_ChangeScale(double delta)
     {
-        if (currentTimer_Enlarge > 0)
+        if (currentTimer_ScaleChange > 0)
         {
-            currentTimer_Enlarge -= ((float)delta * timerDecrementer);
+            currentTimer_ScaleChange -= ((float)delta * timerDecrementer);
         }
-        if (currentTimer_Enlarge <= 0)
+        if (currentTimer_ScaleChange <= 0)
         {
-            TriggerInteraction_Enlarge(enlarge_DefaultScale);
-            runIA_Enlarge = false;
+            TriggerInteraction_ChangeScale(defaultScale);
+            runIA_ScaleChange = false;
         }
     }
 
-    public void TriggerInteraction_Enlarge(float scaleAmount)
+    private void HandleTimer_Scry(double delta)
+    {
+        if (currentTimer_Scry > 0)
+        {
+            currentTimer_Scry -= ((float)delta * timerDecrementer);
+        }
+        if (currentTimer_Scry <= 0)
+        {
+            TriggerInteraction_Scry(false);
+            runIA_Scry = false;
+        }
+    }
+
+    public void TriggerInteraction_ChangeScale(float scaleAmount)
     {
         if(Scale == Vector3.One * enlarge_ScaleAmount && scaleAmount == enlarge_ScaleAmount) { return; }
-        runIA_Enlarge = true;
-        currentTimer_Enlarge = interactionTimer;
+        runIA_ScaleChange = true;
+        currentTimer_ScaleChange = interactionTimer;
         Scale = Vector3.One * scaleAmount;
+    }
+
+    public void TriggerInteraction_Scry(bool enable)
+    {
+        if ((footArea.Visible && enable) || (!footArea.Visible && !enable)) return;
+        runIA_Scry = true;
+        currentTimer_Scry = interactionTimer;
+        footArea.Visible = enable;
     }
 }

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\James\\Dev\\Godot\\VIPO\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\scenes\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:scenes\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\external\\sbclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -42,18 +42,17 @@
               "RelativeToolTip": "External\\SBClient.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T22:48:35.386Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-15T22:48:35.386Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Scenes\\GameManager.cs",
               "RelativeDocumentMoniker": "Scenes\\GameManager.cs",
               "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Scenes\\GameManager.cs",
               "RelativeToolTip": "Scenes\\GameManager.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAwwFMAAAA2AAAA",
+              "ViewState": "AQIAAEkAAAAAAAAAAAArwGUAAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-09T22:59:09.617Z",
               "EditorCaption": ""
@@ -68,8 +67,7 @@
               "RelativeToolTip": "Scenes\\RenderScreen.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-03T12:48:40.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T12:48:40.497Z"
             },
             {
               "$type": "Document",
@@ -81,18 +79,17 @@
               "RelativeToolTip": "Scenes\\AudioManager.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-02T22:53:54.92Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-02T22:53:54.92Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CharacterController.cs",
               "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\CharacterController.cs",
               "RelativeDocumentMoniker": "Entities\\Characters\\CharacterController.cs",
               "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\CharacterController.cs",
               "RelativeToolTip": "Entities\\Characters\\CharacterController.cs",
-              "ViewState": "AQIAAFYAAAAAAAAAAAAmwGwAAAANAAAA",
+              "ViewState": "AQIAADgAAAAAAAAAAAAAwBgBAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-02T22:17:02.007Z",
               "EditorCaption": ""

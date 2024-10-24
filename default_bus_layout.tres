@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://dqh6bh3g1ib7j"]
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://bf5obp2y5c6dh"]
 
 [sub_resource type="AudioEffectRecord" id="AudioEffectRecord_40ost"]
 resource_name = "Record"

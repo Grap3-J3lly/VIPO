@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=28 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" path="res://Scenes/AudioManager.cs" id="1_purvt"]
 [ext_resource type="Script" path="res://Scenes/GameManager.cs" id="1_v5ak3"]
@@ -8,7 +8,8 @@
 [ext_resource type="Script" path="res://Scenes/RenderScreen.cs" id="4_oek47"]
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
 [ext_resource type="VideoStream" path="res://Assets/BRB.ogv" id="7_6872q"]
-[ext_resource type="Texture2D" uid="uid://2y5gio5u7a7v" path="res://Assets/new_viewport_texture.tres" id="7_mes4i"]
+[ext_resource type="PackedScene" uid="uid://vbd7g1b767dt" path="res://Entities/Objects/Pumpkin/pumpkin.glb" id="10_ss5xk"]
+[ext_resource type="PackedScene" uid="uid://cvj2pkcvqiw8k" path="res://Entities/Objects/JackOLantern/jackolantern.glb" id="11_44td3"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_x6vxh"]
 
@@ -41,22 +42,36 @@ background_mode = 2
 sky = SubResource("Sky_ht0q2")
 
 [sub_resource type="QuadMesh" id="QuadMesh_lfbep"]
+resource_local_to_scene = true
 size = Vector2(17.072, 9.603)
+
+[sub_resource type="CameraTexture" id="CameraTexture_a3frb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
+resource_local_to_scene = true
+albedo_texture = SubResource("CameraTexture_a3frb")
+
+[sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
+size = Vector2(5, 5)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_t3k75"]
+viewport_path = NodePath("RenderScreen/BRBSubviewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urje4"]
 resource_local_to_scene = true
-albedo_texture = ExtResource("7_mes4i")
+albedo_texture = SubResource("ViewportTexture_t3k75")
 albedo_texture_force_srgb = true
 
 [node name="VIPO" type="Node3D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "environment")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "scryArea", "environment")]
 script = ExtResource("1_v5ak3")
 mainCamera = NodePath("../SceneEffectors/MainCamera")
+scryArea = NodePath("../RenderScreen/ScryCamArea")
 charControllerScene = ExtResource("2_7mwck")
 environment = NodePath("../Environment")
 camPos_FullScreen = Vector3(0.955, 4.915, 4.15)
-commands = PackedStringArray("!big")
+commands = PackedStringArray("Enlarge", "Reduce")
 
 [node name="StreamBotConnector" type="Node" parent="."]
 script = ExtResource("3_uwo22")
@@ -145,7 +160,7 @@ transform = Transform3D(0.999989, 0.000437464, -0.00464901, 0.00269217, 0.759465
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.942, 5, -1.964)
 script = ExtResource("4_oek47")
 renderMat = ExtResource("4_pkdba")
-videoPlayer = NodePath("SubViewport/VideoStreamPlayer")
+videoPlayer = NodePath("BRBSubviewport/VideoStreamPlayer")
 liveMesh = NodePath("LiveMesh")
 videoMesh = NodePath("VideoMesh")
 
@@ -153,21 +168,39 @@ videoMesh = NodePath("VideoMesh")
 material_overlay = ExtResource("4_pkdba")
 mesh = SubResource("QuadMesh_lfbep")
 
+[node name="ScryCamArea" type="MeshInstance3D" parent="RenderScreen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.674, 2.119, 1.074)
+visible = false
+material_override = SubResource("StandardMaterial3D_4idki")
+mesh = SubResource("QuadMesh_1cmki")
+
 [node name="VideoMesh" type="MeshInstance3D" parent="RenderScreen"]
 visible = false
 material_override = SubResource("StandardMaterial3D_urje4")
 mesh = SubResource("QuadMesh_lfbep")
 
-[node name="SubViewport" type="SubViewport" parent="RenderScreen"]
+[node name="BRBSubviewport" type="SubViewport" parent="RenderScreen"]
 size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="RenderScreen/SubViewport"]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="RenderScreen/BRBSubviewport"]
 visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 stream = ExtResource("7_6872q")
 autoplay = true
 loop = true
+
+[node name="pumpkin" parent="." instance=ExtResource("10_ss5xk")]
+transform = Transform3D(0.125, 0, 0.216506, 0, 0.25, 0, -0.216506, 0, 0.125, 5.49242, 0.39, -1.37373)
+
+[node name="pumpkin2" parent="." instance=ExtResource("10_ss5xk")]
+transform = Transform3D(0.125, 0, 0.216506, 0, 0.25, 0, -0.216506, 0, 0.125, 6.794, 0.39, -1.169)
+
+[node name="pumpkin3" parent="." instance=ExtResource("10_ss5xk")]
+transform = Transform3D(0.125, 0, 0.216506, 0, 0.25, 0, -0.216506, 0, 0.125, 5.91827, 0.39, -0.34169)
+
+[node name="jackolantern" parent="." instance=ExtResource("11_44td3")]
+transform = Transform3D(-0.117368, 0, -0.220737, 0, 0.25, 0, 0.220737, 0, -0.117368, 6.13191, 1.15579, -1.06235)
 
 [connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]
