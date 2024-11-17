@@ -3,14 +3,17 @@ using System;
 
 public partial class GameManager : Node
 {
-    public static GameManager Instance { get; private set; }
+    // --------------------------------
+    //		    VARIABLES	
+    // --------------------------------
+
 	[Export]
 	private Camera3D mainCamera;
 	[Export]
 	private MeshInstance3D scryArea;
 	[Export]
 	private PackedScene charControllerScene;
-	private CharacterBody3D characterController;
+	private Node3D characterController;
 	[Export]
 	private Node environment;
 
@@ -22,9 +25,24 @@ public partial class GameManager : Node
 	[Export]
 	string[] commands;
 
+	[Export]
+	private SubViewport scryCamSubviewport;
+
+	private Camera3D scryCamTemp;
+
+    // --------------------------------
+    //		    PROPERTIES	
+    // --------------------------------
+    public static GameManager Instance { get; private set; }
+
+	public Node3D CharacterController { get => characterController; }
     public bool AllowInput { get => allowInput; set => allowInput = value; }
 
-	public override void _Ready()
+    // --------------------------------
+    //		STANDARD LOGIC	
+    // --------------------------------
+
+    public override void _Ready()
 	{
 		base._Ready();
         Instance = this;
@@ -39,16 +57,30 @@ public partial class GameManager : Node
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
+		if(scryArea.Visible)
+		{
+			CharacterController charControl = characterController.GetChild<CharacterController>(0);
+			scryCamTemp.GlobalPosition = charControl.FootCamSocket.GlobalPosition;
+			scryCamTemp.GlobalRotationDegrees = charControl.FootCamSocket.GlobalRotationDegrees;
+		}
     }
 
-	private void Setup()
+    // --------------------------------
+    //		SETUP LOGIC	
+    // --------------------------------
+
+    private void Setup()
 	{
-        characterController = (CharacterBody3D)charControllerScene.Instantiate();
+        characterController = (Node3D)charControllerScene.Instantiate();
 		environment.AddChild(characterController);
 		scryArea.Visible = false;
         if (mainCamera != null) { camPos_Default = mainCamera.Position; }
         else { camPos_Default = new Vector3(); }
     }
+
+    // --------------------------------
+    //		INTERACTION LOGIC	
+    // --------------------------------
 
     public void ToggleBRB()
 	{
@@ -60,7 +92,8 @@ public partial class GameManager : Node
         else { mainCamera.Position = camPos_FullScreen; }
     }
 
-	public void OnStreamBot_MessageReceived(Variant message)
+
+    public void OnStreamBot_MessageReceived(Variant message)
 	{
 		CheckForCommands(message.ToString());	
     }
@@ -90,15 +123,33 @@ public partial class GameManager : Node
 				charControl.TriggerInteraction_ChangeScale(charControl.Reduce_ScaleAmount);
 				break;
 			case 2:
-				//GD.Print("Running Scry Command");
-				//charControl.TriggerInteraction_Scry(true);
-				//LinkScryCam();
+				GD.Print("Running Scry Command");
+				charControl.TriggerInteraction_Scry(true);
+				EnableScryCam(true);
 				break;
 		}
 	}
 
-	private void LinkScryCam()
+	public void EnableScryCam(bool enableScryCam)
 	{
-		//scryArea.MaterialOverride.Set("albedo_texture", )
+		CharacterController charControl = (CharacterController)characterController;
+		scryCamTemp = charControl.FootCam;
+		if(enableScryCam)
+		{
+			scryArea.Visible = true;
+			scryCamTemp.Reparent(scryCamSubviewport);
+
+			ViewportTexture texture = scryCamSubviewport.GetTexture();
+			texture.ResourceLocalToScene = true;
+
+			scryArea.MaterialOverride.Set("albedo_texture", texture);
+		}
+		else
+		{
+			scryCamTemp.Reparent(charControl.FootArea);
+			scryArea.Visible = false;
+			mainCamera.Current = true;
+			scryCamTemp = null;
+		}
 	}
 }

@@ -1,15 +1,15 @@
-[gd_scene load_steps=28 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=29 format=3 uid="uid://bnpalqwvitydn"]
 
-[ext_resource type="Script" path="res://Scenes/AudioManager.cs" id="1_purvt"]
-[ext_resource type="Script" path="res://Scenes/GameManager.cs" id="1_v5ak3"]
+[ext_resource type="Script" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
 [ext_resource type="PackedScene" uid="uid://dk12kh4yartby" path="res://Entities/Characters/character.tscn" id="2_7mwck"]
+[ext_resource type="Script" path="res://Managers/CameraManager.cs" id="3_oajfl"]
 [ext_resource type="Script" path="res://External/WSClient.gd" id="3_uwo22"]
-[ext_resource type="Script" path="res://Scenes/RenderScreen.cs" id="4_oek47"]
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
+[ext_resource type="Script" path="res://Managers/AudioManager.cs" id="5_uyabo"]
+[ext_resource type="Script" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
 [ext_resource type="VideoStream" path="res://Assets/BRB.ogv" id="7_6872q"]
-[ext_resource type="PackedScene" uid="uid://vbd7g1b767dt" path="res://Entities/Objects/Pumpkin/pumpkin.glb" id="10_ss5xk"]
-[ext_resource type="PackedScene" uid="uid://cvj2pkcvqiw8k" path="res://Entities/Objects/JackOLantern/jackolantern.glb" id="11_44td3"]
+[ext_resource type="Texture2D" uid="uid://dvw67lby4tx50" path="res://Assets/cursorXS.png" id="8_t16pc"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_x6vxh"]
 
@@ -45,13 +45,20 @@ sky = SubResource("Sky_ht0q2")
 resource_local_to_scene = true
 size = Vector2(17.072, 9.603)
 
-[sub_resource type="CameraTexture" id="CameraTexture_a3frb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xd67u"]
+transparency = 1
+albedo_texture = ExtResource("8_t16pc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_r0ttg"]
+material = SubResource("StandardMaterial3D_xd67u")
+size = Vector2(0.25, 0.25)
+center_offset = Vector3(0.1, -0.1, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
 resource_local_to_scene = true
-albedo_texture = SubResource("CameraTexture_a3frb")
 
 [sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
+resource_local_to_scene = true
 size = Vector2(5, 5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_t3k75"]
@@ -65,19 +72,24 @@ albedo_texture_force_srgb = true
 [node name="VIPO" type="Node3D"]
 
 [node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "scryArea", "environment")]
-script = ExtResource("1_v5ak3")
+script = ExtResource("1_gq68b")
 mainCamera = NodePath("../SceneEffectors/MainCamera")
 scryArea = NodePath("../RenderScreen/ScryCamArea")
 charControllerScene = ExtResource("2_7mwck")
 environment = NodePath("../Environment")
 camPos_FullScreen = Vector3(0.955, 4.915, 4.15)
-commands = PackedStringArray("Enlarge", "Reduce")
+commands = PackedStringArray("Enlarge", "Reduce", "Scry")
+
+[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "mainCamDefaultParent")]
+script = ExtResource("3_oajfl")
+mainCamera = NodePath("../SceneEffectors/MainCamera")
+mainCamDefaultParent = NodePath("../SceneEffectors")
 
 [node name="StreamBotConnector" type="Node" parent="."]
 script = ExtResource("3_uwo22")
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("mic_input")]
-script = ExtResource("1_purvt")
+script = ExtResource("5_uyabo")
 mic_input = NodePath("Mic_StreamPlayer")
 mic_VolumeCutoff = -115.0
 
@@ -156,21 +168,26 @@ environment = SubResource("Environment_t8j3o")
 [node name="THE SUN" type="DirectionalLight3D" parent="SceneEffectors"]
 transform = Transform3D(0.999989, 0.000437464, -0.00464901, 0.00269217, 0.759465, 0.650543, 0.00381535, -0.650548, 0.759456, 0, 0, 0)
 
-[node name="RenderScreen" type="Area3D" parent="." node_paths=PackedStringArray("videoPlayer", "liveMesh", "videoMesh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.942, 5, -1.964)
-script = ExtResource("4_oek47")
+[node name="RenderScreen" type="Area3D" parent="." node_paths=PackedStringArray("videoPlayer", "liveMesh", "videoMesh", "mouseMesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.942, 5, -2)
+script = ExtResource("7_5mnbt")
 renderMat = ExtResource("4_pkdba")
 videoPlayer = NodePath("BRBSubviewport/VideoStreamPlayer")
 liveMesh = NodePath("LiveMesh")
 videoMesh = NodePath("VideoMesh")
+mouseMesh = NodePath("LiveMesh/MouseMesh")
 
 [node name="LiveMesh" type="MeshInstance3D" parent="RenderScreen"]
 material_overlay = ExtResource("4_pkdba")
+gi_mode = 0
 mesh = SubResource("QuadMesh_lfbep")
+
+[node name="MouseMesh" type="MeshInstance3D" parent="RenderScreen/LiveMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.01038, -1.4874, 1.04359)
+mesh = SubResource("QuadMesh_r0ttg")
 
 [node name="ScryCamArea" type="MeshInstance3D" parent="RenderScreen"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.674, 2.119, 1.074)
-visible = false
 material_override = SubResource("StandardMaterial3D_4idki")
 mesh = SubResource("QuadMesh_1cmki")
 
@@ -191,16 +208,8 @@ stream = ExtResource("7_6872q")
 autoplay = true
 loop = true
 
-[node name="pumpkin" parent="." instance=ExtResource("10_ss5xk")]
-transform = Transform3D(0.125, 0, 0.216506, 0, 0.25, 0, -0.216506, 0, 0.125, 5.49242, 0.39, -1.37373)
-
-[node name="pumpkin2" parent="." instance=ExtResource("10_ss5xk")]
-transform = Transform3D(0.125, 0, 0.216506, 0, 0.25, 0, -0.216506, 0, 0.125, 6.794, 0.39, -1.169)
-
-[node name="pumpkin3" parent="." instance=ExtResource("10_ss5xk")]
-transform = Transform3D(0.125, 0, 0.216506, 0, 0.25, 0, -0.216506, 0, 0.125, 5.91827, 0.39, -0.34169)
-
-[node name="jackolantern" parent="." instance=ExtResource("11_44td3")]
-transform = Transform3D(-0.117368, 0, -0.220737, 0, 0.25, 0, 0.220737, 0, -0.117368, 6.13191, 1.15579, -1.06235)
+[node name="ScryCamSubviewport" type="SubViewport" parent="RenderScreen"]
+size = Vector2i(1080, 1080)
+render_target_update_mode = 4
 
 [connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]

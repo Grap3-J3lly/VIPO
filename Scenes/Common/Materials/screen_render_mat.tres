@@ -8,4 +8,8 @@ gradient = SubResource("Gradient_xtq21")
 
 [resource]
 resource_local_to_scene = true
+render_priority = 10
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
 albedo_texture = SubResource("GradientTexture1D_o2ufn")

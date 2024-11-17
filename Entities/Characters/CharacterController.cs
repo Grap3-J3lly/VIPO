@@ -29,7 +29,7 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private StandardMaterial3D characterMaterial;
     [Export]
-    private double speed = 2;
+    private double transitionSpeed = 2;
     [Export]
     private Node3D hatCosmetic;
     [Export]
@@ -46,6 +46,8 @@ public partial class CharacterController : CharacterBody3D
     private Camera3D footCam;
     [Export]
     private Node3D footArea;
+    [Export]
+    private Node3D footCamSocket;
 
     private bool resetting = false;
     private double timer;
@@ -74,6 +76,8 @@ public partial class CharacterController : CharacterBody3D
     //		    PROPERTIES	
     // --------------------------------
     public Camera3D FootCam { get => footCam; }
+    public Node3D FootArea { get => footArea; set => footArea = value; }
+    public Node3D FootCamSocket { get => footCamSocket; }
 
     public float Enlarge_ScaleAmount { get => enlarge_ScaleAmount; }
     public float Reduce_ScaleAmount { get => reduce_ScaleAmount; }
@@ -259,7 +263,7 @@ public partial class CharacterController : CharacterBody3D
         {
             characterMaterial.AlbedoColor = speakingColor.Lerp(defaultColor, (float)count);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            count += delta * speed;
+            count += delta * transitionSpeed;
         }
 
         characterMaterial.AlbedoColor = defaultColor;
@@ -305,6 +309,7 @@ public partial class CharacterController : CharacterBody3D
         {
             TriggerInteraction_Scry(false);
             runIA_Scry = false;
+            gameManager.EnableScryCam(false);
         }
     }
 
