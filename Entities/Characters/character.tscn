@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dk12kh4yartby"]
+[gd_scene load_steps=23 format=3 uid="uid://dk12kh4yartby"]
 
 [ext_resource type="Script" path="res://Entities/Characters/CharacterController.cs" id="1_p5q5d"]
 [ext_resource type="Material" uid="uid://7kpwloqr68nu" path="res://Entities/Characters/character_mat.tres" id="1_vcnwg"]
@@ -8,6 +8,7 @@
 [ext_resource type="ArrayMesh" uid="uid://gswl5sfowyp6" path="res://Entities/Objects/PartyHat/cone.obj" id="4_10ajy"]
 [ext_resource type="PackedScene" uid="uid://cvj2pkcvqiw8k" path="res://Entities/Objects/JackOLantern/jackolantern.glb" id="8_c8yvo"]
 [ext_resource type="ArrayMesh" uid="uid://4m1b3vxbdxwm" path="res://Entities/Objects/Keyboard/KB_Final.obj" id="8_rbk8y"]
+[ext_resource type="PackedScene" uid="uid://v7qhnlqjvgev" path="res://Entities/Objects/JellyJar/JellyJar.glb" id="9_kuugx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0o366"]
 material = ExtResource("1_vcnwg")
@@ -66,8 +67,7 @@ height = 0.02
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("hatCosmetic", "kbCosmetic", "controllerCosmetic", "lHand", "rHand", "footCam", "footArea", "footCamSocket")]
 script = ExtResource("1_p5q5d")
 resetLocation = Vector3(-6.98023, 0, -0.566719)
-Speed = 10.0
-JumpVelocity = 6.0
+speed = 10.0
 defaultColor = Color(0.58577, 0.377253, 0.873967, 1)
 speakingColor = Color(0.351792, 0.16978, 0.57149, 1)
 characterMaterial = ExtResource("3_vxy0s")
@@ -102,11 +102,11 @@ mesh = SubResource("CapsuleMesh_cn3ss")
 skeleton = NodePath("../../..")
 
 [node name="LHand" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.367, 0, 0.548)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.367, -0.182772, 0.933856)
 mesh = SubResource("CapsuleMesh_mkl36")
 
 [node name="RHand" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.36662, 0, 0.548308)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.36662, -0.182772, 0.934164)
 mesh = SubResource("CapsuleMesh_mkl36")
 
 [node name="Logo" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
@@ -116,7 +116,7 @@ mesh = SubResource("QuadMesh_bp3sx")
 skeleton = NodePath("../../..")
 
 [node name="FootArea" type="Node3D" parent="CharacterBody3D/CapsuleMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.530752)
 visible = false
 
 [node name="LFoot" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh/FootArea"]
@@ -130,7 +130,7 @@ mesh = SubResource("CapsuleMesh_mkl36")
 skeleton = NodePath("../..")
 
 [node name="FootCam" type="Camera3D" parent="CharacterBody3D/CapsuleMesh/FootArea"]
-transform = Transform3D(0.753563, -0.348356, 0.557486, 0, 0.848048, 0.529919, -0.657375, -0.399328, 0.639058, 0.769, 0.627, 1.048)
+transform = Transform3D(0.753563, -0.348356, 0.557486, 0, 0.848048, 0.529919, -0.657375, -0.399328, 0.639058, 0.974, 0.732, 1.048)
 fov = 37.8493
 
 [node name="FootCamSocket" type="Node3D" parent="CharacterBody3D/CapsuleMesh/FootArea"]
@@ -152,7 +152,7 @@ transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 
 visible = false
 
 [node name="KB" type="MeshInstance3D" parent="CharacterBody3D"]
-transform = Transform3D(-3.27835e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.27835e-08, 0.108443, 0.838362, 0.864183)
+transform = Transform3D(-3.27835e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.27835e-08, 0.108443, 0.65559, 1.34662)
 mesh = ExtResource("8_rbk8y")
 skeleton = NodePath("../..")
 
@@ -162,7 +162,7 @@ mesh = SubResource("CapsuleMesh_0swjg")
 skeleton = NodePath("../../..")
 
 [node name="Controller" type="MeshInstance3D" parent="CharacterBody3D"]
-transform = Transform3D(4.95367, 0, 0, 0, 1.94723, 0, 0, 0, 2.24843, -0.0394941, 1.02062, 1.10525)
+transform = Transform3D(4.95367, 0, 0, 0, 1.94723, 0, 0, 0, 2.24843, -0.0394941, 0.837848, 1.58769)
 visible = false
 mesh = SubResource("CylinderMesh_qdbr4")
 skeleton = NodePath("../..")
@@ -196,3 +196,6 @@ mesh = SubResource("CylinderMesh_y18bt")
 [node name="Analog" type="MeshInstance3D" parent="CharacterBody3D/Controller"]
 transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, 0.0242403, 0.0349942, -0.000390172)
 mesh = SubResource("CylinderMesh_t70ch")
+
+[node name="JellyJar" parent="CharacterBody3D" instance=ExtResource("9_kuugx")]
+transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, 0.753259, 0)

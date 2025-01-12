@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=30 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
@@ -8,6 +8,7 @@
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
 [ext_resource type="Script" path="res://Managers/AudioManager.cs" id="5_uyabo"]
 [ext_resource type="Script" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
+[ext_resource type="Script" path="res://Entities/Characters/MainCameraController.cs" id="7_6m2wv"]
 [ext_resource type="VideoStream" path="res://Assets/BRB.ogv" id="7_6872q"]
 [ext_resource type="Texture2D" uid="uid://dvw67lby4tx50" path="res://Assets/cursorXS.png" id="8_t16pc"]
 
@@ -41,6 +42,13 @@ sky_material = SubResource("ProceduralSkyMaterial_m50ur")
 background_mode = 2
 sky = SubResource("Sky_ht0q2")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
+resource_local_to_scene = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
+resource_local_to_scene = true
+size = Vector2(4, 4)
+
 [sub_resource type="QuadMesh" id="QuadMesh_lfbep"]
 resource_local_to_scene = true
 size = Vector2(17.072, 9.603)
@@ -54,13 +62,6 @@ material = SubResource("StandardMaterial3D_xd67u")
 size = Vector2(0.25, 0.25)
 center_offset = Vector3(0.1, -0.1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
-resource_local_to_scene = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
-resource_local_to_scene = true
-size = Vector2(5, 5)
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_t3k75"]
 viewport_path = NodePath("RenderScreen/BRBSubviewport")
 
@@ -71,18 +72,19 @@ albedo_texture_force_srgb = true
 
 [node name="VIPO" type="Node3D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "scryArea", "environment")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("cameraManager", "scryArea", "environment")]
 script = ExtResource("1_gq68b")
-mainCamera = NodePath("../SceneEffectors/MainCamera")
-scryArea = NodePath("../RenderScreen/ScryCamArea")
+cameraManager = NodePath("../CameraManager")
+scryArea = NodePath("../SceneEffectors/MainCamera/ScryCamArea")
 charControllerScene = ExtResource("2_7mwck")
 environment = NodePath("../Environment")
-camPos_FullScreen = Vector3(0.955, 4.915, 4.15)
+camPos_FullScreen = Vector3(0.955, 5, 6.26)
 commands = PackedStringArray("Enlarge", "Reduce", "Scry")
 
-[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "mainCamDefaultParent")]
+[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "scryCamSubviewport", "mainCamDefaultParent")]
 script = ExtResource("3_oajfl")
 mainCamera = NodePath("../SceneEffectors/MainCamera")
+scryCamSubviewport = NodePath("../RenderScreen/ScryCamSubviewport")
 mainCamDefaultParent = NodePath("../SceneEffectors")
 
 [node name="StreamBotConnector" type="Node" parent="."]
@@ -162,8 +164,17 @@ shape = SubResource("BoxShape3D_3q760")
 [node name="SceneEffectors" type="Node" parent="."]
 
 [node name="MainCamera" type="Camera3D" parent="SceneEffectors"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.401, 4.243, 5.319)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.401, 4.243, 7.639)
 environment = SubResource("Environment_t8j3o")
+fov = 60.0
+script = ExtResource("7_6m2wv")
+resetPosition = Vector3(-0.401, 4.243, 7.639)
+
+[node name="ScryCamArea" type="MeshInstance3D" parent="SceneEffectors/MainCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.862, 1.606, -6.245)
+material_override = SubResource("StandardMaterial3D_4idki")
+mesh = SubResource("QuadMesh_1cmki")
+skeleton = NodePath("../../../RenderScreen")
 
 [node name="THE SUN" type="DirectionalLight3D" parent="SceneEffectors"]
 transform = Transform3D(0.999989, 0.000437464, -0.00464901, 0.00269217, 0.759465, 0.650543, 0.00381535, -0.650548, 0.759456, 0, 0, 0)
@@ -186,11 +197,6 @@ mesh = SubResource("QuadMesh_lfbep")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.01038, -1.4874, 1.04359)
 mesh = SubResource("QuadMesh_r0ttg")
 
-[node name="ScryCamArea" type="MeshInstance3D" parent="RenderScreen"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.674, 2.119, 1.074)
-material_override = SubResource("StandardMaterial3D_4idki")
-mesh = SubResource("QuadMesh_1cmki")
-
 [node name="VideoMesh" type="MeshInstance3D" parent="RenderScreen"]
 visible = false
 material_override = SubResource("StandardMaterial3D_urje4")
@@ -211,5 +217,7 @@ loop = true
 [node name="ScryCamSubviewport" type="SubViewport" parent="RenderScreen"]
 size = Vector2i(1080, 1080)
 render_target_update_mode = 4
+
+[node name="UI" type="CanvasLayer" parent="."]
 
 [connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]

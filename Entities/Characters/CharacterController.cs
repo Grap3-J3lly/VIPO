@@ -14,11 +14,11 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private Vector3 resetLocation = new Vector3(0, 0, 0);
     [Export]
-    public float RotationSpeed = 1.0f;
+    public float rotationSpeed = 1.0f;
 	[Export]
-	public float Speed = 5.0f;
+	public float speed = 5.0f;
 	[Export]
-	public float JumpVelocity = 4.5f;
+	public float jumpVelocity = 4.5f;
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
     // Character Data
@@ -75,6 +75,8 @@ public partial class CharacterController : CharacterBody3D
     // --------------------------------
     //		    PROPERTIES	
     // --------------------------------
+    public float Speed { get => speed; }
+
     public Camera3D FootCam { get => footCam; }
     public Node3D FootArea { get => footArea; set => footArea = value; }
     public Node3D FootCamSocket { get => footCamSocket; }
@@ -117,6 +119,7 @@ public partial class CharacterController : CharacterBody3D
             if (Input.IsActionJustPressed("ui_reset"))
             {
                 ResetPosition();
+                ((MainCameraController)gameManager.CameraManager.MainCamera).ResetCameraPosition();
             }
             if (Input.IsActionJustPressed("toggle_hatCosmetic"))
             {
@@ -174,7 +177,7 @@ public partial class CharacterController : CharacterBody3D
 
         // Handle Jump.
         if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-            velocity.Y = JumpVelocity;
+            velocity.Y = jumpVelocity;
 
         // Get the input direction and handle the movement/deceleration.
         // As good practice, you should replace UI actions with custom gameplay actions.
@@ -182,19 +185,22 @@ public partial class CharacterController : CharacterBody3D
         // Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
         if (inputDir != Vector2.Zero)
         {
-            velocity.X = inputDir.X * Speed;
-            velocity.Z = inputDir.Y * Speed;
+            velocity.X = inputDir.X * speed;
+            velocity.Z = inputDir.Y * speed;
 
             LookAt(Position - new Vector3(inputDir.X, 0, inputDir.Y));
         }
         else
         {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, speed);
+            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, speed);
         }
 
         Velocity = velocity;
         MoveAndSlide();
+
+        MainCameraController mainCam = (MainCameraController)gameManager.CameraManager.MainCamera;
+        mainCam.MoveCamera(velocity);
     }
 
     private void ResetPosition()
@@ -309,7 +315,7 @@ public partial class CharacterController : CharacterBody3D
         {
             TriggerInteraction_Scry(false);
             runIA_Scry = false;
-            gameManager.EnableScryCam(false);
+            gameManager.CameraManager.EnableScryCam(false);
         }
     }
 

@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyknhcg0jqyrj"]
+
+[ext_resource type="Script" path="res://Scenes/UI/ChatInstance.cs" id="1_yslkg"]
+
+[node name="ChatInstance" type="VBoxContainer" node_paths=PackedStringArray("chatUserName", "chatText")]
+custom_minimum_size = Vector2(160, 10)
+script = ExtResource("1_yslkg")
+chatUserName = NodePath("ChatUserBox")
+chatText = NodePath("ChatMessageBox")
+defaultColor = Color(0.262745, 0.133333, 0.694118, 1)
+
+[node name="ChatUserBox" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "TestUser:"
+fit_content = true
+
+[node name="ChatMessageBox" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "Single Word"
+fit_content = true

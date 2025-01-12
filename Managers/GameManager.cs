@@ -3,16 +3,18 @@ using System;
 
 public partial class GameManager : Node
 {
-    // --------------------------------
-    //		    VARIABLES	
-    // --------------------------------
+	// --------------------------------
+	//		    VARIABLES	
+	// --------------------------------
 
 	[Export]
-	private Camera3D mainCamera;
+	private CameraManager cameraManager;
+
 	[Export]
 	private MeshInstance3D scryArea;
 	[Export]
 	private PackedScene charControllerScene;
+
 	private Node3D characterController;
 	[Export]
 	private Node environment;
@@ -25,15 +27,13 @@ public partial class GameManager : Node
 	[Export]
 	string[] commands;
 
-	[Export]
-	private SubViewport scryCamSubviewport;
-
-	private Camera3D scryCamTemp;
 
     // --------------------------------
     //		    PROPERTIES	
     // --------------------------------
     public static GameManager Instance { get; private set; }
+	public CameraManager CameraManager { get => cameraManager; set => cameraManager = value; }
+	public MeshInstance3D ScryArea { get => scryArea; }
 
 	public Node3D CharacterController { get => characterController; }
     public bool AllowInput { get => allowInput; set => allowInput = value; }
@@ -54,17 +54,6 @@ public partial class GameManager : Node
 
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-		if(scryArea.Visible)
-		{
-			CharacterController charControl = characterController.GetChild<CharacterController>(0);
-			scryCamTemp.GlobalPosition = charControl.FootCamSocket.GlobalPosition;
-			scryCamTemp.GlobalRotationDegrees = charControl.FootCamSocket.GlobalRotationDegrees;
-		}
-    }
-
     // --------------------------------
     //		SETUP LOGIC	
     // --------------------------------
@@ -74,7 +63,7 @@ public partial class GameManager : Node
         characterController = (Node3D)charControllerScene.Instantiate();
 		environment.AddChild(characterController);
 		scryArea.Visible = false;
-        if (mainCamera != null) { camPos_Default = mainCamera.Position; }
+        if (cameraManager.MainCamera != null) { camPos_Default = cameraManager.MainCamera.Position; }
         else { camPos_Default = new Vector3(); }
     }
 
@@ -84,34 +73,35 @@ public partial class GameManager : Node
 
     public void ToggleBRB()
 	{
-		if(mainCamera == null || characterController == null) return;
+		if(cameraManager.MainCamera == null || characterController == null) return;
 
 		characterController.Visible = !characterController.Visible;
 
-		if (mainCamera.Position == camPos_FullScreen) { mainCamera.Position = camPos_Default; }
-        else { mainCamera.Position = camPos_FullScreen; }
+		if (cameraManager.MainCamera.Position == camPos_FullScreen) { cameraManager.MainCamera.Position = camPos_Default; }
+        else { cameraManager.MainCamera.Position = camPos_FullScreen; }
     }
 
 
     public void OnStreamBot_MessageReceived(Variant message)
 	{
-		CheckForCommands(message.ToString());	
+		CheckForInteractions(message.ToString());	
     }
 
-	private void CheckForCommands(string message)
+	private void CheckForInteractions(string message)
 	{
 		for (int i = 0; i < commands.Length; i++)
 		{
-			if (message.Contains(commands[i]))
+			if (message.Contains("\"type\":\"Action\"") && message.Contains(commands[i]))
 			{
 				RunCommand(i);
+				break;
 			}
 		}
 	}
 
 	private void RunCommand(int commandId)
 	{
-		CharacterController charControl = (CharacterController)characterController;
+		CharacterController charControl = characterController.GetChild<CharacterController>(0);
 		switch (commandId)
 		{
 			case 0:
@@ -125,31 +115,10 @@ public partial class GameManager : Node
 			case 2:
 				GD.Print("Running Scry Command");
 				charControl.TriggerInteraction_Scry(true);
-				EnableScryCam(true);
+				cameraManager.EnableScryCam(true);
 				break;
 		}
 	}
 
-	public void EnableScryCam(bool enableScryCam)
-	{
-		CharacterController charControl = (CharacterController)characterController;
-		scryCamTemp = charControl.FootCam;
-		if(enableScryCam)
-		{
-			scryArea.Visible = true;
-			scryCamTemp.Reparent(scryCamSubviewport);
-
-			ViewportTexture texture = scryCamSubviewport.GetTexture();
-			texture.ResourceLocalToScene = true;
-
-			scryArea.MaterialOverride.Set("albedo_texture", texture);
-		}
-		else
-		{
-			scryCamTemp.Reparent(charControl.FootArea);
-			scryArea.Visible = false;
-			mainCamera.Current = true;
-			scryCamTemp = null;
-		}
-	}
+	
 }
