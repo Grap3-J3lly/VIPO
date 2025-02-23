@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=27 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
 [ext_resource type="Script" path="res://Entities/Characters/MainCameraController.cs" id="7_6m2wv"]
 [ext_resource type="VideoStream" path="res://Assets/BRB.ogv" id="7_6872q"]
-[ext_resource type="Texture2D" uid="uid://dvw67lby4tx50" path="res://Assets/cursorXS.png" id="8_t16pc"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_x6vxh"]
 
@@ -51,16 +50,8 @@ size = Vector2(4, 4)
 
 [sub_resource type="QuadMesh" id="QuadMesh_lfbep"]
 resource_local_to_scene = true
-size = Vector2(17.072, 9.603)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xd67u"]
-transparency = 1
-albedo_texture = ExtResource("8_t16pc")
-
-[sub_resource type="QuadMesh" id="QuadMesh_r0ttg"]
-material = SubResource("StandardMaterial3D_xd67u")
-size = Vector2(0.25, 0.25)
-center_offset = Vector3(0.1, -0.1, 0)
+material = ExtResource("4_pkdba")
+size = Vector2(16, 9)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_t3k75"]
 viewport_path = NodePath("RenderScreen/BRBSubviewport")
@@ -186,16 +177,11 @@ renderMat = ExtResource("4_pkdba")
 videoPlayer = NodePath("BRBSubviewport/VideoStreamPlayer")
 liveMesh = NodePath("LiveMesh")
 videoMesh = NodePath("VideoMesh")
-mouseMesh = NodePath("LiveMesh/MouseMesh")
+mouseMesh = NodePath("")
 
 [node name="LiveMesh" type="MeshInstance3D" parent="RenderScreen"]
-material_overlay = ExtResource("4_pkdba")
 gi_mode = 0
 mesh = SubResource("QuadMesh_lfbep")
-
-[node name="MouseMesh" type="MeshInstance3D" parent="RenderScreen/LiveMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.01038, -1.4874, 1.04359)
-mesh = SubResource("QuadMesh_r0ttg")
 
 [node name="VideoMesh" type="MeshInstance3D" parent="RenderScreen"]
 visible = false

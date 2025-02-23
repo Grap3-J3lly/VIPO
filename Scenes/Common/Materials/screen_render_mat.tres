@@ -1,10 +1,6 @@
-[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://cbb58vp1qan7t"]
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cbb58vp1qan7t"]
 
-[sub_resource type="Gradient" id="Gradient_xtq21"]
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_o2ufn"]
-gradient = SubResource("Gradient_xtq21")
+[ext_resource type="Texture2D" uid="uid://detrq1wjxvcd4" path="res://Scenes/Main/RenderTexture.tres" id="1_kgtc2"]
 
 [resource]
 resource_local_to_scene = true
@@ -12,4 +8,4 @@ render_priority = 10
 shading_mode = 0
 disable_ambient_light = true
 disable_fog = true
-albedo_texture = SubResource("GradientTexture1D_o2ufn")
+albedo_texture = ExtResource("1_kgtc2")
