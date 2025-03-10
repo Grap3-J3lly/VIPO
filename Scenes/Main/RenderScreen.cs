@@ -48,7 +48,6 @@ public partial class RenderScreen : Area3D
     public override void _Ready()
 	{
 		gameManager = GameManager.Instance;
-		// state = RenderState.Default;
 
 		Setup();
 	}
@@ -56,9 +55,6 @@ public partial class RenderScreen : Area3D
 	
 	public override void _Process(double delta)
 	{
-		//HandleInput();
-		//HandleRenderState();
-		//renderMat.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
 	}
 
     // --------------------------------
@@ -69,9 +65,6 @@ public partial class RenderScreen : Area3D
 	{
 		ToggleDisplays(true);
 		DisplayServer.WindowSetCurrentScreen(0);
-		//grabbedImage = DisplayServer.ScreenGetImage(screenIndex);
-		//renderTexture = ImageTexture.CreateFromImage(grabbedImage);
-		//renderMat.AlbedoTexture = renderTexture;
 
 		mouseMinimumPosition = DisplayServer.ScreenGetPosition(screenIndex);
 		mouseMaximumPosition = DisplayServer.ScreenGetPosition(screenIndex) + DisplayServer.ScreenGetSize(screenIndex);

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckge4vx8gbymo"]
+
+[ext_resource type="Script" path="res://Entities/Characters/Familiar/Familiar.cs" id="1_362po"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q3ogy"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bxlh8"]
+albedo_color = Color(0.47451, 0.729412, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_k3l5y"]
+material = SubResource("StandardMaterial3D_bxlh8")
+radius = 0.25
+height = 0.5
+
+[node name="Familiar" type="CharacterBody3D"]
+script = ExtResource("1_362po")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_q3ogy")
+
+[node name="TempBallMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("SphereMesh_k3l5y")
+skeleton = NodePath("")
