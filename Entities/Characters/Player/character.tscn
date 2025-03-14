@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://dk12kh4yartby"]
 
-[ext_resource type="Script" path="res://Entities/Characters/Player/CharacterController.cs" id="1_p5q5d"]
+[ext_resource type="Script" uid="uid://by4g1f2bg1rfk" path="res://Entities/Characters/Player/CharacterController.cs" id="1_p5q5d"]
 [ext_resource type="Material" uid="uid://7kpwloqr68nu" path="res://Entities/Characters/Player/character_mat.tres" id="1_vcnwg"]
 [ext_resource type="Material" uid="uid://bhegscsoa4t4a" path="res://Entities/Objects/PartyHat/partyHatShader_mat.tres" id="3_aj2hp"]
 [ext_resource type="Texture2D" uid="uid://ba86qf04csj66" path="res://Assets/Grape_jelly.png" id="3_gpgv0"]

@@ -1,25 +1,27 @@
-[gd_scene load_steps=30 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=31 format=3 uid="uid://bnpalqwvitydn"]
 
-[ext_resource type="Script" path="res://Managers/GameManager.cs" id="1_gq68b"]
+[ext_resource type="Script" uid="uid://c1elghljr43o3" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
 [ext_resource type="PackedScene" uid="uid://dk12kh4yartby" path="res://Entities/Characters/Player/character.tscn" id="2_7mwck"]
-[ext_resource type="Script" path="res://Managers/AIManager.cs" id="3_nejqq"]
-[ext_resource type="Script" path="res://Managers/CameraManager.cs" id="3_oajfl"]
-[ext_resource type="Script" path="res://External/WSClient.gd" id="3_uwo22"]
+[ext_resource type="Script" uid="uid://bw82bk66msksh" path="res://Managers/AIManager.cs" id="3_nejqq"]
+[ext_resource type="Script" uid="uid://dtkvuughijj3i" path="res://Managers/CameraManager.cs" id="3_oajfl"]
+[ext_resource type="Script" uid="uid://bc6djna7rdixf" path="res://External/WSClient.gd" id="3_uwo22"]
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
-[ext_resource type="Script" path="res://Managers/AudioManager.cs" id="5_uyabo"]
-[ext_resource type="Script" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
-[ext_resource type="Script" path="res://Entities/Characters/Player/MainCameraController.cs" id="7_6m2wv"]
-[ext_resource type="VideoStream" path="res://Assets/BRB.ogv" id="7_6872q"]
-[ext_resource type="PackedScene" uid="uid://ckge4vx8gbymo" path="res://Entities/Characters/Familiar/familiar.tscn" id="11_lmnm8"]
+[ext_resource type="Script" uid="uid://bi4mrwrng6lpd" path="res://Managers/AudioManager.cs" id="5_uyabo"]
+[ext_resource type="Script" uid="uid://cklwrqcqsukq5" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
+[ext_resource type="Script" uid="uid://clsfjtih1nqsm" path="res://Entities/Characters/Player/MainCameraController.cs" id="7_6m2wv"]
+[ext_resource type="VideoStream" uid="uid://dunwcl33mjs7w" path="res://Assets/BRB.ogv" id="7_6872q"]
+[ext_resource type="PackedScene" uid="uid://ckge4vx8gbymo" path="res://Entities/Characters/Familiar/familiar.tscn" id="12_fxe8t"]
+[ext_resource type="Script" uid="uid://b6byku3oeclnj" path="res://Managers/ObjectPool.cs" id="13_ack1u"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_x6vxh"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_htw3l"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_h8on7"]
-vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
+vertices = PackedVector3Array(-49.5, 0.2, -49.5, -49.5, 0.2, 49.5, 49.5, 0.2, 49.5, 49.5, 0.2, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+cell_height = 0.1
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qy4e4"]
 size = Vector2(100, 100)
@@ -70,14 +72,15 @@ albedo_texture_force_srgb = true
 
 [node name="VIPO" type="Node3D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("cameraManager", "scryArea", "environment")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("cameraManager", "scryArea", "environment", "objectPool")]
 script = ExtResource("1_gq68b")
 cameraManager = NodePath("../CameraManager")
 scryArea = NodePath("../SceneEffectors/MainCamera/ScryCamArea")
 charControllerScene = ExtResource("2_7mwck")
 environment = NodePath("../Environment")
+objectPool = NodePath("../ObjectPool")
 camPos_FullScreen = Vector3(0.955, 5, 6.26)
-commands = PackedStringArray("Enlarge", "Reduce", "Scry")
+commands = PackedStringArray("Enlarge", "Reduce", "Scry", "FindFamiliar")
 
 [node name="AIManager" type="Node" parent="."]
 script = ExtResource("3_nejqq")
@@ -92,6 +95,10 @@ mainCamDefaultParent = NodePath("../SceneEffectors")
 
 [node name="StreamBotConnector" type="Node" parent="."]
 script = ExtResource("3_uwo22")
+
+[node name="ObjectPool" type="Node" parent="."]
+script = ExtResource("13_ack1u")
+familiarScene = ExtResource("12_fxe8t")
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("mic_input")]
 script = ExtResource("5_uyabo")
@@ -113,7 +120,7 @@ transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_htw3l")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Environment/Floor"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.08, 0, -0.125)
 navigation_mesh = SubResource("NavigationMesh_h8on7")
 
 [node name="FloorMesh" type="MeshInstance3D" parent="Environment/Floor/NavigationRegion3D"]
@@ -221,10 +228,5 @@ size = Vector2i(1080, 1080)
 render_target_update_mode = 4
 
 [node name="UI" type="CanvasLayer" parent="."]
-
-[node name="Familiar" parent="." instance=ExtResource("11_lmnm8")]
-
-[node name="Character" parent="." instance=ExtResource("2_7mwck")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
 [connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]

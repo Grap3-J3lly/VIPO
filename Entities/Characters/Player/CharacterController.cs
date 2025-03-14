@@ -91,12 +91,18 @@ public partial class CharacterController : CharacterBody3D
     public override void _Ready()
     {
         base._Ready();
-        gameManager = GameManager.Instance;
-        audioManager = AudioManager.Instance;
+        CallDeferred("DelayedAssignManagers");
         timer = timerToInputReset;
         lHand.Visible = false;
         rHand.Visible = true;
         ResetPosition();
+        // GD.Print("CharacterController Exists");
+    }
+
+    private void DelayedAssignManagers()
+    {
+        gameManager = GameManager.Instance;
+        audioManager = AudioManager.Instance;
     }
 
     public override void _Process(double delta)
@@ -132,7 +138,7 @@ public partial class CharacterController : CharacterBody3D
 
     private void InputChecks(double delta)
     {
-        if (gameManager.AllowInput)
+        if (gameManager != null && gameManager.AllowInput)
         {
             ToggleInputCosmeticVisibility(0);
 
