@@ -19,6 +19,18 @@ public partial class Familiar : CharacterBody3D
     [Export]
 	public float speed = 5.0f;
 
+    [Export]
+    private StandardMaterial3D standardMaterial;
+    [Export]
+    private Color defaultColor;
+    [Export]
+    private Color gandalfColor;
+
+    private bool pause = false;
+    private float timer = 0;
+    [Export]
+    private float moveDelay = 1f;
+
     // --------------------------------
     //		    PROPERTIES
     // --------------------------------
@@ -38,17 +50,23 @@ public partial class Familiar : CharacterBody3D
         nameTextField = this.FindFirstChildOfType<Label3D>();
         AssignRandomDestinationAroundTarget();
         navAgent.NavigationFinished += AssignRandomDestinationAroundTarget;
+        navAgent.NavigationFinished += PauseMovement;
+        standardMaterial.AlbedoColor = defaultColor;
     }
 
     public override void _PhysicsProcess(double delta)
 	{       
-        if(navAgent.IsNavigationFinished())
+        Vector3 nextPathPosition = navAgent.GetNextPathPosition();
+        if(pause)
         {
-            // GD.Print("Nav Finished");
+            timer -= (float)delta;
+            if(timer <= 0)
+            {
+                pause = false;
+            }
             return;
         }
-        Vector3 nextPathPosition = navAgent.GetNextPathPosition();
-        // GD.Print("Next Path Position: " + nextPathPosition);
+        
         Move(nextPathPosition);
     }
 
@@ -62,9 +80,20 @@ public partial class Familiar : CharacterBody3D
         nameTextField.Text = newName;
     }
 
+    public void MakeGandalf()
+    {
+        standardMaterial.AlbedoColor = gandalfColor;
+    }
+
     // --------------------------------
     //		MOVEMENT LOGIC	
     // --------------------------------
+
+    private void PauseMovement()
+    {
+        pause = true;
+        timer = moveDelay;
+    }
 
     private void AssignRandomDestinationAroundTarget()
     {
@@ -82,7 +111,14 @@ public partial class Familiar : CharacterBody3D
     {
         Vector3 velocity = Velocity;
 
-        LookAt(nextLocation);
+        try
+        {
+            LookAt(nextLocation);
+        }
+        catch (Exception e)
+        {
+            GD.Print("Familiar.Move - Node and target are in same position.");
+        }
 
         velocity = -Basis.Z * speed;
 

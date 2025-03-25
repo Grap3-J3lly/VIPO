@@ -69,6 +69,7 @@ public partial class GameManager : Node
         if (cameraManager.MainCamera != null) { camPos_Default = cameraManager.MainCamera.Position; }
         else { camPos_Default = new Vector3(); }
 
+		objectPool.CallDeferred("TrySpawnFamiliar", "Gandalf");
     }
 
     // --------------------------------

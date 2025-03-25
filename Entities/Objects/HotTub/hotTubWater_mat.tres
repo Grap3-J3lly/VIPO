@@ -3,4 +3,5 @@
 [ext_resource type="Texture2D" uid="uid://sb08odqjmt0v" path="res://Entities/Objects/HotTub/jason-leem-6vdxFydhPAU-unsplash.jpg" id="1_pofel"]
 
 [resource]
+albedo_color = Color(0.104544, 0.444626, 0.139632, 1)
 albedo_texture = ExtResource("1_pofel")

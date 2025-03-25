@@ -122,6 +122,8 @@ public partial class CharacterController : CharacterBody3D
     {
         base._Notification(what);
         
+        if(gameManager == null) { return; }
+
         if(what == MainLoop.NotificationApplicationFocusIn)
         {
             gameManager.AllowInput = true;

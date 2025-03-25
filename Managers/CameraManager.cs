@@ -30,9 +30,14 @@ public partial class CameraManager : Node
 
     public override void _Ready()
 	{
-		gameManager = GameManager.Instance;
-		characterParent = gameManager.CharacterController;
+        CallDeferred("DelayedAssignment");
 	}
+
+    private void DelayedAssignment()
+    {
+        gameManager = GameManager.Instance;
+        characterParent = gameManager.CharacterController;
+    }
 
 	public override void _Process(double delta)
 	{
@@ -42,7 +47,7 @@ public partial class CameraManager : Node
 			{
                 mainCamera.Reparent(characterParent);
                 ((MainCameraController)mainCamera).MovementActive = true;
-			}
+            }
 			else
 			{
 				mainCamera.Reparent(mainCamDefaultParent);

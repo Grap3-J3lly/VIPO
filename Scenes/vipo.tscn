@@ -124,7 +124,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.08, 0, -0.125)
 navigation_mesh = SubResource("NavigationMesh_h8on7")
 
 [node name="FloorMesh" type="MeshInstance3D" parent="Environment/Floor/NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0.001, 0)
 material_override = ExtResource("1_yyr2h")
 mesh = SubResource("PlaneMesh_qy4e4")
 skeleton = NodePath("../..")

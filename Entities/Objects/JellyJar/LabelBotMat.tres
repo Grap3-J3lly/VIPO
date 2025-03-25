@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b4g0q07j53tn"]
+
+[resource]
+resource_name = "LabelBotMat"
+cull_mode = 2
+albedo_color = Color(0.906557, 0.624667, 0.201738, 1)
+roughness = 0.5

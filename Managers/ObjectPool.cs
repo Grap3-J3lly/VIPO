@@ -30,5 +30,9 @@ public partial class ObjectPool : Node
         AddChild(familiar);
         objects.Add(familiar);
         familiar.UpdateName(userName);
+        if(userName == "Gandalf")
+        {
+            familiar.MakeGandalf();
+        }
     }
 }

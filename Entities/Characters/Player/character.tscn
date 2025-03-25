@@ -1,26 +1,30 @@
-[gd_scene load_steps=23 format=3 uid="uid://dk12kh4yartby"]
+[gd_scene load_steps=25 format=3 uid="uid://dk12kh4yartby"]
 
 [ext_resource type="Script" uid="uid://by4g1f2bg1rfk" path="res://Entities/Characters/Player/CharacterController.cs" id="1_p5q5d"]
 [ext_resource type="Material" uid="uid://7kpwloqr68nu" path="res://Entities/Characters/Player/character_mat.tres" id="1_vcnwg"]
+[ext_resource type="Material" uid="uid://cbn3qu6osvihf" path="res://Entities/Objects/JellyJar/JellyColor.tres" id="2_hga6k"]
 [ext_resource type="Material" uid="uid://bhegscsoa4t4a" path="res://Entities/Objects/PartyHat/partyHatShader_mat.tres" id="3_aj2hp"]
 [ext_resource type="Texture2D" uid="uid://ba86qf04csj66" path="res://Assets/Grape_jelly.png" id="3_gpgv0"]
-[ext_resource type="Material" uid="uid://bdjbhh8jy2cqe" path="res://Entities/Characters/Player/character_color_mat.tres" id="3_vxy0s"]
 [ext_resource type="ArrayMesh" uid="uid://gswl5sfowyp6" path="res://Entities/Objects/PartyHat/cone.obj" id="4_10ajy"]
+[ext_resource type="Material" uid="uid://bbtpcu2k41opb" path="res://Entities/Objects/JellyJar/glassMat.tres" id="4_hga6k"]
 [ext_resource type="PackedScene" uid="uid://cvj2pkcvqiw8k" path="res://Entities/Objects/JackOLantern/jackolantern.glb" id="8_c8yvo"]
 [ext_resource type="ArrayMesh" uid="uid://4m1b3vxbdxwm" path="res://Entities/Objects/Keyboard/KB_Final.obj" id="8_rbk8y"]
 [ext_resource type="PackedScene" uid="uid://v7qhnlqjvgev" path="res://Entities/Objects/JellyJar/JellyJar.glb" id="9_kuugx"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_0o366"]
-material = ExtResource("1_vcnwg")
+[ext_resource type="PackedScene" uid="uid://snesjj8mm112" path="res://Entities/Objects/JellyJar/JellyJar2.glb" id="10_kmd0l"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cn3ss"]
 radius = 0.125
 height = 0.4
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_mkl36"]
-material = ExtResource("3_vxy0s")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rsb4y"]
+material = ExtResource("4_hga6k")
 radius = 0.1
-height = 0.4
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mkl36"]
+material = ExtResource("2_hga6k")
+radius = 0.1
+height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ledv"]
 transparency = 1
@@ -68,15 +72,15 @@ height = 0.02
 script = ExtResource("1_p5q5d")
 resetLocation = Vector3(-6.98023, 0, -0.566719)
 speed = 10.0
-defaultColor = Color(0.58577, 0.377253, 0.873967, 1)
-speakingColor = Color(0.351792, 0.16978, 0.57149, 1)
-characterMaterial = ExtResource("3_vxy0s")
+defaultColor = Color(0.184314, 0.0156863, 0.254902, 1)
+speakingColor = Color(0.38199, 0.0662049, 0.507334, 1)
+characterMaterial = ExtResource("2_hga6k")
 hatCosmetic = NodePath("PartyHat")
 kbCosmetic = NodePath("KB")
 controllerCosmetic = NodePath("Controller")
 timerToInputReset = 120.0
-lHand = NodePath("CapsuleMesh/LHand")
-rHand = NodePath("CapsuleMesh/RHand")
+lHand = NodePath("CapsuleMesh/LHandOuter")
+rHand = NodePath("CapsuleMesh/RHandOuter")
 footCam = NodePath("CapsuleMesh/FootArea/FootCam")
 footArea = NodePath("CapsuleMesh/FootArea")
 footCamSocket = NodePath("CapsuleMesh/FootArea/FootCamSocket")
@@ -84,7 +88,6 @@ interactionTimer = 10.0
 
 [node name="CapsuleMesh" type="MeshInstance3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_0o366")
 skeleton = NodePath("../..")
 
 [node name="Cheek1" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
@@ -101,13 +104,23 @@ material_override = ExtResource("1_vcnwg")
 mesh = SubResource("CapsuleMesh_cn3ss")
 skeleton = NodePath("../../..")
 
-[node name="LHand" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.367, -0.182772, 0.933856)
-mesh = SubResource("CapsuleMesh_mkl36")
+[node name="LHandOuter" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
+transform = Transform3D(1.1, 0, 0, 0, -4.80825e-08, -1.1, 0, 1.1, -4.80825e-08, 0.367, -0.182772, 0.972719)
+mesh = SubResource("CapsuleMesh_rsb4y")
 
-[node name="RHand" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.36662, -0.182772, 0.934164)
+[node name="LHandInner" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh/LHandOuter"]
+transform = Transform3D(0.833333, 0, 0, 0, 0.833333, -7.10543e-15, 0, 7.10543e-15, 0.833333, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_mkl36")
+skeleton = NodePath("../..")
+
+[node name="RHandOuter" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
+transform = Transform3D(1.1, 0, 0, 0, -4.80825e-08, -1.1, 0, 1.1, -4.80825e-08, -0.367, -0.183, 0.972518)
+mesh = SubResource("CapsuleMesh_rsb4y")
+
+[node name="RHandInner" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh/RHandOuter"]
+transform = Transform3D(0.833333, 0, 0, 0, 0.833333, -7.10543e-15, 0, 7.10543e-15, 0.833333, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_mkl36")
+skeleton = NodePath("../..")
 
 [node name="Logo" type="MeshInstance3D" parent="CharacterBody3D/CapsuleMesh"]
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 1, 0, 0.451542, 0.520589)
@@ -199,3 +212,12 @@ mesh = SubResource("CylinderMesh_t70ch")
 
 [node name="JellyJar" parent="CharacterBody3D" instance=ExtResource("9_kuugx")]
 transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, 0.753259, 0)
+visible = false
+
+[node name="JellyJar2" parent="CharacterBody3D" instance=ExtResource("10_kmd0l")]
+transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, 0.753259, 0)
+
+[node name="Jelly" parent="CharacterBody3D/JellyJar2/Jar" index="0"]
+transform = Transform3D(1.035, 0, 0, 0, 1.035, 0, 0, 0, 1.035, 0, 0, 0)
+
+[editable path="CharacterBody3D/JellyJar2"]
