@@ -3,40 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\James\\Dev\\Godot\\VIPO\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\scenes\\main\\renderscreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:scenes\\main\\renderscreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\familiar\\familiar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\familiar\\familiar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\managers\\objectpool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:managers\\objectpool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\scenes\\ui\\chatinstance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:scenes\\ui\\chatinstance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\external\\sbclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:external\\sbclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\maincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\maincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\managers\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:managers\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\player\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\player\\charactercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\managers\\cameramanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:managers\\cameramanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\ChatManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Managers\\ChatManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\managers\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:managers\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\scenes\\main\\renderscreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:scenes\\main\\renderscreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\entities\\characters\\player\\maincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:entities\\characters\\player\\maincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|c:\\users\\james\\dev\\godot\\vipo\\managers\\aimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{126C4D32-AAE1-403C-A6B2-4A802805ED25}|VIPO.csproj|solutionrelative:managers\\aimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,65 +46,80 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "SBClient.cs",
-              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\External\\SBClient.cs",
-              "RelativeDocumentMoniker": "External\\SBClient.cs",
-              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\External\\SBClient.cs",
-              "RelativeToolTip": "External\\SBClient.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "ObjectPool.cs",
+              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\ObjectPool.cs",
+              "RelativeDocumentMoniker": "Managers\\ObjectPool.cs",
+              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\ObjectPool.cs",
+              "RelativeToolTip": "Managers\\ObjectPool.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T23:49:17.145Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ChatInstance.cs",
-              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Scenes\\UI\\ChatInstance.cs",
-              "RelativeDocumentMoniker": "Scenes\\UI\\ChatInstance.cs",
-              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Scenes\\UI\\ChatInstance.cs",
-              "RelativeToolTip": "Scenes\\UI\\ChatInstance.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAAwA8AAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T23:40:30.803Z"
+              "WhenOpened": "2025-03-12T23:04:43.198Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "ChatManager.cs",
-              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\ChatManager.cs",
-              "RelativeDocumentMoniker": "Managers\\ChatManager.cs",
-              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\ChatManager.cs",
-              "RelativeToolTip": "Managers\\ChatManager.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAgwDUAAABGAAAAAAAAAA==",
+              "Title": "AIManager.cs",
+              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\AIManager.cs",
+              "RelativeDocumentMoniker": "Managers\\AIManager.cs",
+              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\AIManager.cs",
+              "RelativeToolTip": "Managers\\AIManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T23:36:25.613Z"
+              "WhenOpened": "2025-03-10T23:05:25.463Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MainCameraController.cs",
+              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\Player\\MainCameraController.cs",
+              "RelativeDocumentMoniker": "Entities\\Characters\\Player\\MainCameraController.cs",
+              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\Player\\MainCameraController.cs",
+              "RelativeToolTip": "Entities\\Characters\\Player\\MainCameraController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAzwAYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T22:39:22.441Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Familiar.cs",
+              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\Familiar\\Familiar.cs",
+              "RelativeDocumentMoniker": "Entities\\Characters\\Familiar\\Familiar.cs",
+              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\Familiar\\Familiar.cs",
+              "RelativeToolTip": "Entities\\Characters\\Familiar\\Familiar.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAkwCYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T22:39:18.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CharacterController.cs",
+              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\Player\\CharacterController.cs",
+              "RelativeDocumentMoniker": "Entities\\Characters\\Player\\CharacterController.cs",
+              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\Player\\CharacterController.cs",
+              "RelativeToolTip": "Entities\\Characters\\Player\\CharacterController.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAA3wGIAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T22:39:17.831Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "MainCameraController.cs",
-              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\MainCameraController.cs",
-              "RelativeDocumentMoniker": "Entities\\Characters\\MainCameraController.cs",
-              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\MainCameraController.cs",
-              "RelativeToolTip": "Entities\\Characters\\MainCameraController.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAuwCoAAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T00:12:43.577Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "AudioManager.cs",
               "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\AudioManager.cs",
               "RelativeDocumentMoniker": "Managers\\AudioManager.cs",
               "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\AudioManager.cs",
               "RelativeToolTip": "Managers\\AudioManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAJAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-15T00:10:44.645Z"
             },
@@ -116,46 +131,34 @@
               "RelativeDocumentMoniker": "Managers\\GameManager.cs",
               "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\GameManager.cs",
               "RelativeToolTip": "Managers\\GameManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAkwF8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-15T00:10:37.998Z"
+              "WhenOpened": "2024-11-15T00:10:37.998Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "CameraManager.cs",
               "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\CameraManager.cs",
               "RelativeDocumentMoniker": "Managers\\CameraManager.cs",
               "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Managers\\CameraManager.cs",
               "RelativeToolTip": "Managers\\CameraManager.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAewCkAAAAEAAAA",
+              "ViewState": "AgIAABkAAAAAAAAAAAAewCoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-15T00:10:35.157Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "RenderScreen.cs",
               "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Scenes\\Main\\RenderScreen.cs",
               "RelativeDocumentMoniker": "Scenes\\Main\\RenderScreen.cs",
               "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Scenes\\Main\\RenderScreen.cs",
               "RelativeToolTip": "Scenes\\Main\\RenderScreen.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAASwEMAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAYwB4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-15T00:10:17.147Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CharacterController.cs",
-              "DocumentMoniker": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\CharacterController.cs",
-              "RelativeDocumentMoniker": "Entities\\Characters\\CharacterController.cs",
-              "ToolTip": "C:\\Users\\James\\Dev\\Godot\\VIPO\\Entities\\Characters\\CharacterController.cs",
-              "RelativeToolTip": "Entities\\Characters\\CharacterController.cs",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAjwHkAAABjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-02T22:17:02.007Z"
+              "WhenOpened": "2024-11-15T00:10:17.147Z"
             }
           ]
         }

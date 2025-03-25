@@ -14,10 +14,11 @@ public partial class GameManager : Node
 	private MeshInstance3D scryArea;
 	[Export]
 	private PackedScene charControllerScene;
-
 	private Node3D characterController;
 	[Export]
 	private Node environment;
+	[Export]
+	private ObjectPool objectPool;
 
 	[Export]
 	private Vector3 camPos_FullScreen;
@@ -61,10 +62,14 @@ public partial class GameManager : Node
     private void Setup()
 	{
         characterController = (Node3D)charControllerScene.Instantiate();
-		environment.AddChild(characterController);
+		objectPool.AddChild(characterController);
+		objectPool.objects.Add(characterController);
+		
 		scryArea.Visible = false;
         if (cameraManager.MainCamera != null) { camPos_Default = cameraManager.MainCamera.Position; }
         else { camPos_Default = new Vector3(); }
+
+		objectPool.CallDeferred("TrySpawnFamiliar", "Gandalf");
     }
 
     // --------------------------------
@@ -89,17 +94,29 @@ public partial class GameManager : Node
 
 	private void CheckForInteractions(string message)
 	{
+		// GD.Print(message);
 		for (int i = 0; i < commands.Length; i++)
 		{
 			if (message.Contains("\"type\":\"Action\"") && message.Contains(commands[i]))
 			{
-				RunCommand(i);
+				string userName = "";
+				// Check for User, grab string between next two quotation marks
+				if(message.Contains("\"user\":"))
+				{
+					int userIndex = message.Find("\"user\":\"") + 8; // 8 being the size of the search criteria we want to pass
+					int nameLastIndex = message.Find("\"", userIndex);
+					userName = message.Substring(userIndex, nameLastIndex - userIndex);
+
+					// GD.Print("User Index: " + userIndex);
+					// GD.Print("Name Last Index: " + nameLastIndex);
+                }
+				RunCommand(i, userName);
 				break;
 			}
 		}
 	}
 
-	private void RunCommand(int commandId)
+	private void RunCommand(int commandId, string userName)
 	{
 		CharacterController charControl = characterController.GetChild<CharacterController>(0);
 		switch (commandId)
@@ -117,6 +134,11 @@ public partial class GameManager : Node
 				charControl.TriggerInteraction_Scry(true);
 				cameraManager.EnableScryCam(true);
 				break;
+			case 3:
+				GD.Print("Running Find Familiar Command");
+				objectPool.TrySpawnFamiliar(userName);
+				break;
+
 		}
 	}
 

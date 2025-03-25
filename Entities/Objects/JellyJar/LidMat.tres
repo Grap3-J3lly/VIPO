@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://yyh4x5mooe61"]
+
+[resource]
+resource_name = "LidMat"
+cull_mode = 2
+albedo_color = Color(0.906746, 0.722699, 0.370376, 1)
+metallic = 1.0
+roughness = 0.5

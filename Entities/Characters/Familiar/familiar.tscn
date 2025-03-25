@@ -1,20 +1,22 @@
 [gd_scene load_steps=5 format=3 uid="uid://ckge4vx8gbymo"]
 
-[ext_resource type="Script" path="res://Entities/Characters/Familiar/Familiar.cs" id="1_362po"]
+[ext_resource type="Script" uid="uid://l0oaac2rd874" path="res://Entities/Characters/Familiar/Familiar.cs" id="1_362po"]
+[ext_resource type="Material" uid="uid://2dyjn5ptbf37" path="res://Entities/Characters/Familiar/familiarMat.tres" id="2_jph2y"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q3ogy"]
 radius = 0.25
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bxlh8"]
-albedo_color = Color(0.47451, 0.729412, 1, 1)
-
 [sub_resource type="SphereMesh" id="SphereMesh_k3l5y"]
-material = SubResource("StandardMaterial3D_bxlh8")
+material = ExtResource("2_jph2y")
 radius = 0.25
 height = 0.5
 
 [node name="Familiar" type="CharacterBody3D"]
 script = ExtResource("1_362po")
+speed = 3.0
+standardMaterial = ExtResource("2_jph2y")
+defaultColor = Color(0.576471, 0.780392, 1, 0.239216)
+gandalfColor = Color(1, 0.701961, 0.333333, 0.745098)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
@@ -24,3 +26,11 @@ shape = SubResource("SphereShape3D_q3ogy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 mesh = SubResource("SphereMesh_k3l5y")
 skeleton = NodePath("")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.689755, 0)
+billboard = 1
+text = "THIS IS A REALLY REALLY LONG NAME"
+outline_size = 3
