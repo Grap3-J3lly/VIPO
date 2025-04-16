@@ -95,7 +95,7 @@ public partial class CharacterController : CharacterBody3D
         timer = timerToInputReset;
         lHand.Visible = false;
         rHand.Visible = true;
-        ResetPosition();
+        Reset();
         // GD.Print("CharacterController Exists");
     }
 
@@ -140,26 +140,26 @@ public partial class CharacterController : CharacterBody3D
 
     private void InputChecks(double delta)
     {
-        if (gameManager != null && gameManager.AllowInput)
+        if (gameManager != null && gameManager.AllowInput && gameManager.AllowMovement)
         {
             ToggleInputCosmeticVisibility(0);
 
-            if (Input.IsActionJustPressed("ui_cancel"))
-            {
-                GetTree().Quit();
-            }
-            if (Input.IsActionJustPressed("ui_reset"))
-            {
-                ResetPosition();
-                ((MainCameraController)gameManager.CameraManager.MainCamera).ResetCameraPosition();
-            }
+            //if (Input.IsActionJustPressed("ui_cancel"))
+            //{
+            //    GetTree().Quit();
+            //}
+            //if (Input.IsActionJustPressed("ui_reset"))
+            //{
+            //    // ResetPosition();
+                
+            //}
             if (Input.IsActionJustPressed("toggle_hatCosmetic"))
             {
                 ToggleHatCosmetic();
             }
             if (Input.IsActionJustPressed("debug_InteractionTrigger"))
             {
-                // Spawn Familiar
+                
             }
             HandleMovementInput(delta);
         }
@@ -196,7 +196,7 @@ public partial class CharacterController : CharacterBody3D
 
         // Get the input direction and handle the movement/deceleration.
         // As good practice, you should replace UI actions with custom gameplay actions.
-        Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+        Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
         // Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
         if (inputDir != Vector2.Zero)
         {
@@ -218,9 +218,10 @@ public partial class CharacterController : CharacterBody3D
         mainCam.MoveCamera(velocity);
     }
 
-    private void ResetPosition()
+    public void Reset()
     {
         Position = resetLocation;
+        ((MainCameraController)gameManager.CameraManager.MainCamera).ResetCameraPosition();
     }
 
     private void ToggleHatCosmetic()

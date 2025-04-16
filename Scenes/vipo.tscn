@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=33 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" uid="uid://c1elghljr43o3" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://dtkvuughijj3i" path="res://Managers/CameraManager.cs" id="3_oajfl"]
 [ext_resource type="Script" uid="uid://bc6djna7rdixf" path="res://External/WSClient.gd" id="3_uwo22"]
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
+[ext_resource type="Script" uid="uid://ca5lfeepi110t" path="res://Managers/UIManager.cs" id="5_hpm1x"]
 [ext_resource type="Script" uid="uid://bi4mrwrng6lpd" path="res://Managers/AudioManager.cs" id="5_uyabo"]
+[ext_resource type="PackedScene" uid="uid://bvl24usoeqqse" path="res://UI/main_menu_base.tscn" id="6_m2mga"]
 [ext_resource type="Script" uid="uid://cklwrqcqsukq5" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
 [ext_resource type="Script" uid="uid://clsfjtih1nqsm" path="res://Entities/Characters/Player/MainCameraController.cs" id="7_6m2wv"]
 [ext_resource type="VideoStream" uid="uid://dunwcl33mjs7w" path="res://Assets/BRB.ogv" id="7_6872q"]
@@ -92,6 +94,11 @@ script = ExtResource("3_oajfl")
 mainCamera = NodePath("../SceneEffectors/MainCamera")
 scryCamSubviewport = NodePath("../RenderScreen/ScryCamSubviewport")
 mainCamDefaultParent = NodePath("../SceneEffectors")
+
+[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("uiBase")]
+script = ExtResource("5_hpm1x")
+uiBase = NodePath("../UICanvas/UI_Base")
+mainMenuBaseScene = ExtResource("6_m2mga")
 
 [node name="StreamBotConnector" type="Node" parent="."]
 script = ExtResource("3_uwo22")
@@ -227,6 +234,14 @@ loop = true
 size = Vector2i(1080, 1080)
 render_target_update_mode = 4
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="UI_Base" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]

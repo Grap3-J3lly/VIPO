@@ -19,8 +19,12 @@ public partial class Familiar : CharacterBody3D
     [Export]
 	public float speed = 5.0f;
 
+    private MeshInstance3D tempMesh;
     [Export]
-    private StandardMaterial3D standardMaterial;
+    private StandardMaterial3D defaultMaterial;
+    [Export]
+    private StandardMaterial3D gandalfMaterial;
+
     [Export]
     private Color defaultColor;
     [Export]
@@ -48,10 +52,13 @@ public partial class Familiar : CharacterBody3D
         navAgent = this.FindFirstChildOfType<NavigationAgent3D>();
         charController = gameManager.CharacterController.FindFirstChildOfType<CharacterController>();
         nameTextField = this.FindFirstChildOfType<Label3D>();
+        tempMesh = this.FindFirstChildOfType<MeshInstance3D>();
         AssignRandomDestinationAroundTarget();
         navAgent.NavigationFinished += AssignRandomDestinationAroundTarget;
         navAgent.NavigationFinished += PauseMovement;
-        standardMaterial.AlbedoColor = defaultColor;
+
+        tempMesh.Mesh.SurfaceSetMaterial(0, defaultMaterial);
+        // defaultMaterial.AlbedoColor = defaultColor;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -82,7 +89,9 @@ public partial class Familiar : CharacterBody3D
 
     public void MakeGandalf()
     {
-        standardMaterial.AlbedoColor = gandalfColor;
+        tempMesh.Mesh = (Mesh)tempMesh.Mesh.Duplicate();
+        tempMesh.Mesh.SurfaceSetMaterial(0, gandalfMaterial);
+        // defaultMaterial.AlbedoColor = gandalfColor;
     }
 
     // --------------------------------

@@ -9,7 +9,7 @@ public partial class GameManager : Node
 
 	[Export]
 	private CameraManager cameraManager;
-
+	private UIManager uiManager;
 	[Export]
 	private MeshInstance3D scryArea;
 	[Export]
@@ -24,7 +24,12 @@ public partial class GameManager : Node
 	private Vector3 camPos_FullScreen;
 	private Vector3 camPos_Default;
 
+	// TODO: Implement Application States (Menu State vs. Character State)
+
+	// Allow Input is for any and all input, including menu navigation
 	private bool allowInput = true;
+	// Allow Movement is for ignoring character movement inputs, generally for during menu navigation
+	private bool allowMovement = true;
 	[Export]
 	string[] commands;
 
@@ -38,6 +43,7 @@ public partial class GameManager : Node
 
 	public Node3D CharacterController { get => characterController; }
     public bool AllowInput { get => allowInput; set => allowInput = value; }
+	public bool AllowMovement { get => allowMovement; set => allowMovement = value; }
 
     // --------------------------------
     //		STANDARD LOGIC	
@@ -48,16 +54,22 @@ public partial class GameManager : Node
 		base._Ready();
         Instance = this;
         Setup();
+		CallDeferred("DelayedSetup");
 	}
 
 	public override void _Process(double delta)
 	{
-
-	}
+		InputChecks();
+    }
 
     // --------------------------------
     //		SETUP LOGIC	
     // --------------------------------
+
+	private void DelayedSetup()
+	{
+        uiManager = UIManager.Instance;
+    }
 
     private void Setup()
 	{
@@ -73,8 +85,29 @@ public partial class GameManager : Node
     }
 
     // --------------------------------
+    //		GENERAL LOGIC	
+    // --------------------------------
+
+	public void Reset()
+	{
+        CharacterController charController = CharacterController.FindFirstChildOfType<CharacterController>();
+        charController.Reset();
+        cameraManager.ToggleCameraLock(true);
+        uiManager.ToggleMenu();
+    }
+
+    // --------------------------------
     //		INTERACTION LOGIC	
     // --------------------------------
+
+    public void InputChecks()
+	{
+        if (AllowInput && Input.IsActionJustPressed("ui_reset"))
+		{
+			uiManager.ToggleMenu();
+		}
+
+    }
 
     public void ToggleBRB()
 	{

@@ -1,0 +1,201 @@
+[gd_scene load_steps=9 format=3 uid="uid://bvl24usoeqqse"]
+
+[ext_resource type="Script" uid="uid://dc5pr013al2u6" path="res://UI/MainMenu.cs" id="1_j3uo2"]
+[ext_resource type="Texture2D" uid="uid://j3jubmcho75w" path="res://Assets/UI/W_Menu_F1.png" id="2_jt3xa"]
+[ext_resource type="Texture2D" uid="uid://dex71sdhk0l38" path="res://Assets/UI/W_Menu_F2.png" id="3_eki0a"]
+[ext_resource type="Texture2D" uid="uid://cuxg30esyak34" path="res://Assets/UI/W_Menu_F3.png" id="4_cgo3i"]
+[ext_resource type="FontFile" uid="uid://65anix1v37bg" path="res://Assets/UI/super_corn/Super Corn.ttf" id="5_mcl48"]
+[ext_resource type="Texture2D" uid="uid://dqvk1u05ye3ke" path="res://Assets/UI/M_Button_D.png" id="6_mnvgs"]
+[ext_resource type="Texture2D" uid="uid://huew4d7ijmdc" path="res://Assets/UI/M_Button_P.png" id="7_7yoj5"]
+[ext_resource type="Texture2D" uid="uid://pf7nx66rnsbv" path="res://Assets/UI/M_Button_H.png" id="8_hsbnf"]
+
+[node name="MainMenuBase" type="Control" node_paths=PackedStringArray("resetButton", "quitButton")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -262.5
+offset_right = 250.0
+offset_bottom = 262.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j3uo2")
+resetButton = NodePath("ButtonArea/ResetButton")
+quitButton = NodePath("ButtonArea/QuitButton")
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GeneralBackground" type="ColorRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -237.5
+offset_top = -242.5
+offset_right = 237.5
+offset_bottom = 242.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.964706, 0.823529, 1)
+
+[node name="InnerOutline" type="TextureRect" parent="Background"]
+modulate = Color(0.972549, 0.921569, 0.717647, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -263.5
+offset_top = -265.0
+offset_right = 263.5
+offset_bottom = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jt3xa")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="MiddleShading" type="TextureRect" parent="Background"]
+modulate = Color(0.87451, 0.831373, 0.662745, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -263.5
+offset_top = -265.0
+offset_right = 263.5
+offset_bottom = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_eki0a")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="OuterOutline" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -263.5
+offset_top = -265.0
+offset_right = 263.5
+offset_bottom = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_cgo3i")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="MenuTextLabel" type="RichTextLabel" parent="Background"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.5
+offset_top = 30.0
+offset_right = 62.5
+offset_bottom = 85.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("5_mcl48")
+theme_override_font_sizes/normal_font_size = 50
+text = "Menu"
+
+[node name="ButtonArea" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = -164.0
+offset_right = 174.0
+offset_bottom = 221.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResetButton" type="TextureButton" parent="ButtonArea"]
+custom_minimum_size = Vector2(250, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_bottom = NodePath("../QuitButton")
+focus_next = NodePath("../QuitButton")
+focus_previous = NodePath("../QuitButton")
+texture_normal = ExtResource("6_mnvgs")
+texture_pressed = ExtResource("7_7yoj5")
+texture_hover = ExtResource("8_hsbnf")
+texture_focused = ExtResource("8_hsbnf")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="ResetButtonText" type="RichTextLabel" parent="ButtonArea/ResetButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -17.5
+offset_right = 102.5
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("5_mcl48")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]Reset Character"
+
+[node name="QuitButton" type="TextureButton" parent="ButtonArea"]
+custom_minimum_size = Vector2(250, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../ResetButton")
+focus_next = NodePath("../ResetButton")
+focus_previous = NodePath("../ResetButton")
+texture_normal = ExtResource("6_mnvgs")
+texture_pressed = ExtResource("7_7yoj5")
+texture_hover = ExtResource("8_hsbnf")
+texture_focused = ExtResource("8_hsbnf")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="QuitButtonText" type="RichTextLabel" parent="ButtonArea/QuitButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -17.5
+offset_right = 102.5
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("5_mcl48")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]Quit"

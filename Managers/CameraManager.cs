@@ -41,18 +41,9 @@ public partial class CameraManager : Node
 
 	public override void _Process(double delta)
 	{
-		if(Input.IsActionJustPressed("toggle_cameraLock"))
+		if(gameManager.AllowMovement && Input.IsActionJustPressed("toggle_cameraLock"))
 		{
-			if (mainCamera.GetParent() == mainCamDefaultParent)
-			{
-                mainCamera.Reparent(characterParent);
-                ((MainCameraController)mainCamera).MovementActive = true;
-            }
-			else
-			{
-				mainCamera.Reparent(mainCamDefaultParent);
-                ((MainCameraController)mainCamera).MovementActive = false;
-            }
+			ToggleCameraLock();
 		}
 		if (mainCamera.GetParent() == characterParent)
 		{
@@ -68,6 +59,24 @@ public partial class CameraManager : Node
             CharacterController charControl = characterParent.GetChild<CharacterController>(0);
             scryCamTemp.GlobalPosition = charControl.FootCamSocket.GlobalPosition;
             scryCamTemp.GlobalRotationDegrees = charControl.FootCamSocket.GlobalRotationDegrees;
+        }
+    }
+
+    // --------------------------------
+    //      CAMERA FUNCTIONS	
+    // --------------------------------
+
+    public void ToggleCameraLock(bool resetToDefault = false)
+    {
+        if (mainCamera.GetParent() == mainCamDefaultParent && !resetToDefault)
+        {
+            mainCamera.Reparent(characterParent);
+            ((MainCameraController)mainCamera).MovementActive = true;
+        }
+        else
+        {
+            mainCamera.Reparent(mainCamDefaultParent);
+            ((MainCameraController)mainCamera).MovementActive = false;
         }
     }
 
