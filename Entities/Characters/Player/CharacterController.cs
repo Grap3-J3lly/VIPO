@@ -72,6 +72,9 @@ public partial class CharacterController : CharacterBody3D
     private float currentTimer_ScaleChange = 0;
     private float currentTimer_Scry = 0;
 
+    // Temp
+    string voiceId;
+
     // --------------------------------
     //		    PROPERTIES	
     // --------------------------------
@@ -97,6 +100,10 @@ public partial class CharacterController : CharacterBody3D
         rHand.Visible = true;
         Reset();
         // GD.Print("CharacterController Exists");
+
+        // Temp
+        //string[] voices = DisplayServer.TtsGetVoicesForLanguage("en");
+        //voiceId = voices[0];
     }
 
     private void DelayedAssignManagers()
@@ -159,7 +166,7 @@ public partial class CharacterController : CharacterBody3D
             }
             if (Input.IsActionJustPressed("debug_InteractionTrigger"))
             {
-                
+                // DisplayServer.TtsSpeak("This is a test message, wow!", voiceId);
             }
             HandleMovementInput(delta);
         }
@@ -221,7 +228,10 @@ public partial class CharacterController : CharacterBody3D
     public void Reset()
     {
         Position = resetLocation;
-        ((MainCameraController)gameManager.CameraManager.MainCamera).ResetCameraPosition();
+        if(gameManager != null && gameManager.CameraManager != null)
+        {
+            ((MainCameraController)gameManager.CameraManager.MainCamera).ResetCameraPosition();
+        }
     }
 
     private void ToggleHatCosmetic()
