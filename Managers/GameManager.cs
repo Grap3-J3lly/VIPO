@@ -33,6 +33,9 @@ public partial class GameManager : Node
 	[Export]
 	string[] commands;
 
+	[Signal]
+	public delegate void ToggleTwitchEventHandler(bool isActive);
+
 
     // --------------------------------
     //		    PROPERTIES	

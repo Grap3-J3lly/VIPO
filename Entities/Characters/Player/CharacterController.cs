@@ -168,6 +168,8 @@ public partial class CharacterController : CharacterBody3D
             {
                 // DisplayServer.TtsSpeak("This is a test message, wow!", voiceId);
             }
+
+            // GD.Print($"CharacterController.cs: Allowed Input? {gameManager.AllowInput} Allowed Movement? {gameManager.AllowMovement}");
             HandleMovementInput(delta);
         }
         else
@@ -220,6 +222,8 @@ public partial class CharacterController : CharacterBody3D
 
         Velocity = velocity;
         MoveAndSlide();
+
+        // GD.Print($"CharacterController.cs: Velocity: {Velocity}");
 
         MainCameraController mainCam = (MainCameraController)gameManager.CameraManager.MainCamera;
         mainCam.MoveCamera(velocity);

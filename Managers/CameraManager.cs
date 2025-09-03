@@ -54,7 +54,7 @@ public partial class CameraManager : Node
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        if (gameManager.ScryArea.Visible)
+        if (gameManager != null && gameManager.ScryArea.Visible)
         {
             CharacterController charControl = characterParent.GetChild<CharacterController>(0);
             scryCamTemp.GlobalPosition = charControl.FootCamSocket.GlobalPosition;

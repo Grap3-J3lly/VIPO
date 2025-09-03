@@ -1,11 +1,10 @@
-[gd_scene load_steps=33 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=34 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" uid="uid://c1elghljr43o3" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
 [ext_resource type="PackedScene" uid="uid://dk12kh4yartby" path="res://Entities/Characters/Player/character.tscn" id="2_7mwck"]
 [ext_resource type="Script" uid="uid://bw82bk66msksh" path="res://Managers/AIManager.cs" id="3_nejqq"]
 [ext_resource type="Script" uid="uid://dtkvuughijj3i" path="res://Managers/CameraManager.cs" id="3_oajfl"]
-[ext_resource type="Script" uid="uid://bc6djna7rdixf" path="res://External/WSClient.gd" id="3_uwo22"]
 [ext_resource type="Material" uid="uid://cbb58vp1qan7t" path="res://Scenes/Common/Materials/screen_render_mat.tres" id="4_pkdba"]
 [ext_resource type="Script" uid="uid://ca5lfeepi110t" path="res://Managers/UIManager.cs" id="5_hpm1x"]
 [ext_resource type="Script" uid="uid://bi4mrwrng6lpd" path="res://Managers/AudioManager.cs" id="5_uyabo"]
@@ -13,8 +12,30 @@
 [ext_resource type="Script" uid="uid://cklwrqcqsukq5" path="res://Scenes/Main/RenderScreen.cs" id="7_5mnbt"]
 [ext_resource type="Script" uid="uid://clsfjtih1nqsm" path="res://Entities/Characters/Player/MainCameraController.cs" id="7_6m2wv"]
 [ext_resource type="VideoStream" uid="uid://dunwcl33mjs7w" path="res://Assets/BRB.ogv" id="7_6872q"]
+[ext_resource type="Script" uid="uid://dl1jvtilns8d" path="res://External/WSClient.cs" id="7_m2mga"]
+[ext_resource type="Script" uid="uid://cdjpcgohteqkj" path="res://Managers/TwitchManager.cs" id="11_3b2nh"]
 [ext_resource type="PackedScene" uid="uid://ckge4vx8gbymo" path="res://Entities/Characters/Familiar/familiar.tscn" id="12_fxe8t"]
 [ext_resource type="Script" uid="uid://b6byku3oeclnj" path="res://Managers/ObjectPool.cs" id="13_ack1u"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m50ur"]
+sky_top_color = Color(0.30532, 0.55232, 0.799444, 1)
+sky_horizon_color = Color(0.490803, 0.532479, 0.425904, 1)
+sky_energy_multiplier = 1.3
+ground_bottom_color = Color(0.103115, 0.202673, 0.0998636, 1)
+
+[sub_resource type="Sky" id="Sky_ht0q2"]
+sky_material = SubResource("ProceduralSkyMaterial_m50ur")
+
+[sub_resource type="Environment" id="Environment_t8j3o"]
+background_mode = 2
+sky = SubResource("Sky_ht0q2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
+resource_local_to_scene = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
+resource_local_to_scene = true
+size = Vector2(4, 4)
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_x6vxh"]
 
@@ -39,26 +60,6 @@ material = ExtResource("1_yyr2h")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3q760"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m50ur"]
-sky_top_color = Color(0.30532, 0.55232, 0.799444, 1)
-sky_horizon_color = Color(0.490803, 0.532479, 0.425904, 1)
-sky_energy_multiplier = 1.3
-ground_bottom_color = Color(0.103115, 0.202673, 0.0998636, 1)
-
-[sub_resource type="Sky" id="Sky_ht0q2"]
-sky_material = SubResource("ProceduralSkyMaterial_m50ur")
-
-[sub_resource type="Environment" id="Environment_t8j3o"]
-background_mode = 2
-sky = SubResource("Sky_ht0q2")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
-resource_local_to_scene = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
-resource_local_to_scene = true
-size = Vector2(4, 4)
-
 [sub_resource type="QuadMesh" id="QuadMesh_lfbep"]
 resource_local_to_scene = true
 material = ExtResource("4_pkdba")
@@ -74,49 +75,67 @@ albedo_texture_force_srgb = true
 
 [node name="VIPO" type="Node3D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("cameraManager", "scryArea", "environment", "objectPool")]
+[node name="Managers" type="Node" parent="."]
+
+[node name="GameManager" type="Node" parent="Managers" node_paths=PackedStringArray("cameraManager", "scryArea", "environment", "objectPool")]
 script = ExtResource("1_gq68b")
 cameraManager = NodePath("../CameraManager")
-scryArea = NodePath("../SceneEffectors/MainCamera/ScryCamArea")
+scryArea = NodePath("../CameraManager/MainCamera/ScryCamArea")
 charControllerScene = ExtResource("2_7mwck")
-environment = NodePath("../Environment")
+environment = NodePath("../../Environment")
 objectPool = NodePath("../ObjectPool")
 camPos_FullScreen = Vector3(0.955, 5, 6.26)
 commands = PackedStringArray("Enlarge", "Reduce", "Scry", "FindFamiliar")
 
-[node name="AIManager" type="Node" parent="."]
+[node name="AIManager" type="Node" parent="Managers"]
 script = ExtResource("3_nejqq")
 mapCellSize = 0.25
 mapCellHeight = 0.25
 
-[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "scryCamSubviewport", "mainCamDefaultParent")]
+[node name="CameraManager" type="Node" parent="Managers" node_paths=PackedStringArray("mainCamera", "scryCamSubviewport", "mainCamDefaultParent")]
 script = ExtResource("3_oajfl")
-mainCamera = NodePath("../SceneEffectors/MainCamera")
-scryCamSubviewport = NodePath("../RenderScreen/ScryCamSubviewport")
-mainCamDefaultParent = NodePath("../SceneEffectors")
+mainCamera = NodePath("MainCamera")
+scryCamSubviewport = NodePath("../../RenderScreen/ScryCamSubviewport")
+mainCamDefaultParent = NodePath(".")
 
-[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("uiBase")]
+[node name="MainCamera" type="Camera3D" parent="Managers/CameraManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.401, 4.243, 7.639)
+environment = SubResource("Environment_t8j3o")
+fov = 60.0
+script = ExtResource("7_6m2wv")
+
+[node name="ScryCamArea" type="MeshInstance3D" parent="Managers/CameraManager/MainCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.862, 1.606, -6.245)
+material_override = SubResource("StandardMaterial3D_4idki")
+mesh = SubResource("QuadMesh_1cmki")
+skeleton = NodePath("../../../../RenderScreen")
+
+[node name="UIManager" type="Node" parent="Managers" node_paths=PackedStringArray("uiBase")]
 script = ExtResource("5_hpm1x")
-uiBase = NodePath("../UICanvas/UI_Base")
+uiBase = NodePath("../../UICanvas/UI_Base")
 mainMenuBaseScene = ExtResource("6_m2mga")
 
-[node name="StreamBotConnector" type="Node" parent="."]
-script = ExtResource("3_uwo22")
-
-[node name="ObjectPool" type="Node" parent="."]
+[node name="ObjectPool" type="Node" parent="Managers"]
 script = ExtResource("13_ack1u")
 familiarScene = ExtResource("12_fxe8t")
 
-[node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("mic_input")]
+[node name="AudioManager" type="Node" parent="Managers" node_paths=PackedStringArray("mic_input")]
 script = ExtResource("5_uyabo")
 mic_input = NodePath("Mic_StreamPlayer")
 mic_VolumeCutoff = -115.0
 
-[node name="Mic_StreamPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="Mic_StreamPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
 stream = SubResource("AudioStreamMicrophone_x6vxh")
 volume_db = -80.0
 autoplay = true
 bus = &"Mic"
+
+[node name="TwitchManager" type="Node" parent="Managers" node_paths=PackedStringArray("wsClient")]
+script = ExtResource("11_3b2nh")
+wsClient = NodePath("WebSocketClient")
+
+[node name="WebSocketClient" type="Node" parent="Managers/TwitchManager"]
+script = ExtResource("7_m2mga")
 
 [node name="Environment" type="Node" parent="."]
 
@@ -183,22 +202,7 @@ mesh = SubResource("BoxMesh_px750")
 transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
 shape = SubResource("BoxShape3D_3q760")
 
-[node name="SceneEffectors" type="Node" parent="."]
-
-[node name="MainCamera" type="Camera3D" parent="SceneEffectors"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.401, 4.243, 7.639)
-environment = SubResource("Environment_t8j3o")
-fov = 60.0
-script = ExtResource("7_6m2wv")
-resetPosition = Vector3(-0.401, 4.243, 7.639)
-
-[node name="ScryCamArea" type="MeshInstance3D" parent="SceneEffectors/MainCamera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.862, 1.606, -6.245)
-material_override = SubResource("StandardMaterial3D_4idki")
-mesh = SubResource("QuadMesh_1cmki")
-skeleton = NodePath("../../../RenderScreen")
-
-[node name="THE SUN" type="DirectionalLight3D" parent="SceneEffectors"]
+[node name="THE SUN" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(0.999989, 0.000437464, -0.00464901, 0.00269217, 0.759465, 0.650543, 0.00381535, -0.650548, 0.759456, 0, 0, 0)
 
 [node name="RenderScreen" type="Area3D" parent="." node_paths=PackedStringArray("videoPlayer", "liveMesh", "videoMesh")]
@@ -244,4 +248,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="message_received" from="StreamBotConnector" to="GameManager" method="OnStreamBot_MessageReceived"]
+[node name="ChatLog" type="RichTextLabel" parent="UICanvas/UI_Base"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -197.0
+offset_right = 200.0
+offset_bottom = 203.0
+grow_vertical = 2
