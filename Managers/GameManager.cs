@@ -35,6 +35,12 @@ public partial class GameManager : Node
 
 	[Signal]
 	public delegate void ToggleTwitchEventHandler(bool isActive);
+    [Signal]
+    public delegate void UpdateChatTextEventHandler(string newChat);
+    [Signal]
+    public delegate void UpdateChatTextureEventHandler(Texture2D newTexture);
+	[Signal]
+	public delegate void ImageReceivedEventHandler(Image newImage);
 
 
     // --------------------------------

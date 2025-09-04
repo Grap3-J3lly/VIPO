@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=36 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" uid="uid://c1elghljr43o3" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://cdjpcgohteqkj" path="res://Managers/TwitchManager.cs" id="11_3b2nh"]
 [ext_resource type="PackedScene" uid="uid://ckge4vx8gbymo" path="res://Entities/Characters/Familiar/familiar.tscn" id="12_fxe8t"]
 [ext_resource type="Script" uid="uid://b6byku3oeclnj" path="res://Managers/ObjectPool.cs" id="13_ack1u"]
+[ext_resource type="Script" uid="uid://bxfc1uwe2h4cj" path="res://Tools/HTTPTool.cs" id="13_eq546"]
+[ext_resource type="Script" uid="uid://wp3kec0vtlc7" path="res://UI/ChatLog.cs" id="17_oej2m"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m50ur"]
 sky_top_color = Color(0.30532, 0.55232, 0.799444, 1)
@@ -137,6 +139,9 @@ wsClient = NodePath("WebSocketClient")
 [node name="WebSocketClient" type="Node" parent="Managers/TwitchManager"]
 script = ExtResource("7_m2mga")
 
+[node name="HTTPRequest" type="HTTPRequest" parent="Managers/TwitchManager"]
+script = ExtResource("13_eq546")
+
 [node name="Environment" type="Node" parent="."]
 
 [node name="Floor" type="StaticBody3D" parent="Environment"]
@@ -257,3 +262,5 @@ offset_top = -197.0
 offset_right = 200.0
 offset_bottom = 203.0
 grow_vertical = 2
+bbcode_enabled = true
+script = ExtResource("17_oej2m")
