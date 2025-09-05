@@ -34,7 +34,6 @@ public partial class TwitchManager : Node
         // wsClient.ConnectedToServer += OnConnection;
         wsClient.MessageReceived += OnWebSocketMessage;
         gameManager.ToggleTwitch += ToggleInteractions;
-        gameManager.ImageReceived += ReceiveImageRequests;
     }
 
     // --------------------------------
@@ -70,7 +69,7 @@ public partial class TwitchManager : Node
     {
         string socketMessageString = message.ToString();
         // GD.Print($"TwitchManager.cs: SocketMessageString: {socketMessageString}");
-        JsonNode checkText = ParseJson(socketMessageString, "event/type");
+        JsonNode checkText = JsonTools.ParseJson(socketMessageString, "event/type");
 
         if (checkText?.ToString() == "Action")
         {
@@ -79,24 +78,9 @@ public partial class TwitchManager : Node
         }
         if (checkText?.ToString() == "ChatMessage")
         {
-            HandleChatMessage(socketMessageString);
+            gameManager.EmitSignal(GameManager.SignalName.ChatReceived, socketMessageString);
             return;
         }
-    }
-
-    private JsonNode ParseJson(string messageToParse, string dataPath)
-    {
-        JsonNode root = JsonNode.Parse(messageToParse);
-
-        if (root == null)
-        {
-            GD.Print($"ToggleChatInputButton.cs: Failed to Parse");
-            return null;
-        }
-
-        JsonNode result = root.GetJsonNodeValueByString(dataPath);
-
-        return result;
     }
 
     // --------------------------------
@@ -105,7 +89,7 @@ public partial class TwitchManager : Node
 
     private void HandleAction(string socketMessageString)
     {
-        JsonNode parsedAction = ParseJson(socketMessageString, "data/arguments/actionName");
+        JsonNode parsedAction = JsonTools.ParseJson(socketMessageString, "data/arguments/actionName");
         GD.Print($"TwitchManager.cs: Action Called: {parsedAction.ToString()}");
     }
 
@@ -113,70 +97,5 @@ public partial class TwitchManager : Node
     //		    CHAT LOGIC	
     // --------------------------------
 
-    private void HandleChatMessage(string socketMessageString)
-    {
-        // Need to handle breakdown and building of chat message in Twitch Manager,
-        // make ChatLog object on RichTextLabel handle formatting of chat messages
-        
-        // Example Message: [Badges][parsedSender(colored using parsedUserColor)]: [parsedText] + [parsedEmotes (placed where stated in JSON)]
-        // To make images display in RichTextLabel: enable bbcode, wrap in [img]http://imgLink.com/ [/img]
 
-        parsedBadges = ParseJson(socketMessageString, "data/user/badges");
-        parsedUserColor = ParseJson(socketMessageString, "data/user/color");
-        parsedSender = ParseJson(socketMessageString, "data/user/name");
-        parsedText = ParseJson(socketMessageString, "data/text");
-        parsedEmotes = ParseJson(socketMessageString, "data/emotes");
-
-        GD.Print($"ToggleChatInputButton.cs: Message Text: {parsedText.ToString()}");
-
-
-        if (parsedText == null || parsedSender == null) return;
-
-        BeginImageRequests(parsedBadges);
-        // BeginImageRequests(parsedEmotes);
-
-        // ConstructChatMessage(parsedBadges, parsedUserColor, parsedSender, parsedText, parsedEmotes);
-    }
-
-    private void BeginImageRequests(JsonNode imageUrlNode)
-    {
-        JsonNode parsedImageUrl = imageUrlNode[0].GetJsonNodeValueByString("imageUrl");
-        HTTPTool.Instance.PerformHttpRequest(parsedImageUrl.ToString());
-        ++requestCounter;
-        for (int nodeIndex = 0; nodeIndex < imageUrlNode.AsArray().Count; nodeIndex++)
-        {
-        }
-    }
-
-    private void ReceiveImageRequests(Image receivedImage)
-    {
-        loadedImages.Enqueue(receivedImage);
-        --requestCounter;
-
-        if(requestCounter <= 0)
-        {
-            ConstructChatMessage();
-        }
-    }
-
-    private void ConstructChatMessage()
-    {
-        string completeMessage = string.Empty;
-
-        // for(int badgeIndex = 0; badgeIndex < parsedBadges.AsArray().Count; badgeIndex++)
-        //{
-            string badgeString = "[img]";
-
-            Image currentBadge = loadedImages.Dequeue();
-            ImageTexture texture = ImageTexture.CreateFromImage(currentBadge);
-
-            badgeString += texture;
-            badgeString += "[/img]";
-
-            completeMessage += badgeString;
-        //}
-        GD.Print($"TwitchManager.cs: Image To String: {completeMessage}");
-        
-        gameManager.EmitSignal(GameManager.SignalName.UpdateChatTexture, texture);
-    }
 }

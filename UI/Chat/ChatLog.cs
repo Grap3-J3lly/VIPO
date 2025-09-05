@@ -8,7 +8,6 @@ public partial class ChatLog : RichTextLabel
 	public override void _Ready()
 	{
 		gameManager = GameManager.Instance;
-		gameManager.UpdateChatText += UpdateChat;
 		gameManager.UpdateChatTexture += UpdateChat;
 	}
 

@@ -1,32 +1,41 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 [GlobalClass]
-public partial class HTTPTool : HttpRequest
+public partial class HTTPTool : Node
 {
     private HttpRequest httpRequest;
     
     public HttpRequest HttpRequest { get => httpRequest; }
     public static HTTPTool Instance { get; private set; }
 
+    public Array<HttpRequest> requests = new Array<HttpRequest>();
 
     public override void _Ready()
     {
         Instance = this;
         // Create an HTTP request node and connect its completion signal.
-        httpRequest = new HttpRequest();
-        AddChild(httpRequest);
-        httpRequest.RequestCompleted += HttpRequestCompleted;
+        //httpRequest = new HttpRequest();
+        //AddChild(httpRequest);
+        //httpRequest.RequestCompleted += HttpRequestCompleted;
     }
 
     public void PerformHttpRequest(string url)
     {
+        HttpRequest newRequest = new HttpRequest();
+        AddChild(newRequest);
+        newRequest.RequestCompleted += HttpRequestCompleted;
+        requests.Add(newRequest);
+
         // Perform the HTTP request. The URL below returns a PNG image as of writing.
-        Error error = httpRequest.Request(url);
+        Error error = newRequest.Request(url);
         if (error != Error.Ok)
         {
             GD.PushError("An error occurred in the HTTP request.");
         }
+
+        GD.Print($"HTTPTool.cs: New Request Info? {newRequest}");
     }
 
     // Called when the HTTP request is completed.
@@ -44,7 +53,13 @@ public partial class HTTPTool : HttpRequest
             return;
         }
 
+        // Need to figure out which request is being completed so we can remove it correctly
+        // Would "this" work? Since "this" object is what called this function?
+        GD.Print($"HTTPTool.cs: Result: {result}, ResponseCode: {responseCode}, Headers: {headers}, Body: {body}");
+
         GameManager.Instance.EmitSignal(GameManager.SignalName.ImageReceived, image);
+
+        
 
         //var texture = ImageTexture.CreateFromImage(image);
 

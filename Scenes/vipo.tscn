@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bnpalqwvitydn"]
+[gd_scene load_steps=37 format=3 uid="uid://bnpalqwvitydn"]
 
 [ext_resource type="Script" uid="uid://c1elghljr43o3" path="res://Managers/GameManager.cs" id="1_gq68b"]
 [ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Common/Materials/grid1_mat.tres" id="1_yyr2h"]
@@ -17,7 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://ckge4vx8gbymo" path="res://Entities/Characters/Familiar/familiar.tscn" id="12_fxe8t"]
 [ext_resource type="Script" uid="uid://b6byku3oeclnj" path="res://Managers/ObjectPool.cs" id="13_ack1u"]
 [ext_resource type="Script" uid="uid://bxfc1uwe2h4cj" path="res://Tools/HTTPTool.cs" id="13_eq546"]
-[ext_resource type="Script" uid="uid://wp3kec0vtlc7" path="res://UI/ChatLog.cs" id="17_oej2m"]
+[ext_resource type="Script" uid="uid://tyfmq5wqo6ve" path="res://UI/Chat/ChatLogger.cs" id="18_ad4gw"]
+[ext_resource type="PackedScene" uid="uid://dpqm2h4iin4n0" path="res://UI/Chat/chat_log.tscn" id="19_ad4gw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m50ur"]
 sky_top_color = Color(0.30532, 0.55232, 0.799444, 1)
@@ -139,7 +140,7 @@ wsClient = NodePath("WebSocketClient")
 [node name="WebSocketClient" type="Node" parent="Managers/TwitchManager"]
 script = ExtResource("7_m2mga")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="Managers/TwitchManager"]
+[node name="HTTPRequest" type="Node" parent="Managers/TwitchManager"]
 script = ExtResource("13_eq546")
 
 [node name="Environment" type="Node" parent="."]
@@ -253,14 +254,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ChatLog" type="RichTextLabel" parent="UICanvas/UI_Base"]
+[node name="ChatLogger" type="VBoxContainer" parent="UICanvas/UI_Base"]
+custom_minimum_size = Vector2(200, 400)
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -197.0
+offset_top = -200.0
 offset_right = 200.0
-offset_bottom = 203.0
+offset_bottom = 200.0
 grow_vertical = 2
-bbcode_enabled = true
-script = ExtResource("17_oej2m")
+script = ExtResource("18_ad4gw")
+chatLogScene = ExtResource("19_ad4gw")
+
+[node name="ChatLog" parent="UICanvas/UI_Base/ChatLogger" instance=ExtResource("19_ad4gw")]
+layout_mode = 2

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpqm2h4iin4n0"]
+
+[ext_resource type="Script" uid="uid://wp3kec0vtlc7" path="res://UI/Chat/ChatLog.cs" id="1_h6aft"]
+
+[node name="ChatLog" type="RichTextLabel"]
+custom_minimum_size = Vector2(200, 50)
+bbcode_enabled = true
+script = ExtResource("1_h6aft")
