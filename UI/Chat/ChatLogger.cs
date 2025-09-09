@@ -1,17 +1,21 @@
 using Godot;
-using Godot.Collections;
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+
 
 public partial class ChatLogger : Control
 {
     private GameManager gameManager;
-    private Dictionary<string, Image> cachedImages = new Dictionary<string, Image>();
-    private string imageName = "";
+    private Godot.Collections.Dictionary<string, Image> cachedImages = new Godot.Collections.Dictionary<string, Image>();
 
     [Export]
     private PackedScene chatLogScene;
-    private Array<ChatLog> chatLogs = new Array<ChatLog>();
+    private List<ChatLog> chatLogs = new List<ChatLog>();
+
+    public List<(HttpRequest, string)> requests = new List<(HttpRequest request, string imageName)>();
+
+    private ChatLog currentChatLog;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -40,39 +44,71 @@ public partial class ChatLogger : Control
         if (parsedText == null || parsedSender == null) return;
 
         BeginImageRequests(parsedBadges);
-        // BeginImageRequests(parsedEmotes);
+        BeginImageRequests(parsedEmotes);
+
+        currentChatLog = ConstructChatMessage();
     }
 
     private void BeginImageRequests(JsonNode imageUrlNode)
     {
         GD.Print($"ChatLogger.cs: Beginning Image Request");
-        JsonNode parsedImageUrl = imageUrlNode[0].GetJsonNodeValueByString("imageUrl");
-        string incomingImageName = imageUrlNode[0].GetJsonNodeValueByString("name").ToString();
+        JsonNode parsedImageUrl = null;
+        string incomingImageName = "";
+        HttpRequest newRequest;
 
-        if (cachedImages.ContainsKey(incomingImageName))
+        for(int nodeIndex = 0; nodeIndex < imageUrlNode.AsArray().Count; nodeIndex++)
         {
-            // Use Image @ cachedImages[incomingImageName]
+            parsedImageUrl = imageUrlNode[nodeIndex].GetJsonNodeValueByString("imageUrl");
+            incomingImageName = imageUrlNode[nodeIndex].GetJsonNodeValueByString("name").ToString();
+            //imageName = incomingImageName;
+            newRequest = HTTPTool.Instance.PerformHttpImageRequest(parsedImageUrl.ToString());
+
+            GD.Print($"ChatLogger.cs: Incoming ImageName: {incomingImageName}");
+            requests.Add((newRequest, incomingImageName));
         }
 
-        HTTPTool.Instance.PerformHttpRequest(parsedImageUrl.ToString());
+        //if (cachedImages.ContainsKey(incomingImageName))
+        //{
+        //    // Use Image @ cachedImages[incomingImageName]
+        //}
+
         // ++requestCounter;
     }
 
     private void ReceiveImageRequests(Image receivedImage)
     {
-        GD.Print($"ChatLogger.cs: Received Image Request");
-        cachedImages.Add(imageName, receivedImage);
-        ConstructChatMessage();
+        string receivedImageName = "";
+        foreach ((HttpRequest request, string imageName) in requests)
+        {
+            if (request.GetHttpClientStatus() == HttpClient.Status.Disconnected)
+            {
+                GD.Print($"ChatLogger.cs: Image Name: {imageName}");
+
+                receivedImageName = imageName;
+                cachedImages.Add(receivedImageName, receivedImage);
+                
+                UpdateChatMessage(receivedImageName);
+
+                requests.Remove((request, imageName));
+                break;
+            }
+        }
+
     }
 
-    private void ConstructChatMessage()
+    private ChatLog ConstructChatMessage()
     {
         ChatLog newChatLog = chatLogScene.Instantiate<ChatLog>();
         AddChild(newChatLog);
 
+        return newChatLog;
+    }
+
+    private void UpdateChatMessage(string imageName)
+    {
         Image currentBadge = cachedImages[imageName];
         ImageTexture texture = ImageTexture.CreateFromImage(currentBadge);
 
-        newChatLog.UpdateChat(texture);
+        currentChatLog.UpdateChat(texture);
     }
 }

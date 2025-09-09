@@ -269,3 +269,4 @@ chatLogScene = ExtResource("19_ad4gw")
 
 [node name="ChatLog" parent="UICanvas/UI_Base/ChatLogger" instance=ExtResource("19_ad4gw")]
 layout_mode = 2
+fit_content = true

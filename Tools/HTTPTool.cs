@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 
+
 [GlobalClass]
 public partial class HTTPTool : Node
 {
@@ -10,6 +11,7 @@ public partial class HTTPTool : Node
     public HttpRequest HttpRequest { get => httpRequest; }
     public static HTTPTool Instance { get; private set; }
 
+    // Needed a means of tying the image name to the specific HTTPRequest in order to tie the loaded Image to a key in the loaded Image cache in ChatLogger
     public Array<HttpRequest> requests = new Array<HttpRequest>();
 
     public override void _Ready()
@@ -21,25 +23,24 @@ public partial class HTTPTool : Node
         //httpRequest.RequestCompleted += HttpRequestCompleted;
     }
 
-    public void PerformHttpRequest(string url)
+    public HttpRequest PerformHttpImageRequest(string url)
     {
         HttpRequest newRequest = new HttpRequest();
         AddChild(newRequest);
-        newRequest.RequestCompleted += HttpRequestCompleted;
+        newRequest.RequestCompleted += HttpImageRequestCompleted;
         requests.Add(newRequest);
 
-        // Perform the HTTP request. The URL below returns a PNG image as of writing.
         Error error = newRequest.Request(url);
         if (error != Error.Ok)
         {
             GD.PushError("An error occurred in the HTTP request.");
         }
 
-        GD.Print($"HTTPTool.cs: New Request Info? {newRequest}");
+        return newRequest;
     }
 
     // Called when the HTTP request is completed.
-    private void HttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
+    private void HttpImageRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
     {
         if (result != (long)HttpRequest.Result.Success)
         {
@@ -53,13 +54,19 @@ public partial class HTTPTool : Node
             return;
         }
 
-        // Need to figure out which request is being completed so we can remove it correctly
-        // Would "this" work? Since "this" object is what called this function?
-        GD.Print($"HTTPTool.cs: Result: {result}, ResponseCode: {responseCode}, Headers: {headers}, Body: {body}");
-
         GameManager.Instance.EmitSignal(GameManager.SignalName.ImageReceived, image);
 
-        
+        foreach (HttpRequest request in requests)
+        {
+            
+            HttpClient.Status status = request.GetHttpClientStatus();
+            if(status == HttpClient.Status.Disconnected)
+            {
+                requests.Remove(request);
+                request.QueueFree();
+                break;
+            }
+        }
 
         //var texture = ImageTexture.CreateFromImage(image);
 
