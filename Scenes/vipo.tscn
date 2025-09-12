@@ -16,7 +16,7 @@
 [ext_resource type="Script" uid="uid://cdjpcgohteqkj" path="res://Managers/TwitchManager.cs" id="11_3b2nh"]
 [ext_resource type="PackedScene" uid="uid://ckge4vx8gbymo" path="res://Entities/Characters/Familiar/familiar.tscn" id="12_fxe8t"]
 [ext_resource type="Script" uid="uid://b6byku3oeclnj" path="res://Managers/ObjectPool.cs" id="13_ack1u"]
-[ext_resource type="Script" uid="uid://bxfc1uwe2h4cj" path="res://Tools/HTTPTool.cs" id="13_eq546"]
+[ext_resource type="Script" uid="uid://dowe2owd86xmk" path="res://Tools/ImageRequester.cs" id="13_ad4gw"]
 [ext_resource type="Script" uid="uid://tyfmq5wqo6ve" path="res://UI/Chat/ChatLogger.cs" id="18_ad4gw"]
 [ext_resource type="PackedScene" uid="uid://dpqm2h4iin4n0" path="res://UI/Chat/chat_log.tscn" id="19_ad4gw"]
 
@@ -140,8 +140,8 @@ wsClient = NodePath("WebSocketClient")
 [node name="WebSocketClient" type="Node" parent="Managers/TwitchManager"]
 script = ExtResource("7_m2mga")
 
-[node name="HTTPRequest" type="Node" parent="Managers/TwitchManager"]
-script = ExtResource("13_eq546")
+[node name="ImageRequester" type="Node" parent="Managers/TwitchManager"]
+script = ExtResource("13_ad4gw")
 
 [node name="Environment" type="Node" parent="."]
 

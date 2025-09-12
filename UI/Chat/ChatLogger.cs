@@ -30,6 +30,9 @@ public partial class ChatLogger : Control
 	{
 	}
 
+    // ChatLogger->ImageRequester->Request->HttpRequest
+    
+
     private void HandleChatMessage(string socketMessageString)
     {
         JsonNode parsedBadges = JsonTools.ParseJson(socketMessageString, "data/user/badges");
@@ -61,10 +64,10 @@ public partial class ChatLogger : Control
             parsedImageUrl = imageUrlNode[nodeIndex].GetJsonNodeValueByString("imageUrl");
             incomingImageName = imageUrlNode[nodeIndex].GetJsonNodeValueByString("name").ToString();
             //imageName = incomingImageName;
-            newRequest = HTTPTool.Instance.PerformHttpImageRequest(parsedImageUrl.ToString());
+            // newRequest = Request.Instance.PerformHttpImageRequest(parsedImageUrl.ToString());
 
             GD.Print($"ChatLogger.cs: Incoming ImageName: {incomingImageName}");
-            requests.Add((newRequest, incomingImageName));
+            // requests.Add((newRequest, incomingImageName));
         }
 
         //if (cachedImages.ContainsKey(incomingImageName))
