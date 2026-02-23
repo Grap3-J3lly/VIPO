@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://7kpwloqr68nu"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://7kpwloqr68nu"]
 
 [ext_resource type="Texture2D" uid="uid://ba86qf04csj66" path="res://Assets/Grape_jelly.png" id="1_61aw3"]
 [ext_resource type="Material" uid="uid://bdjbhh8jy2cqe" path="res://Entities/Characters/Player/character_color_mat.tres" id="2_0bbax"]
