@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvl24usoeqqse"]
+[gd_scene format=3 uid="uid://bvl24usoeqqse"]
 
 [ext_resource type="Script" uid="uid://dc5pr013al2u6" path="res://UI/MainMenu.cs" id="1_j3uo2"]
 [ext_resource type="Texture2D" uid="uid://j3jubmcho75w" path="res://Assets/UI/W_Menu_F1.png" id="2_jt3xa"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://huew4d7ijmdc" path="res://Assets/UI/M_Button_P.png" id="7_7yoj5"]
 [ext_resource type="Texture2D" uid="uid://pf7nx66rnsbv" path="res://Assets/UI/M_Button_H.png" id="8_hsbnf"]
 
-[node name="MainMenuBase" type="Control" node_paths=PackedStringArray("resetButton", "quitButton")]
+[node name="MainMenuBase" type="Control" unique_id=1674374686 node_paths=PackedStringArray("resetButton", "quitButton")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -26,7 +26,7 @@ script = ExtResource("1_j3uo2")
 resetButton = NodePath("ButtonArea/ResetButton")
 quitButton = NodePath("ButtonArea/QuitButton")
 
-[node name="Background" type="Control" parent="."]
+[node name="Background" type="Control" parent="." unique_id=188877300]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GeneralBackground" type="ColorRect" parent="Background"]
+[node name="GeneralBackground" type="ColorRect" parent="Background" unique_id=2102184053]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -49,7 +49,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0.964706, 0.823529, 1)
 
-[node name="InnerOutline" type="TextureRect" parent="Background"]
+[node name="InnerOutline" type="TextureRect" parent="Background" unique_id=1576564804]
 modulate = Color(0.972549, 0.921569, 0.717647, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -67,7 +67,7 @@ texture = ExtResource("2_jt3xa")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="MiddleShading" type="TextureRect" parent="Background"]
+[node name="MiddleShading" type="TextureRect" parent="Background" unique_id=1632399931]
 modulate = Color(0.87451, 0.831373, 0.662745, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -85,7 +85,7 @@ texture = ExtResource("3_eki0a")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="OuterOutline" type="TextureRect" parent="Background"]
+[node name="OuterOutline" type="TextureRect" parent="Background" unique_id=335608697]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -102,7 +102,7 @@ texture = ExtResource("4_cgo3i")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="MenuTextLabel" type="RichTextLabel" parent="Background"]
+[node name="MenuTextLabel" type="RichTextLabel" parent="Background" unique_id=806595325]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -116,7 +116,7 @@ theme_override_fonts/normal_font = ExtResource("5_mcl48")
 theme_override_font_sizes/normal_font_size = 50
 text = "Menu"
 
-[node name="ButtonArea" type="VBoxContainer" parent="."]
+[node name="ButtonArea" type="VBoxContainer" parent="." unique_id=1818873883]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
 anchors_preset = 8
@@ -132,7 +132,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="ResetButton" type="TextureButton" parent="ButtonArea"]
+[node name="ResetButton" type="TextureButton" parent="ButtonArea" unique_id=902918388]
 custom_minimum_size = Vector2(250, 65)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -147,7 +147,7 @@ texture_focused = ExtResource("8_hsbnf")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="ResetButtonText" type="RichTextLabel" parent="ButtonArea/ResetButton"]
+[node name="ResetButtonText" type="RichTextLabel" parent="ButtonArea/ResetButton" unique_id=143308487]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -166,7 +166,7 @@ theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "[center]Reset Character"
 
-[node name="QuitButton" type="TextureButton" parent="ButtonArea"]
+[node name="QuitButton" type="TextureButton" parent="ButtonArea" unique_id=1860926792]
 custom_minimum_size = Vector2(250, 65)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -181,7 +181,7 @@ texture_focused = ExtResource("8_hsbnf")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="QuitButtonText" type="RichTextLabel" parent="ButtonArea/QuitButton"]
+[node name="QuitButtonText" type="RichTextLabel" parent="ButtonArea/QuitButton" unique_id=1819365530]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

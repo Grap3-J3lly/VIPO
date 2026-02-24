@@ -127,6 +127,7 @@ public partial class Familiar : CharacterBody3D
         catch (Exception e)
         {
             GD.Print("Familiar.Move - Node and target are in same position.");
+            return;
         }
 
         velocity = -Basis.Z * speed;

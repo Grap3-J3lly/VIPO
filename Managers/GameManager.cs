@@ -82,6 +82,7 @@ public partial class GameManager : Node
 
     private void Setup()
 	{
+		GD.Print($"GameManager.cs: Intiating Setup");
         characterController = (Node3D)charControllerScene.Instantiate();
 		objectPool.AddChild(characterController);
 		objectPool.objects.Add(characterController);
