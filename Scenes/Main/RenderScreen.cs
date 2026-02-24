@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class RenderScreen : Area3D
+public partial class RenderScreen : Node3D
 {
     // --------------------------------
     //			VARIABLES	
@@ -41,6 +41,12 @@ public partial class RenderScreen : Area3D
 	}
 	private RenderState state;
 
+	// Camera Texture Vars
+	[Export]
+	private string targetFeed = "OBS Virtual Camera";
+
+	private CameraTexture texture;
+
     // --------------------------------
     //		STANDARD FUNCTIONS	
     // --------------------------------
@@ -49,12 +55,8 @@ public partial class RenderScreen : Area3D
 	{
 		gameManager = GameManager.Instance;
 
-		Setup();
-	}
-
-	
-	public override void _Process(double delta)
-	{
+		CameraServer.MonitoringFeeds = true;
+		CallDeferred("Setup");
 	}
 
     // --------------------------------
@@ -64,10 +66,48 @@ public partial class RenderScreen : Area3D
     private void Setup()
 	{
 		ToggleDisplays(true);
-		DisplayServer.WindowSetCurrentScreen(0);
+		CameraTextureSetup();
 
-		mouseMinimumPosition = DisplayServer.ScreenGetPosition(screenIndex);
-		mouseMaximumPosition = DisplayServer.ScreenGetPosition(screenIndex) + DisplayServer.ScreenGetSize(screenIndex);
+		// mouseMinimumPosition = DisplayServer.ScreenGetPosition(screenIndex);
+		// mouseMaximumPosition = DisplayServer.ScreenGetPosition(screenIndex) + DisplayServer.ScreenGetSize(screenIndex);
+	}
+
+	// --------------------------------
+	//		CAMERA TEXTURE SETUP
+    // --------------------------------
+
+	private void CameraTextureSetup()
+	{
+    	// CameraServer.MonitoringFeeds = true;
+		GD.Print(CameraServer.GetFeedCount());
+		
+
+		for (int i = 0; i < CameraServer.GetFeedCount(); i++)
+		{
+			CameraFeed feed;
+			feed = CameraServer.GetFeed(i);
+			GD.Print(feed.GetName());
+			GD.Print(feed.Formats);
+
+			if (feed.GetName() == targetFeed)
+			{
+				var format = (Godot.Collections.Dictionary)feed.Formats[0];
+				// format["width"] = 2560;
+				// format["height"] = 1440;
+				feed.SetFormat(0, format);
+
+				feed.FeedIsActive = true;
+
+				texture = new CameraTexture();
+				texture.CameraFeedId = i + 1;//Arrays start at 1 now I guess...
+				Material mat = liveMesh.GetSurfaceOverrideMaterial(0);
+				mat.Set("albedo_texture", texture);
+
+				int width = (int)format["width"];
+				int height = (int)format["height"];
+				GD.Print($"{(float)width / (float)height}");
+			}
+		}
 	}
 
     // --------------------------------
@@ -77,8 +117,6 @@ public partial class RenderScreen : Area3D
 	private void ToggleDisplays(bool isLiveVisible)
 	{
         liveMesh.Visible = isLiveVisible;
-        videoMesh.Visible = !isLiveVisible;
-        videoPlayer.Visible = !isLiveVisible;
     }
 
 	private void HandleInput()

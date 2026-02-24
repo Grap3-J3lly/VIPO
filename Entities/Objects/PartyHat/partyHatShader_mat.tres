@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bhegscsoa4t4a"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bhegscsoa4t4a"]
 
-[ext_resource type="Shader" path="res://Entities/Objects/PartyHat/partyHatShader.gdshader" id="1_erk0k"]
+[ext_resource type="Shader" uid="uid://bna817bs5jion" path="res://Entities/Objects/PartyHat/partyHatShader.gdshader" id="1_erk0k"]
 
 [resource]
 render_priority = 0
