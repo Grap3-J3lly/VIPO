@@ -34,6 +34,7 @@ public partial class MainMenu : Control
 
     public void OnQuit()
     {
+        GD.Print($"MainMenu.cs: Quitting VIPO");
         GetTree().Quit();
     }
 }
