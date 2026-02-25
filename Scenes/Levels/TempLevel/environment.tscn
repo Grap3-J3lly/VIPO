@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://y3qc3rh6xmle"]
+
+[ext_resource type="Material" uid="uid://c6nwl1bilw4q5" path="res://Scenes/Levels/TempLevel/Materials/grid1_mat.tres" id="1_km3fo"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_htw3l"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_h8on7"]
+vertices = PackedVector3Array(-49.5, 0.2, -49.5, -49.5, 0.2, 49.5, 49.5, 0.2, 49.5, 49.5, 0.2, -49.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+cell_height = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qy4e4"]
+size = Vector2(100, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_px750"]
+material = ExtResource("1_km3fo")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ly3nc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b375f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hvnqh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3q760"]
+
+[node name="Environment" type="Node" unique_id=426817969]
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1350976335]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=355283113]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_htw3l")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Floor" unique_id=1613718340]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.08, 0, -0.125)
+navigation_mesh = SubResource("NavigationMesh_h8on7")
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor/NavigationRegion3D" unique_id=1732802851]
+transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0.001, 0)
+material_override = ExtResource("1_km3fo")
+mesh = SubResource("PlaneMesh_qy4e4")
+skeleton = NodePath("../..")
+
+[node name="Wall1" type="StaticBody3D" parent="." unique_id=179805520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -100)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall1" unique_id=1962280133]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+material_override = ExtResource("1_km3fo")
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall1" unique_id=1379860746]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_ly3nc")
+
+[node name="Wall2" type="StaticBody3D" parent="." unique_id=1215925511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 100)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall2" unique_id=65547099]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+material_override = ExtResource("1_km3fo")
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2" unique_id=881198536]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_b375f")
+
+[node name="Wall3" type="StaticBody3D" parent="." unique_id=911909328]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall3" unique_id=945918516]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+material_override = ExtResource("1_km3fo")
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall3" unique_id=28058025]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+shape = SubResource("BoxShape3D_hvnqh")
+
+[node name="Wall4" type="StaticBody3D" parent="." unique_id=867853241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall4" unique_id=1206575552]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("BoxMesh_px750")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall4" unique_id=1445563161]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+shape = SubResource("BoxShape3D_3q760")
+
+[node name="THE SUN" type="DirectionalLight3D" parent="." unique_id=115596589]
+transform = Transform3D(0.999989, 0.000437464, -0.00464901, 0.00269217, 0.759465, 0.650543, 0.00381535, -0.650548, 0.759456, 0, 0, 0)

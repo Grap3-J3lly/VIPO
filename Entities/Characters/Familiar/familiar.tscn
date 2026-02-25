@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://ckge4vx8gbymo"]
 
 [ext_resource type="Script" uid="uid://l0oaac2rd874" path="res://Entities/Characters/Familiar/Familiar.cs" id="1_362po"]
-[ext_resource type="Material" uid="uid://2dyjn5ptbf37" path="res://Entities/Characters/Familiar/familiarMat.tres" id="2_jph2y"]
-[ext_resource type="Material" uid="uid://rgog8ooidgiw" path="res://Entities/Characters/Familiar/gandalfMat.tres" id="3_imywc"]
+[ext_resource type="Material" uid="uid://2dyjn5ptbf37" path="res://Entities/Characters/Familiar/Materials/familiarMat.tres" id="2_jph2y"]
+[ext_resource type="Material" uid="uid://rgog8ooidgiw" path="res://Entities/Characters/Familiar/Materials/gandalfMat.tres" id="3_imywc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q3ogy"]
 radius = 0.25

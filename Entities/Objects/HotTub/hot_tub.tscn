@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://deebtlnq6viv5"]
 
-[ext_resource type="Material" uid="uid://kvdksfitkwh7" path="res://Entities/Objects/HotTub/hotTubWall_mat.tres" id="1_jkrih"]
-[ext_resource type="Material" uid="uid://c7aj73h3ppb7o" path="res://Entities/Objects/HotTub/hotTubWater_mat.tres" id="2_pgmpc"]
-[ext_resource type="Material" uid="uid://bmk0cj1sxosjn" path="res://Entities/Objects/HotTub/steam_mat.tres" id="3_p4kum"]
+[ext_resource type="Material" uid="uid://kvdksfitkwh7" path="res://Entities/Objects/HotTub/Materials/hotTubWall_mat.tres" id="1_jkrih"]
+[ext_resource type="Material" uid="uid://c7aj73h3ppb7o" path="res://Entities/Objects/HotTub/Materials/hotTubWater_mat.tres" id="2_pgmpc"]
+[ext_resource type="Material" uid="uid://bmk0cj1sxosjn" path="res://Entities/Objects/HotTub/Materials/steam_mat.tres" id="3_p4kum"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_38hey"]
 
