@@ -17,6 +17,18 @@ public partial class TwitchManager : Node
     private int requestCounter = 0;
     private Queue<Image> loadedImages = new Queue<Image>();
 
+    // Action Details
+    public enum TwitchActions
+    {
+        Undefined = -1,
+        Enlarge = 0,
+        Reduce = 1,
+        Scry = 2,
+        FindFamiliar = 3
+    }
+    [Export]
+    private Godot.Collections.Dictionary<string, TwitchActions> availableActions = new Godot.Collections.Dictionary<string, TwitchActions>();
+
     // Chat Details
     private JsonNode parsedBadges;
     private JsonNode parsedUserColor;
@@ -30,9 +42,19 @@ public partial class TwitchManager : Node
 
     public override void _Ready()
     {
-        gameManager = GameManager.Instance;
+        
         // wsClient.ConnectedToServer += OnConnection;
         wsClient.MessageReceived += OnWebSocketMessage;
+        CallDeferred("Setup");
+    }
+
+    // --------------------------------
+    //	   UNFILTERED LOGIC
+    // --------------------------------
+
+    private void Setup()
+    {
+        gameManager = GameManager.Instance;
         gameManager.ToggleTwitch += ToggleInteractions;
     }
 
@@ -90,8 +112,67 @@ public partial class TwitchManager : Node
     private void HandleAction(string socketMessageString)
     {
         JsonNode parsedAction = JsonTools.ParseJson(socketMessageString, "data/arguments/actionName");
-        GD.Print($"TwitchManager.cs: Action Called: {parsedAction.ToString()}");
+        JsonNode parsedUserName = JsonTools.ParseJson(socketMessageString, "data/arguments/userName");
+        string action = parsedAction.ToString();
+        string userName = parsedUserName.ToString();
+        GD.Print($"TwitchManager.cs: Action Called: {action}");
+        ProcessUserActions(action, userName);
+
     }
+
+    private void ProcessUserActions(string actionName, string userName)
+	{
+        TwitchActions currentAction = TwitchActions.Undefined;
+        if(availableActions.ContainsKey(actionName))
+        {
+            currentAction = availableActions[actionName];
+        }
+
+		switch(currentAction)
+		{
+			case TwitchActions.Enlarge:
+				EventManager.Instance.ChangeScaleEventEmit(isIncreasing: true);
+			break;
+			case TwitchActions.Reduce:
+				EventManager.Instance.ChangeScaleEventEmit(isIncreasing: false);
+			break;
+			case TwitchActions.Scry:
+				EventManager.Instance.DisplayScryScreenEventEmit(enable: true);
+			break;
+			case TwitchActions.FindFamiliar:
+				EventManager.Instance.TrySpawnFamiliarEventEmit(userName);
+			break;
+			default:
+				GD.PrintErr($"EventManager.cs: Action Does Not Exist");
+			break;
+		}
+	}
+
+    // 	private void RunCommand(int commandId, string userName)
+	// {
+	// 	CharacterController charControl = characterController.GetChild<CharacterController>(0);
+	// 	switch (commandId)
+	// 	{
+	// 		case 0:
+    //             GD.Print("Running Enlarge Command");
+    //             charControl.TriggerInteraction_ChangeScale(charControl.Enlarge_ScaleAmount);
+    //             break;
+	// 		case 1:
+	// 			GD.Print("Running Reduce Command");
+	// 			charControl.TriggerInteraction_ChangeScale(charControl.Reduce_ScaleAmount);
+	// 			break;
+	// 		case 2:
+	// 			GD.Print("Running Scry Command");
+	// 			charControl.TriggerInteraction_Scry(true);
+	// 			cameraManager.EnableScryCam(true);
+	// 			break;
+	// 		case 3:
+	// 			GD.Print("Running Find Familiar Command");
+	// 			objectPool.TrySpawnFamiliar(userName);
+	// 			break;
+
+	// 	}
+	// }
 
     // --------------------------------
     //		    CHAT LOGIC	

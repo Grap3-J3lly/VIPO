@@ -9,6 +9,11 @@ public partial class ObjectPool : Node
     [Export]
     private PackedScene familiarScene;
 
+    public override void _Ready()
+    {
+        EventManager.Instance.TrySpawnFamiliar += TrySpawnFamiliar;
+    }
+
     public void TrySpawnFamiliar(string userName)
     {
         foreach(Node3D node in objects)

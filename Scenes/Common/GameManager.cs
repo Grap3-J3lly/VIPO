@@ -34,7 +34,7 @@ public partial class GameManager : Node
 	// Allow Movement is for ignoring character movement inputs, generally for during menu navigation
 	private bool allowMovement = true;
 	[Export]
-	string[] commands;
+	private string[] commands;
 
 	[Signal]
 	public delegate void ToggleTwitchEventHandler(bool isActive);
@@ -158,37 +158,13 @@ public partial class GameManager : Node
 					// GD.Print("User Index: " + userIndex);
 					// GD.Print("Name Last Index: " + nameLastIndex);
                 }
-				RunCommand(i, userName);
+				// RunCommand(i, userName);
 				break;
 			}
 		}
 	}
 
-	private void RunCommand(int commandId, string userName)
-	{
-		CharacterController charControl = characterController.GetChild<CharacterController>(0);
-		switch (commandId)
-		{
-			case 0:
-                GD.Print("Running Enlarge Command");
-                charControl.TriggerInteraction_ChangeScale(charControl.Enlarge_ScaleAmount);
-                break;
-			case 1:
-				GD.Print("Running Reduce Command");
-				charControl.TriggerInteraction_ChangeScale(charControl.Reduce_ScaleAmount);
-				break;
-			case 2:
-				GD.Print("Running Scry Command");
-				charControl.TriggerInteraction_Scry(true);
-				cameraManager.EnableScryCam(true);
-				break;
-			case 3:
-				GD.Print("Running Find Familiar Command");
-				objectPool.TrySpawnFamiliar(userName);
-				break;
 
-		}
-	}
 
 	
 }

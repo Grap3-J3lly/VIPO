@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cdjpcgohteqkj" path="res://Scenes/Global/TwitchManager.cs" id="2_62vom"]
 [ext_resource type="Script" uid="uid://dl1jvtilns8d" path="res://External/WSClient.cs" id="3_folha"]
 [ext_resource type="Script" uid="uid://dowe2owd86xmk" path="res://Tools/ImageRequester.cs" id="4_xnlii"]
+[ext_resource type="Script" uid="uid://c7wh0ttkjixs5" path="res://Scenes/Global/EventManager.cs" id="5_62vom"]
 [ext_resource type="Script" uid="uid://c1elghljr43o3" path="res://Scenes/Common/GameManager.cs" id="5_fekcc"]
 [ext_resource type="PackedScene" uid="uid://dk12kh4yartby" path="res://Entities/Characters/Player/character.tscn" id="6_n4t27"]
 [ext_resource type="Script" uid="uid://dtkvuughijj3i" path="res://Scenes/Common/CameraManager.cs" id="7_7gikw"]
@@ -85,6 +86,12 @@ bus = &"Mic"
 [node name="TwitchManager" type="Node" parent="GlobalManagers" unique_id=1981299487 node_paths=PackedStringArray("wsClient")]
 script = ExtResource("2_62vom")
 wsClient = NodePath("WebSocketClient")
+availableActions = Dictionary[String, int]({
+"Enlarge": 0,
+"FindFamiliar": 3,
+"Reduce": 1,
+"Scry": 2
+})
 
 [node name="WebSocketClient" type="Node" parent="GlobalManagers/TwitchManager" unique_id=1359548633]
 script = ExtResource("3_folha")
@@ -93,6 +100,9 @@ script = ExtResource("3_folha")
 script = ExtResource("4_xnlii")
 
 [node name="SceneManager" type="Node" parent="GlobalManagers" unique_id=1589467461]
+
+[node name="EventManager" type="Node" parent="GlobalManagers" unique_id=1289070014]
+script = ExtResource("5_62vom")
 
 [node name="3DSpace" type="Node3D" parent="." unique_id=1217826013]
 

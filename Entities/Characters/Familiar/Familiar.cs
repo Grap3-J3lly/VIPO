@@ -111,7 +111,7 @@ public partial class Familiar : CharacterBody3D
         randomPosition.X += rand.RandfRange(-maxRangeFromTarget, maxRangeFromTarget);
         randomPosition.Z += rand.RandfRange(-maxRangeFromTarget, maxRangeFromTarget);
 
-        GD.Print("Assigned Location: " + randomPosition);
+        // GD.Print("Assigned Location: " + randomPosition);
                 
         navAgent.TargetPosition = randomPosition;
     }

@@ -104,6 +104,9 @@ public partial class CharacterController : CharacterBody3D
         // Temp
         //string[] voices = DisplayServer.TtsGetVoicesForLanguage("en");
         //voiceId = voices[0];
+
+        EventManager.Instance.ChangeScale += TriggerInteraction_ChangeScale;
+        EventManager.Instance.DisplayScryScreen += TriggerInteraction_Scry;
     }
 
     private void DelayedAssignManagers()
@@ -330,7 +333,7 @@ public partial class CharacterController : CharacterBody3D
         }
         if (currentTimer_ScaleChange <= 0)
         {
-            TriggerInteraction_ChangeScale(defaultScale);
+            ChangeScale(defaultScale);
             runIA_ScaleChange = false;
         }
     }
@@ -349,13 +352,19 @@ public partial class CharacterController : CharacterBody3D
         }
     }
 
-    public void TriggerInteraction_ChangeScale(float scaleAmount)
+    public void TriggerInteraction_ChangeScale(bool isIncreasing)
+    {
+        float scaleAmount = isIncreasing? enlarge_ScaleAmount : reduce_ScaleAmount;
+        ChangeScale(scaleAmount);
+    }
+    private void ChangeScale(float scaleAmount)
     {
         if(Scale == Vector3.One * enlarge_ScaleAmount && scaleAmount == enlarge_ScaleAmount) { return; }
         runIA_ScaleChange = true;
         currentTimer_ScaleChange = interactionTimer;
         Scale = Vector3.One * scaleAmount;
     }
+
 
     public void TriggerInteraction_Scry(bool enable)
     {
