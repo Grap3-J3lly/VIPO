@@ -368,6 +368,7 @@ public partial class CharacterController : CharacterBody3D
 
     public void TriggerInteraction_Scry(bool enable)
     {
+        GD.Print($"CharacterController.cs: Triggering Interaction: Scry");
         if ((footArea.Visible && enable) || (!footArea.Visible && !enable)) return;
         runIA_Scry = true;
         currentTimer_Scry = interactionTimer;

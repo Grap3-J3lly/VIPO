@@ -37,6 +37,7 @@ public partial class CameraManager : Node
     {
         gameManager = GameManager.Instance;
         characterParent = gameManager.CharacterController;
+        EventManager.Instance.DisplayScryScreen += EnableScryCam;
     }
 
 	public override void _Process(double delta)
