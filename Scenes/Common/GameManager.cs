@@ -54,8 +54,24 @@ public partial class GameManager : Node
 	public MeshInstance3D ScryArea { get => scryArea; }
 
 	public Node3D CharacterController { get => characterController; }
-    public bool AllowInput { get => allowInput; set => allowInput = value; }
-	public bool AllowMovement { get => allowMovement; set => allowMovement = value; }
+    public bool AllowInput 
+	{ 
+		get => allowInput;
+		set 
+		{ 
+			allowInput = value;
+			EventManager.Instance.EnableInputEventEmit(allowInput);
+		}
+	}
+	public bool AllowMovement 
+	{ 
+		get => allowMovement;
+		set 
+		{
+			allowMovement = value; 
+			EventManager.Instance.EnableMovementEventEmit(allowMovement);
+		}
+	}
 
     // --------------------------------
     //		STANDARD LOGIC	
@@ -72,6 +88,22 @@ public partial class GameManager : Node
 	public override void _Process(double delta)
 	{
 		InputChecks();
+    }
+
+	public override void _Notification(int what)
+    {
+        base._Notification(what);
+
+        if(what == MainLoop.NotificationApplicationFocusIn)
+        {
+			GD.Print($"GameManager.cs: Enabling Input");
+            AllowInput = true;
+        }
+        if(what == MainLoop.NotificationApplicationFocusOut)
+        {
+			GD.Print($"GameManager.cs: Disabling Input");
+            AllowInput = false; 
+        }
     }
 
     // --------------------------------

@@ -26,12 +26,14 @@ public partial class MenuManager : Node
             mainMenuBase.QueueFree();
             mainMenuBase = null;
             gameManager.AllowMovement = true;
+            GD.Print($"MenuManager.cs: Enabling Movement");
         }
         else
         {
             mainMenuBase = (Control)mainMenuBaseScene.Instantiate();
             menuBase.AddChild(mainMenuBase);
             gameManager.AllowMovement = false;
+            GD.Print($"MenuManager.cs: Disabling Movement");
         }
     }
 }

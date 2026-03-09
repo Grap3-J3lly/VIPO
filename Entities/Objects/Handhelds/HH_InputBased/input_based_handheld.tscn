@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://gy40thakjknd"]
+
+[ext_resource type="Script" uid="uid://pyphaea8yqf1" path="res://Entities/Objects/Handhelds/HH_InputBased/InputBasedHandheld.cs" id="1_kbgqs"]
+[ext_resource type="PackedScene" uid="uid://buumd60tig2tg" path="res://Entities/Objects/Handhelds/HH_Keyboard/kbm.tscn" id="2_t8hmc"]
+[ext_resource type="PackedScene" uid="uid://dh0ifeyem7c2f" path="res://Entities/Objects/Handhelds/HH_Controller/controller.tscn" id="3_ago1m"]
+
+[node name="InputBasedHandheld" type="Node3D" unique_id=641515567 node_paths=PackedStringArray("primaryInputCosmetic", "secondaryInputCosmetic")]
+script = ExtResource("1_kbgqs")
+handHeldSwapTimerDuration = 60.0
+primaryInputCosmetic = NodePath("KBM")
+secondaryInputCosmetic = NodePath("Controller")
+
+[node name="KBM" parent="." unique_id=1017804732 instance=ExtResource("2_t8hmc")]
+transform = Transform3D(-3.278354e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.278354e-08, 0.108443, -0.1467973, -0.2413801)
+
+[node name="Controller" parent="." unique_id=7061790 instance=ExtResource("3_ago1m")]
+transform = Transform3D(4.95367, 0, 0, 0, 1.94723, 0, 0, 0, 2.24843, 0, 0.035612702, 0)
+visible = false

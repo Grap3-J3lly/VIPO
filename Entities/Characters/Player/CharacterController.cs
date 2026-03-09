@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class CharacterController : CharacterBody3D
@@ -10,6 +11,7 @@ public partial class CharacterController : CharacterBody3D
     private GameManager gameManager;
     private AudioManager audioManager;
 
+    [ExportGroup("Movement Data")]
     // Movement Data
     [Export]
     private Vector3 resetLocation = new Vector3(0, 0, 0);
@@ -21,6 +23,7 @@ public partial class CharacterController : CharacterBody3D
 	public float jumpVelocity = 4.5f;
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
+    [ExportGroup("Character Data")]
     // Character Data
     [Export]
     private Color defaultColor;
@@ -31,18 +34,6 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private double transitionSpeed = 2;
     [Export]
-    private Node3D hatCosmetic;
-    [Export]
-    private MeshInstance3D kbCosmetic;
-    [Export]
-    private MeshInstance3D controllerCosmetic;
-    [Export]
-    private double timerToInputReset = 5;
-    [Export]
-    private MeshInstance3D lHand;
-    [Export]
-    private MeshInstance3D rHand;
-    [Export]
     private Camera3D footCam;
     [Export]
     private Node3D footArea;
@@ -50,8 +41,20 @@ public partial class CharacterController : CharacterBody3D
     private Node3D footCamSocket;
 
     private bool resetting = false;
-    private double timer;
 
+    [ExportGroup("Cosmetics Info")]
+    // Cosmetics Info
+    [Export]
+    private Node3D headArea;
+    [Export] 
+    private Node3D handArea;
+    [Export]
+    private Node3D handheldArea;
+    [Export]
+    private Array<PackedScene> availableHandheldScenes = new Array<PackedScene>();
+
+
+    [ExportGroup("Interaction Data")]
     // Interaction Data
     [Export]
     private float interactionTimer = 5;
@@ -69,11 +72,8 @@ public partial class CharacterController : CharacterBody3D
     private bool runIA_Scry = false;
 
     // Timers
-    private float currentTimer_ScaleChange = 0;
-    private float currentTimer_Scry = 0;
-
-    // Temp
-    string voiceId;
+    private float timer_ScaleChange = 0;
+    private float timer_Scry = 0;
 
     // --------------------------------
     //		    PROPERTIES	
@@ -94,11 +94,7 @@ public partial class CharacterController : CharacterBody3D
     public override void _Ready()
     {
         base._Ready();
-        CallDeferred("DelayedAssignManagers");
-        timer = timerToInputReset;
-        lHand.Visible = false;
-        rHand.Visible = true;
-        Reset();
+        Setup();
         // GD.Print("CharacterController Exists");
 
         // Temp
@@ -107,12 +103,6 @@ public partial class CharacterController : CharacterBody3D
 
         EventManager.Instance.ChangeScale += TriggerInteraction_ChangeScale;
         EventManager.Instance.DisplayScryScreen += TriggerInteraction_Scry;
-    }
-
-    private void DelayedAssignManagers()
-    {
-        gameManager = GameManager.Instance;
-        audioManager = AudioManager.Instance;
     }
 
     public override void _Process(double delta)
@@ -128,19 +118,33 @@ public partial class CharacterController : CharacterBody3D
         InputChecks(delta);
     }
 
-    public override void _Notification(int what)
-    {
-        base._Notification(what);
-        
-        if(gameManager == null) { return; }
+    // --------------------------------
+    //		SETUP LOGIC	
+    // --------------------------------
 
-        if(what == MainLoop.NotificationApplicationFocusIn)
+    private void Setup()
+    {
+        CallDeferred("DelayedAssignManagers");
+
+        SpawnHandheldCosmetics();
+
+        handArea.Visible = false;
+        Reset();
+    }
+
+    private void DelayedAssignManagers()
+    {
+        gameManager = GameManager.Instance;
+        audioManager = AudioManager.Instance;
+    }
+
+    private void SpawnHandheldCosmetics()
+    {
+        foreach(PackedScene handheld in availableHandheldScenes)
         {
-            gameManager.AllowInput = true;
-        }
-        if(what == MainLoop.NotificationApplicationFocusOut)
-        {
-            gameManager.AllowInput = false; 
+            Node3D newHandheld = handheld.Instantiate<Node3D>();
+            handheldArea.AddChild(newHandheld);
+            newHandheld.Position = Vector3.Zero;
         }
     }
 
@@ -152,17 +156,6 @@ public partial class CharacterController : CharacterBody3D
     {
         if (gameManager != null && gameManager.AllowInput && gameManager.AllowMovement)
         {
-            ToggleInputCosmeticVisibility(0);
-
-            //if (Input.IsActionJustPressed("ui_cancel"))
-            //{
-            //    GetTree().Quit();
-            //}
-            //if (Input.IsActionJustPressed("ui_reset"))
-            //{
-            //    // ResetPosition();
-                
-            //}
             if (Input.IsActionJustPressed("toggle_hatCosmetic"))
             {
                 ToggleHatCosmetic();
@@ -174,23 +167,6 @@ public partial class CharacterController : CharacterBody3D
 
             // GD.Print($"CharacterController.cs: Allowed Input? {gameManager.AllowInput} Allowed Movement? {gameManager.AllowMovement}");
             HandleMovementInput(delta);
-        }
-        else
-        {
-            if (Input.IsAnythingPressed())
-            {
-                ToggleInputCosmeticVisibility(2);
-                timer = timerToInputReset;
-            }
-            else if (controllerCosmetic.Visible == false || timer <= 0)
-            {
-                ToggleInputCosmeticVisibility(1);
-            }
-
-            if (timer > 0)
-            {
-                timer -= delta;
-            }
         }
     }
 
@@ -243,35 +219,7 @@ public partial class CharacterController : CharacterBody3D
 
     private void ToggleHatCosmetic()
     {
-        hatCosmetic.Visible = !hatCosmetic.Visible;
-    }
-
-    /// <summary>
-    /// When movement is not allowed, display input source cosmetic in front of the character
-    /// 0 for nothing, 1 for KB&M, 2 for Controller
-    /// </summary>
-    private void ToggleInputCosmeticVisibility(int inputNumber = 0)
-    {
-        lHand.Visible = true;
-        rHand.Visible = true;
-        switch (inputNumber)
-        {
-            case 0:
-            default: // Turn all off
-                kbCosmetic.Visible = false;
-                controllerCosmetic.Visible = false;
-                lHand.Visible = false;
-                rHand.Visible = false;
-                break;
-            case 1: // KB&M Only
-                kbCosmetic.Visible = true;
-                controllerCosmetic.Visible = false;
-                break;
-            case 2: // Controller Only
-                kbCosmetic.Visible = false;
-                controllerCosmetic.Visible = true;
-                break;
-        }
+        headArea.Visible = !headArea.Visible;
     }
 
     // --------------------------------
@@ -327,11 +275,11 @@ public partial class CharacterController : CharacterBody3D
 
     private void HandleTimer_ChangeScale(double delta)
     {
-        if (currentTimer_ScaleChange > 0)
+        if (timer_ScaleChange > 0)
         {
-            currentTimer_ScaleChange -= ((float)delta * timerDecrementer);
+            timer_ScaleChange -= ((float)delta * timerDecrementer);
         }
-        if (currentTimer_ScaleChange <= 0)
+        if (timer_ScaleChange <= 0)
         {
             ChangeScale(defaultScale);
             runIA_ScaleChange = false;
@@ -340,11 +288,11 @@ public partial class CharacterController : CharacterBody3D
 
     private void HandleTimer_Scry(double delta)
     {
-        if (currentTimer_Scry > 0)
+        if (timer_Scry > 0)
         {
-            currentTimer_Scry -= ((float)delta * timerDecrementer);
+            timer_Scry -= ((float)delta * timerDecrementer);
         }
-        if (currentTimer_Scry <= 0)
+        if (timer_Scry <= 0)
         {
             TriggerInteraction_Scry(false);
             runIA_Scry = false;
@@ -361,7 +309,7 @@ public partial class CharacterController : CharacterBody3D
     {
         if(Scale == Vector3.One * enlarge_ScaleAmount && scaleAmount == enlarge_ScaleAmount) { return; }
         runIA_ScaleChange = true;
-        currentTimer_ScaleChange = interactionTimer;
+        timer_ScaleChange = interactionTimer;
         Scale = Vector3.One * scaleAmount;
     }
 
@@ -371,7 +319,7 @@ public partial class CharacterController : CharacterBody3D
         GD.Print($"CharacterController.cs: Triggering Interaction: Scry");
         if ((footArea.Visible && enable) || (!footArea.Visible && !enable)) return;
         runIA_Scry = true;
-        currentTimer_Scry = interactionTimer;
+        timer_Scry = interactionTimer;
         footArea.Visible = enable;
     }
 }

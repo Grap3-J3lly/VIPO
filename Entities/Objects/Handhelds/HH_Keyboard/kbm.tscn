@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://buumd60tig2tg"]
+
+[ext_resource type="ArrayMesh" uid="uid://4m1b3vxbdxwm" path="res://Entities/Objects/Handhelds/HH_Keyboard/KB_Final.obj" id="1_0ekh3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sl3n1"]
+albedo_color = Color(0.0199256, 0.0199256, 0.0199256, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0swjg"]
+material = SubResource("StandardMaterial3D_sl3n1")
+radius = 0.1
+height = 0.4
+
+[node name="KBM" type="MeshInstance3D" unique_id=1017804732]
+transform = Transform3D(-3.27835e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.27835e-08, 0, 0, 0)
+mesh = ExtResource("1_0ekh3")
+skeleton = NodePath("../../../..")
+
+[node name="Mouse" type="MeshInstance3D" parent="." unique_id=154214088]
+transform = Transform3D(-5.82818e-08, -1.33333, 5.82819e-08, 0, -5.82819e-08, -1.33333, 1.33333, -5.82818e-08, 2.54758e-15, -0.0250965, 0.0291088, -1.45979)
+mesh = SubResource("CapsuleMesh_0swjg")
+skeleton = NodePath("../../../../..")
