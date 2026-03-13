@@ -9,7 +9,7 @@ public partial class GameManager : Node
 
 	[Export]
 	private CameraManager cameraManager;
-	private MenuManager uiManager;
+	private MenuManager menuManager;
 	[Export]
 	private MeshInstance3D scryArea;
 	[Export]
@@ -112,14 +112,16 @@ public partial class GameManager : Node
 
 	private void DelayedSetup()
 	{
-        uiManager = MenuManager.Instance;
+        menuManager = MenuManager.Instance;
     }
 
     private void Setup()
 	{
+		GD.Print($"GameManager.cs: Intiating Setup");
 		DisplayServer.WindowSetCurrentScreen(defaultScreenIndex);
 
-		GD.Print($"GameManager.cs: Intiating Setup");
+		EventManager.Instance.Reset += Reset;
+
         characterController = (Node3D)charControllerScene.Instantiate();
 		objectPool.AddChild(characterController);
 		objectPool.objects.Add(characterController);
@@ -135,12 +137,9 @@ public partial class GameManager : Node
     //		GENERAL LOGIC	
     // --------------------------------
 
-	public void Reset()
+	public void Reset(bool value)
 	{
-        CharacterController charController = CharacterController.FindFirstChildOfType<CharacterController>();
-        charController.Reset();
-        cameraManager.ToggleCameraLock(true);
-        uiManager.ToggleMenu();
+		((MainCameraController)cameraManager.MainCamera).ResetCameraPosition();
     }
 
     // --------------------------------
@@ -151,7 +150,7 @@ public partial class GameManager : Node
 	{
         if (AllowInput && Input.IsActionJustPressed("ui_reset"))
 		{
-			uiManager.ToggleMenu();
+			menuManager.ToggleMenu();
 		}
 
     }

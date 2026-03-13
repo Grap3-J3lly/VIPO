@@ -8,20 +8,22 @@ public partial class CharacterController : CharacterBody3D
     //			VARIABLES	
     // --------------------------------
 
-    private GameManager gameManager;
     private AudioManager audioManager;
+    private EventManager eventManager;
 
     [ExportGroup("Movement Data")]
     // Movement Data
     [Export]
     private Vector3 resetLocation = new Vector3(0, 0, 0);
     [Export]
-    public float rotationSpeed = 1.0f;
+    private float rotationSpeed = 1.0f;
 	[Export]
-	public float speed = 5.0f;
+	private float speed = 5.0f;
 	[Export]
-	public float jumpVelocity = 4.5f;
-	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+	private float jumpVelocity = 4.5f;
+	private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+    private bool movementEnabled = true;
+    private bool inputEnabled = true;
 
     [ExportGroup("Character Data")]
     // Character Data
@@ -78,7 +80,26 @@ public partial class CharacterController : CharacterBody3D
     // --------------------------------
     //		    PROPERTIES	
     // --------------------------------
-    public float Speed { get => speed; }
+
+    public void SET_MovementEnabled(bool moveEnable)
+    { movementEnabled = moveEnable; }
+    public bool GET_MovementEnabled()
+    { return movementEnabled; }
+
+    public void SET_InputEnabled(bool inputEnable)
+    { inputEnabled = inputEnable; }
+    public bool GET_InputEnabled()
+    { return inputEnabled; }
+
+    public float Speed 
+    { 
+        get => speed;
+        private set
+        {
+            speed = value;
+            EventManager.Instance.SpeedChangeEventEmit(speed);
+        }
+    }
 
     public Camera3D FootCam { get => footCam; }
     public Node3D FootArea { get => footArea; set => footArea = value; }
@@ -94,15 +115,24 @@ public partial class CharacterController : CharacterBody3D
     public override void _Ready()
     {
         base._Ready();
-        Setup();
         // GD.Print("CharacterController Exists");
 
         // Temp
         //string[] voices = DisplayServer.TtsGetVoicesForLanguage("en");
         //voiceId = voices[0];
 
-        EventManager.Instance.ChangeScale += TriggerInteraction_ChangeScale;
-        EventManager.Instance.DisplayScryScreen += TriggerInteraction_Scry;
+        eventManager = EventManager.Instance;
+
+        eventManager.ChangeScale += TriggerInteraction_ChangeScale;
+        eventManager.DisplayScryScreen += TriggerInteraction_Scry;
+        eventManager.Reset += ResetLocation;
+        eventManager.EnableInput += SET_InputEnabled;
+        eventManager.EnableMovement += SET_MovementEnabled;
+        
+        eventManager.SpeedChangeEventEmit(Speed);
+        eventManager.ResetEventEmit();
+
+        Setup();
     }
 
     public override void _Process(double delta)
@@ -125,16 +155,13 @@ public partial class CharacterController : CharacterBody3D
     private void Setup()
     {
         CallDeferred("DelayedAssignManagers");
-
         SpawnHandheldCosmetics();
 
         handArea.Visible = false;
-        Reset();
     }
 
     private void DelayedAssignManagers()
     {
-        gameManager = GameManager.Instance;
         audioManager = AudioManager.Instance;
     }
 
@@ -154,7 +181,7 @@ public partial class CharacterController : CharacterBody3D
 
     private void InputChecks(double delta)
     {
-        if (gameManager != null && gameManager.AllowInput && gameManager.AllowMovement)
+        if (inputEnabled && movementEnabled)
         {
             if (Input.IsActionJustPressed("toggle_hatCosmetic"))
             {
@@ -174,16 +201,12 @@ public partial class CharacterController : CharacterBody3D
 	{
         Vector3 velocity = Velocity;
 
-        // Add the gravity.
         if (!IsOnFloor())
             velocity.Y -= gravity * (float)delta;
 
-        // Handle Jump.
         if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
             velocity.Y = jumpVelocity;
 
-        // Get the input direction and handle the movement/deceleration.
-        // As good practice, you should replace UI actions with custom gameplay actions.
         Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
         // Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
         if (inputDir != Vector2.Zero)
@@ -203,18 +226,11 @@ public partial class CharacterController : CharacterBody3D
         MoveAndSlide();
 
         // GD.Print($"CharacterController.cs: Velocity: {Velocity}");
-
-        MainCameraController mainCam = (MainCameraController)gameManager.CameraManager.MainCamera;
-        mainCam.MoveCamera(velocity);
     }
 
-    public void Reset()
+    public void ResetLocation(bool value)
     {
         Position = resetLocation;
-        if(gameManager != null && gameManager.CameraManager != null)
-        {
-            ((MainCameraController)gameManager.CameraManager.MainCamera).ResetCameraPosition();
-        }
     }
 
     private void ToggleHatCosmetic()
@@ -295,8 +311,7 @@ public partial class CharacterController : CharacterBody3D
         if (timer_Scry <= 0)
         {
             TriggerInteraction_Scry(false);
-            runIA_Scry = false;
-            gameManager.CameraManager.EnableScryCam(false);
+            EventManager.Instance.DisplayScryScreenEventEmit(enable: false);
         }
     }
 
@@ -317,8 +332,8 @@ public partial class CharacterController : CharacterBody3D
     public void TriggerInteraction_Scry(bool enable)
     {
         GD.Print($"CharacterController.cs: Triggering Interaction: Scry");
-        if ((footArea.Visible && enable) || (!footArea.Visible && !enable)) return;
-        runIA_Scry = true;
+        runIA_Scry = enable;
+        if ((footArea.Visible && runIA_Scry) || (!footArea.Visible && !runIA_Scry)) return;
         timer_Scry = interactionTimer;
         footArea.Visible = enable;
     }

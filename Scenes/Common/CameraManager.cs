@@ -28,6 +28,8 @@ public partial class CameraManager : Node
     //		STANDARD FUNCTIONS	
     // --------------------------------
 
+    // TODO: Convert Camera Manager into Waypoint System
+
     public override void _Ready()
 	{
         CallDeferred("DelayedAssignment");
@@ -38,13 +40,14 @@ public partial class CameraManager : Node
         gameManager = GameManager.Instance;
         characterParent = gameManager.CharacterController;
         EventManager.Instance.DisplayScryScreen += EnableScryCam;
+        EventManager.Instance.Reset += ToggleCameraLock;
     }
 
 	public override void _Process(double delta)
 	{
 		if(gameManager.AllowMovement && Input.IsActionJustPressed("toggle_cameraLock"))
 		{
-			ToggleCameraLock();
+			ToggleCameraLock(resetToDefault: false);
 		}
 		if (mainCamera.GetParent() == characterParent)
 		{
@@ -67,18 +70,21 @@ public partial class CameraManager : Node
     //      CAMERA FUNCTIONS	
     // --------------------------------
 
-    public void ToggleCameraLock(bool resetToDefault = false)
+    public void ToggleCameraLock(bool resetToDefault)
     {
+        MainCameraController mainCam = (MainCameraController)mainCamera;
         if (mainCamera.GetParent() == mainCamDefaultParent && !resetToDefault)
         {
             mainCamera.Reparent(characterParent);
-            ((MainCameraController)mainCamera).MovementActive = true;
+            mainCam.TrackingObj = true;
         }
         else
         {
             mainCamera.Reparent(mainCamDefaultParent);
-            ((MainCameraController)mainCamera).MovementActive = false;
+            mainCam.TrackingObj = false;
         }
+
+        GD.Print($"CameraManager.cs: Movement Active? {mainCam.TrackingObj}");
     }
 
     public void EnableScryCam(bool enableScryCam)

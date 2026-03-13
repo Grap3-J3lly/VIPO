@@ -3,7 +3,6 @@ using System;
 
 public partial class MainMenu : Control
 {
-    private GameManager gameManager;
     [Export]
     private TextureButton resetButton;
     [Export]
@@ -16,8 +15,6 @@ public partial class MainMenu : Control
         resetButton.Pressed += OnReset;
         quitButton.Pressed += OnQuit;
 
-        gameManager = GameManager.Instance;
-
         CallDeferred("DelayedSetup");
     }
 
@@ -29,7 +26,8 @@ public partial class MainMenu : Control
 
     public void OnReset()
     {
-        gameManager.Reset();
+        EventManager.Instance.ResetEventEmit(true);
+        MenuManager.Instance.ToggleMenu();
     }
 
     public void OnQuit()

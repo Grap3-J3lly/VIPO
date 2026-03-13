@@ -7,8 +7,6 @@ public partial class RenderScreen : Node3D
     //			VARIABLES	
     // --------------------------------
 
-    private GameManager gameManager;
-
 	[Export]
 	private MeshInstance3D liveMesh;
 
@@ -24,8 +22,6 @@ public partial class RenderScreen : Node3D
 
     public override void _Ready()
 	{
-		gameManager = GameManager.Instance;
-
 		CameraServer.MonitoringFeeds = true;
 		CallDeferred("Setup");
 	}

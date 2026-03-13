@@ -23,6 +23,12 @@ public partial class EventManager : Node
 	public delegate void EnableMovementEventHandler(bool enable);
 	[Signal]
 	public delegate void EnableInputEventHandler(bool enable);
+	[Signal]
+	public delegate void SpeedChangeEventHandler(float newSpeed);
+
+	// Menu Signals
+	[Signal]
+	public delegate void ResetEventHandler(bool value);
 
 	// --------------------------------
     //		STANDARD FUNCTIONS	
@@ -63,5 +69,15 @@ public partial class EventManager : Node
 	public void EnableInputEventEmit(bool enable)
 	{
 		EmitSignal(SignalName.EnableInput, enable);
+	}
+
+	public void SpeedChangeEventEmit(float newSpeed)
+	{
+		EmitSignal(SignalName.SpeedChange, newSpeed);
+	}
+
+	public void ResetEventEmit(bool value = true)
+	{
+		EmitSignal(SignalName.Reset, value);
 	}
 }

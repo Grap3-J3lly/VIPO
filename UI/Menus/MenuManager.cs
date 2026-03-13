@@ -4,7 +4,6 @@ using System;
 public partial class MenuManager : Node
 {
     public static MenuManager Instance { get; private set; }
-    private GameManager gameManager;
 
     [Export]
     private Control menuBase;
@@ -16,7 +15,6 @@ public partial class MenuManager : Node
     public override void _Ready()
     {
         Instance = this;
-        gameManager = GameManager.Instance;
     }
 
     public void ToggleMenu()
@@ -25,14 +23,14 @@ public partial class MenuManager : Node
         {
             mainMenuBase.QueueFree();
             mainMenuBase = null;
-            gameManager.AllowMovement = true;
+            EventManager.Instance.EnableMovementEventEmit(enable: true);
             GD.Print($"MenuManager.cs: Enabling Movement");
         }
         else
         {
             mainMenuBase = (Control)mainMenuBaseScene.Instantiate();
             menuBase.AddChild(mainMenuBase);
-            gameManager.AllowMovement = false;
+            EventManager.Instance.EnableMovementEventEmit(enable: false);
             GD.Print($"MenuManager.cs: Disabling Movement");
         }
     }

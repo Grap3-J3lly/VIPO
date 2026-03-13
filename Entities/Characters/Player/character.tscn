@@ -33,7 +33,7 @@ footCam = NodePath("FootArea/FootCam")
 footArea = NodePath("FootArea")
 footCamSocket = NodePath("FootArea/FootCamSocket")
 headArea = NodePath("HeadArea")
-handArea = NodePath("Hands")
+handArea = NodePath("HandArea")
 handheldArea = NodePath("Handhelds")
 availableHandheldScenes = Array[PackedScene]([ExtResource("5_nfqs4")])
 interactionTimer = 10.0
@@ -44,21 +44,31 @@ transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-0
 [node name="Jelly" parent="CharacterBody3D/JellyJar2/Jar" parent_id_path=PackedInt32Array(518332377, 153400176) index="0" unique_id=251771653]
 transform = Transform3D(1.035, 0, 0, 0, 1.035, 0, 0, 0, 1.035, 0, 0, 0)
 
-[node name="Hands" type="Node3D" parent="CharacterBody3D" unique_id=1102607465]
+[node name="HeadArea" type="Node3D" parent="CharacterBody3D" unique_id=1183865580]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07104, 0)
 
-[node name="LHandOuter" type="MeshInstance3D" parent="CharacterBody3D/Hands" unique_id=1377059436]
+[node name="PartyHat" type="MeshInstance3D" parent="CharacterBody3D/HeadArea" unique_id=1795761074]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.000878811, 0.103140116, -0.00224292)
+visible = false
+material_overlay = ExtResource("3_aj2hp")
+mesh = ExtResource("4_10ajy")
+skeleton = NodePath("../../..")
+
+[node name="HandArea" type="Node3D" parent="CharacterBody3D" unique_id=1102607465]
+
+[node name="LHandOuter" type="MeshInstance3D" parent="CharacterBody3D/HandArea" unique_id=1377059436]
 transform = Transform3D(1.1, 0, 0, 0, -4.80825e-08, -1.1, 0, 1.1, -4.80825e-08, 0.367, 0.817228, 0.972719)
 mesh = SubResource("CapsuleMesh_rsb4y")
 
-[node name="LHandInner" type="MeshInstance3D" parent="CharacterBody3D/Hands/LHandOuter" unique_id=252390]
+[node name="LHandInner" type="MeshInstance3D" parent="CharacterBody3D/HandArea/LHandOuter" unique_id=252390]
 transform = Transform3D(0.833333, 0, 0, 0, 0.833333, -7.10543e-15, 0, 7.10543e-15, 0.833333, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_mkl36")
 
-[node name="RHandOuter" type="MeshInstance3D" parent="CharacterBody3D/Hands" unique_id=757870053]
+[node name="RHandOuter" type="MeshInstance3D" parent="CharacterBody3D/HandArea" unique_id=757870053]
 transform = Transform3D(1.1, 0, 0, 0, -4.80825e-08, -1.1, 0, 1.1, -4.80825e-08, -0.367, 0.81700003, 0.972518)
 mesh = SubResource("CapsuleMesh_rsb4y")
 
-[node name="RHandInner" type="MeshInstance3D" parent="CharacterBody3D/Hands/RHandOuter" unique_id=1081679499]
+[node name="RHandInner" type="MeshInstance3D" parent="CharacterBody3D/HandArea/RHandOuter" unique_id=1081679499]
 transform = Transform3D(0.833333, 0, 0, 0, 0.833333, -7.10543e-15, 0, 7.10543e-15, 0.833333, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_mkl36")
 
@@ -83,16 +93,6 @@ transform = Transform3D(0.753563, -0.348356, 0.557486, 0, 0.848048, 0.529919, -0
 
 [node name="Handhelds" type="Node3D" parent="CharacterBody3D" unique_id=1680228062]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8023873, 1.588)
-
-[node name="HeadArea" type="Node3D" parent="CharacterBody3D" unique_id=1183865580]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07104, 0)
-
-[node name="PartyHat" type="MeshInstance3D" parent="CharacterBody3D/HeadArea" unique_id=1795761074]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.000878811, 0.103140116, -0.00224292)
-visible = false
-material_overlay = ExtResource("3_aj2hp")
-mesh = ExtResource("4_10ajy")
-skeleton = NodePath("../../..")
 
 [node name="CapsuleCollider" type="CollisionShape3D" parent="CharacterBody3D" unique_id=337163202]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

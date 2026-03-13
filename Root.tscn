@@ -121,7 +121,7 @@ commands = PackedStringArray("Enlarge", "Reduce", "Scry", "FindFamiliar")
 [node name="CameraManager" type="Node" parent="3DSpace/LocalManagers" unique_id=639100836 node_paths=PackedStringArray("mainCamera", "scryCamSubviewport", "mainCamDefaultParent")]
 script = ExtResource("7_7gikw")
 mainCamera = NodePath("MainCamera")
-scryCamSubviewport = NodePath("../../RenderScreen/ScryCamSubviewport")
+scryCamSubviewport = NodePath("MainCamera/ScryCamArea/ScryCamSubviewport")
 mainCamDefaultParent = NodePath(".")
 
 [node name="MainCamera" type="Camera3D" parent="3DSpace/LocalManagers/CameraManager" unique_id=1009135438]
@@ -135,6 +135,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.862, 1.606, -6.245)
 material_override = SubResource("StandardMaterial3D_4idki")
 mesh = SubResource("QuadMesh_1cmki")
 skeleton = NodePath("../../../../RenderScreen")
+
+[node name="ScryCamSubviewport" type="SubViewport" parent="3DSpace/LocalManagers/CameraManager/MainCamera/ScryCamArea" unique_id=1697456978]
+size = Vector2i(1080, 1080)
+render_target_update_mode = 4
 
 [node name="AIManager" type="Node" parent="3DSpace/LocalManagers" unique_id=901790901]
 script = ExtResource("9_0xd8o")
@@ -154,10 +158,6 @@ liveMesh = NodePath("LiveMesh")
 cast_shadow = 0
 gi_mode = 0
 mesh = SubResource("QuadMesh_lfbep")
-
-[node name="ScryCamSubviewport" type="SubViewport" parent="3DSpace/RenderScreen" unique_id=1697456978]
-size = Vector2i(1080, 1080)
-render_target_update_mode = 4
 
 [node name="Environment" type="Node3D" parent="3DSpace" unique_id=1505018452]
 
