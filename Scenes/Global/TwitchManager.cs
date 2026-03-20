@@ -148,32 +148,6 @@ public partial class TwitchManager : Node
 		}
 	}
 
-    // 	private void RunCommand(int commandId, string userName)
-	// {
-	// 	CharacterController charControl = characterController.GetChild<CharacterController>(0);
-	// 	switch (commandId)
-	// 	{
-	// 		case 0:
-    //             GD.Print("Running Enlarge Command");
-    //             charControl.TriggerInteraction_ChangeScale(charControl.Enlarge_ScaleAmount);
-    //             break;
-	// 		case 1:
-	// 			GD.Print("Running Reduce Command");
-	// 			charControl.TriggerInteraction_ChangeScale(charControl.Reduce_ScaleAmount);
-	// 			break;
-	// 		case 2:
-	// 			GD.Print("Running Scry Command");
-	// 			charControl.TriggerInteraction_Scry(true);
-	// 			cameraManager.EnableScryCam(true);
-	// 			break;
-	// 		case 3:
-	// 			GD.Print("Running Find Familiar Command");
-	// 			objectPool.TrySpawnFamiliar(userName);
-	// 			break;
-
-	// 	}
-	// }
-
     // --------------------------------
     //		    CHAT LOGIC	
     // --------------------------------

@@ -29,7 +29,7 @@ speed = 10.0
 defaultColor = Color(0.184314, 0.0156863, 0.254902, 1)
 speakingColor = Color(0.38199, 0.0662049, 0.507334, 1)
 characterMaterial = ExtResource("2_hga6k")
-footCam = NodePath("FootArea/FootCam")
+footCam = NodePath("FootArea/FootCamSocket/FootCam")
 footArea = NodePath("FootArea")
 footCamSocket = NodePath("FootArea/FootCamSocket")
 headArea = NodePath("HeadArea")
@@ -84,12 +84,12 @@ mesh = SubResource("CapsuleMesh_mkl36")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.323, 0.174, 0.343)
 mesh = SubResource("CapsuleMesh_mkl36")
 
-[node name="FootCam" type="Camera3D" parent="CharacterBody3D/FootArea" unique_id=1542748178]
-transform = Transform3D(0.753563, -0.348356, 0.557486, 0, 0.848048, 0.529919, -0.657375, -0.399328, 0.639058, 0.974, 0.732, 1.048)
-fov = 37.8493
-
 [node name="FootCamSocket" type="Node3D" parent="CharacterBody3D/FootArea" unique_id=398806537]
 transform = Transform3D(0.753563, -0.348356, 0.557486, 0, 0.848048, 0.529919, -0.657375, -0.399328, 0.639058, 0.769, 0.627, 1.048)
+
+[node name="FootCam" type="Camera3D" parent="CharacterBody3D/FootArea/FootCamSocket" unique_id=1542748178]
+transform = Transform3D(1.0000005, -2.9802322e-08, -2.9802322e-08, 0, 1.0000001, 5.662441e-07, 0, 0, 1, 0.15448052, 0.017632186, 0.16992605)
+fov = 37.8493
 
 [node name="Handhelds" type="Node3D" parent="CharacterBody3D" unique_id=1680228062]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8023873, 1.588)

@@ -3,9 +3,7 @@ using System;
 
 public partial class Familiar : CharacterBody3D
 {
-    private GameManager gameManager;
     private NavigationAgent3D navAgent;
-    private CharacterController charController;
     private Label3D nameTextField;
 
     private string familiarName = "Default Name";
@@ -48,17 +46,8 @@ public partial class Familiar : CharacterBody3D
     public override void _Ready()
     {
         base._Ready();
-        gameManager = GameManager.Instance;
-        navAgent = this.FindFirstChildOfType<NavigationAgent3D>();
-        charController = gameManager.CharacterController.FindFirstChildOfType<CharacterController>();
-        nameTextField = this.FindFirstChildOfType<Label3D>();
-        tempMesh = this.FindFirstChildOfType<MeshInstance3D>();
-        AssignRandomDestinationAroundTarget();
-        navAgent.NavigationFinished += AssignRandomDestinationAroundTarget;
-        navAgent.NavigationFinished += PauseMovement;
-
-        tempMesh.Mesh.SurfaceSetMaterial(0, defaultMaterial);
-        // defaultMaterial.AlbedoColor = defaultColor;
+        Setup();
+        CallDeferred("DelayedSetup");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -78,6 +67,27 @@ public partial class Familiar : CharacterBody3D
     }
 
     // --------------------------------
+    //		    SETUP LOGIC 	
+    // --------------------------------
+
+    private void Setup()
+    {
+        navAgent = this.FindFirstChildOfType<NavigationAgent3D>();
+        nameTextField = this.FindFirstChildOfType<Label3D>();
+        tempMesh = this.FindFirstChildOfType<MeshInstance3D>();
+        navAgent.NavigationFinished += AssignRandomDestinationAroundTarget;
+        navAgent.NavigationFinished += PauseMovement;
+
+        tempMesh.Mesh.SurfaceSetMaterial(0, defaultMaterial);
+    }
+
+    private void DelayedSetup()
+    {
+        GD.Print($"Familiar.cs: Object Pool Child 0's Child 0: {ObjectPool.Instance.GetChild(0).GetChild(0)}");
+        AssignRandomDestinationAroundTarget();
+    }
+
+    // --------------------------------
     //		GENERAL LOGIC	
     // --------------------------------
 
@@ -91,7 +101,6 @@ public partial class Familiar : CharacterBody3D
     {
         tempMesh.Mesh = (Mesh)tempMesh.Mesh.Duplicate();
         tempMesh.Mesh.SurfaceSetMaterial(0, gandalfMaterial);
-        // defaultMaterial.AlbedoColor = gandalfColor;
     }
 
     // --------------------------------
@@ -107,11 +116,12 @@ public partial class Familiar : CharacterBody3D
     private void AssignRandomDestinationAroundTarget()
     {
         RandomNumberGenerator rand = new RandomNumberGenerator();
-        Vector3 randomPosition = charController.Position;
+        Vector3 randomPosition = ObjectPool.Instance.CharacterController.Position;
+
         randomPosition.X += rand.RandfRange(-maxRangeFromTarget, maxRangeFromTarget);
         randomPosition.Z += rand.RandfRange(-maxRangeFromTarget, maxRangeFromTarget);
 
-        // GD.Print("Assigned Location: " + randomPosition);
+        GD.Print($"Familiar.cs: Assigned Location: {randomPosition}");
                 
         navAgent.TargetPosition = randomPosition;
     }

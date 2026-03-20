@@ -7,11 +7,7 @@ public partial class GameManager : Node
 	//		    VARIABLES	
 	// --------------------------------
 
-	[Export]
-	private CameraManager cameraManager;
 	private MenuManager menuManager;
-	[Export]
-	private MeshInstance3D scryArea;
 	[Export]
 	private PackedScene charControllerScene;
 	private Node3D characterController;
@@ -50,10 +46,7 @@ public partial class GameManager : Node
     //		    PROPERTIES	
     // --------------------------------
     public static GameManager Instance { get; private set; }
-	public CameraManager CameraManager { get => cameraManager; set => cameraManager = value; }
-	public MeshInstance3D ScryArea { get => scryArea; }
-
-	public Node3D CharacterController { get => characterController; }
+	public PackedScene CharControllerScene { get => charControllerScene; }
     public bool AllowInput 
 	{ 
 		get => allowInput;
@@ -120,26 +113,7 @@ public partial class GameManager : Node
 		GD.Print($"GameManager.cs: Intiating Setup");
 		DisplayServer.WindowSetCurrentScreen(defaultScreenIndex);
 
-		EventManager.Instance.Reset += Reset;
-
-        characterController = (Node3D)charControllerScene.Instantiate();
-		objectPool.AddChild(characterController);
-		objectPool.objects.Add(characterController);
-		
-		scryArea.Visible = false;
-        if (cameraManager.MainCamera != null) { camPos_Default = cameraManager.MainCamera.Position; }
-        else { camPos_Default = new Vector3(); }
-
 		objectPool.CallDeferred("TrySpawnFamiliar", "Gandalf");
-    }
-
-    // --------------------------------
-    //		GENERAL LOGIC	
-    // --------------------------------
-
-	public void Reset(bool value)
-	{
-		((MainCameraController)cameraManager.MainCamera).ResetCameraPosition();
     }
 
     // --------------------------------
@@ -153,49 +127,5 @@ public partial class GameManager : Node
 			menuManager.ToggleMenu();
 		}
 
-    }
-
-    public void ToggleBRB()
-	{
-		if(cameraManager.MainCamera == null || characterController == null) return;
-
-		characterController.Visible = !characterController.Visible;
-
-		if (cameraManager.MainCamera.Position == camPos_FullScreen) { cameraManager.MainCamera.Position = camPos_Default; }
-        else { cameraManager.MainCamera.Position = camPos_FullScreen; }
-    }
-
-
-    public void OnStreamBot_MessageReceived(Variant message)
-	{
-		CheckForInteractions(message.ToString());	
-    }
-
-	private void CheckForInteractions(string message)
-	{
-		// GD.Print(message);
-		for (int i = 0; i < commands.Length; i++)
-		{
-			if (message.Contains("\"type\":\"Action\"") && message.Contains(commands[i]))
-			{
-				string userName = "";
-				// Check for User, grab string between next two quotation marks
-				if(message.Contains("\"user\":"))
-				{
-					int userIndex = message.Find("\"user\":\"") + 8; // 8 being the size of the search criteria we want to pass
-					int nameLastIndex = message.Find("\"", userIndex);
-					userName = message.Substring(userIndex, nameLastIndex - userIndex);
-
-					// GD.Print("User Index: " + userIndex);
-					// GD.Print("Name Last Index: " + nameLastIndex);
-                }
-				// RunCommand(i, userName);
-				break;
-			}
-		}
-	}
-
-
-
-	
+    }	
 }

@@ -36,8 +36,6 @@ public partial class CharacterController : CharacterBody3D
     [Export]
     private double transitionSpeed = 2;
     [Export]
-    private Camera3D footCam;
-    [Export]
     private Node3D footArea;
     [Export]
     private Node3D footCamSocket;
@@ -101,7 +99,6 @@ public partial class CharacterController : CharacterBody3D
         }
     }
 
-    public Camera3D FootCam { get => footCam; }
     public Node3D FootArea { get => footArea; set => footArea = value; }
     public Node3D FootCamSocket { get => footCamSocket; }
 
@@ -120,18 +117,6 @@ public partial class CharacterController : CharacterBody3D
         // Temp
         //string[] voices = DisplayServer.TtsGetVoicesForLanguage("en");
         //voiceId = voices[0];
-
-        eventManager = EventManager.Instance;
-
-        eventManager.ChangeScale += TriggerInteraction_ChangeScale;
-        eventManager.DisplayScryScreen += TriggerInteraction_Scry;
-        eventManager.Reset += ResetLocation;
-        eventManager.EnableInput += SET_InputEnabled;
-        eventManager.EnableMovement += SET_MovementEnabled;
-        
-        eventManager.SpeedChangeEventEmit(Speed);
-        eventManager.ResetEventEmit();
-
         Setup();
     }
 
@@ -154,15 +139,26 @@ public partial class CharacterController : CharacterBody3D
 
     private void Setup()
     {
-        CallDeferred("DelayedAssignManagers");
+        eventManager = EventManager.Instance;
+
+        eventManager.ChangeScale += TriggerInteraction_ChangeScale;
+        eventManager.DisplayScryScreen += TriggerInteraction_Scry;
+        eventManager.Reset += ResetLocation;
+        eventManager.EnableInput += SET_InputEnabled;
+        eventManager.EnableMovement += SET_MovementEnabled;
+        eventManager.PopulateScryAreaData += PopulateScryAreaData;
+
+        CallDeferred("DelayedSetup");
         SpawnHandheldCosmetics();
 
         handArea.Visible = false;
     }
 
-    private void DelayedAssignManagers()
+    private void DelayedSetup()
     {
         audioManager = AudioManager.Instance;
+        eventManager.SpeedChangeEventEmit(Speed);
+        eventManager.ResetEventEmit();
     }
 
     private void SpawnHandheldCosmetics()
@@ -173,6 +169,15 @@ public partial class CharacterController : CharacterBody3D
             handheldArea.AddChild(newHandheld);
             newHandheld.Position = Vector3.Zero;
         }
+    }
+
+    public void PopulateScryAreaData(Dictionary<Camera3D, Node3D> scryAreas)
+    {
+        if(footCamSocket.GetChildCount() <= 0)
+        {
+            GD.PrintErr($"CharacterController.cs: Missing Camera Component for Foot Cam");
+        }
+        scryAreas.Add(footCamSocket.GetChild<Camera3D>(0), footCamSocket);
     }
 
     // --------------------------------

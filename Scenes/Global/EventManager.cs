@@ -16,6 +16,8 @@ public partial class EventManager : Node
 	[Signal]
 	public delegate void DisplayScryScreenEventHandler(bool enable);
 	[Signal]
+	public delegate void PopulateScryAreaDataEventHandler(Dictionary<Camera3D, Node3D> scryAreas);
+	[Signal]
 	public delegate void TrySpawnFamiliarEventHandler(string userName);
 
 	// Input-Related Signals
@@ -55,6 +57,11 @@ public partial class EventManager : Node
 		EmitSignal(SignalName.DisplayScryScreen, enable);
 	}
 
+	public void PopulateScryAreaDataEventEmit(Dictionary<Camera3D, Node3D> scryAreas)
+	{
+		EmitSignal(SignalName.PopulateScryAreaData, scryAreas);
+	}
+
 	public void TrySpawnFamiliarEventEmit(string userName)
 	{
 		EmitSignal(SignalName.TrySpawnFamiliar, userName);
@@ -73,11 +80,15 @@ public partial class EventManager : Node
 
 	public void SpeedChangeEventEmit(float newSpeed)
 	{
+		GD.Print($"EventManager.cs: Firing Speed Change Event");
 		EmitSignal(SignalName.SpeedChange, newSpeed);
 	}
+
+	// Menu-Related Emissions
 
 	public void ResetEventEmit(bool value = true)
 	{
 		EmitSignal(SignalName.Reset, value);
 	}
+
 }
