@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="VIPO"
-run/main_scene="res://Scenes/vipo.tscn"
+run/main_scene="res://Root.tscn"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 run/max_fps=60
 config/icon="res://icon.svg"
@@ -24,7 +24,7 @@ driver/enable_input=true
 
 [display]
 
-window/size/mode=2
+window/size/mode=3
 window/stretch/aspect="expand"
 
 [dotnet]

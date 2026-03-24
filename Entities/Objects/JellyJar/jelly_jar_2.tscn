@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://2d06pot77sj4"]
-
-[ext_resource type="PackedScene" uid="uid://snesjj8mm112" path="res://Entities/Objects/JellyJar/JellyJar2.glb" id="1_he770"]
-
-[node name="JellyJar2" unique_id=343294840 instance=ExtResource("1_he770")]
-
-[node name="Jelly" parent="Jar" parent_id_path=PackedInt32Array(1705903292) index="0" unique_id=1193706158]
-transform = Transform3D(1.035, 0, 0, 0, 1.035, 0, 0, 0, 1.035, 0, 0, 0)

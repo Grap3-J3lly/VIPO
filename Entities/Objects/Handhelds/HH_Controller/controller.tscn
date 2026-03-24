@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://dh0ifeyem7c2f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rapsp"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qdbr4"]
+material = SubResource("StandardMaterial3D_rapsp")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_y18bt"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0m8c"]
+albedo_color = Color(0.151996, 0.151996, 0.151996, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_t70ch"]
+material = SubResource("StandardMaterial3D_f0m8c")
+top_radius = 0.02
+bottom_radius = 0.01
+height = 0.02
+
+[node name="Controller" type="MeshInstance3D" unique_id=7061790]
+transform = Transform3D(4.95367, 0, 0, 0, 1.94723, 0, 0, 0, 2.24843, 0, 0, 0)
+mesh = SubResource("CylinderMesh_qdbr4")
+skeleton = NodePath("../../../..")
+
+[node name="WingR" type="MeshInstance3D" parent="." unique_id=1143293616]
+transform = Transform3D(0.428063, 0, 0.267521, 0, 1, 0, -0.332523, 0, 1.67163, -0.0463968, 0, -0.0781493)
+mesh = SubResource("CylinderMesh_qdbr4")
+skeleton = NodePath("../../../../..")
+
+[node name="WingL" type="MeshInstance3D" parent="." unique_id=1823811471]
+transform = Transform3D(0.444435, 0, -0.163366, 0, 1, 0, 0.203061, 0, 1.73556, 0.0401776, 0, -0.0781493)
+mesh = SubResource("CylinderMesh_qdbr4")
+skeleton = NodePath("../../../../..")
+
+[node name="ButtonU" type="MeshInstance3D" parent="." unique_id=1937667696]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0215229, 0.0302957, 0.0141487)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="ButtonD" type="MeshInstance3D" parent="." unique_id=1822893237]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0215229, 0.0302957, -0.0147129)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="ButtonR" type="MeshInstance3D" parent="." unique_id=527663200]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0326733, 0.0302957, -0.000335813)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="ButtonL" type="MeshInstance3D" parent="." unique_id=127385974]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, -0.0123193, 0.0302957, -0.000335813)
+mesh = SubResource("CylinderMesh_y18bt")
+
+[node name="Analog" type="MeshInstance3D" parent="." unique_id=687451706]
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, 0.0242403, 0.0349942, -0.000390172)
+mesh = SubResource("CylinderMesh_t70ch")

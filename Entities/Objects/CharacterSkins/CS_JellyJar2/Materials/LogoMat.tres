@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://do4alw0bf46me"]
+
+[ext_resource type="Texture2D" uid="uid://b242my0jfmf2b" path="res://Assets/Art/JellyJar_Grape_jelly - Mini.png" id="1_4ftce"]
+
+[resource]
+resource_name = "LogoMat"
+transparency = 4
+cull_mode = 2
+albedo_texture = ExtResource("1_4ftce")
+roughness = 0.5
+billboard_keep_scale = true

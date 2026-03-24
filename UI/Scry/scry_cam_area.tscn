@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bwv7s4v5o4b8a"]
+
+[ext_resource type="Script" uid="uid://1r3y1sdvqhht" path="res://UI/Scry/ScryArea.cs" id="1_ftrpm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4idki"]
+resource_local_to_scene = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_1cmki"]
+resource_local_to_scene = true
+size = Vector2(4, 4)
+
+[node name="ScryCamArea" type="MeshInstance3D" unique_id=1887806402 node_paths=PackedStringArray("scryCamSubviewport")]
+material_override = SubResource("StandardMaterial3D_4idki")
+mesh = SubResource("QuadMesh_1cmki")
+skeleton = NodePath("../../../../RenderScreen")
+script = ExtResource("1_ftrpm")
+scryCamSubviewport = NodePath("ScryCamSubviewport")
+
+[node name="ScryCamSubviewport" type="SubViewport" parent="." unique_id=274488008]
+size = Vector2i(1080, 1080)
+render_target_update_mode = 4

@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c7aj73h3ppb7o"]
+
+[ext_resource type="Texture2D" uid="uid://sb08odqjmt0v" path="res://Assets/Art/jason-leem-6vdxFydhPAU-unsplash.jpg" id="1_pofel"]
+
+[resource]
+albedo_color = Color(0.104544, 0.444626, 0.139632, 1)
+albedo_texture = ExtResource("1_pofel")
